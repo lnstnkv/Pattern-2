@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Bank</string>
+    <string name="authorization">Авторизация</string>
+    <string name="registration">Регистрация</string>
+    <string name="register">Зарегистрироваться</string>
+    <string name="username">Логин</string>
+    <string name="firstName">Имя</string>
+    <string name="lastName">Фамилия</string>
+    <string name="middleName">Отчество</string>
+    <string name="password">Пароль</string>
+    <string name="back">Назад</string>
+    <string name="come">Войти</string>
+    <string name="main">Главная</string>
+    <string name="pending">Загрузка...</string>
+    <string name="open">Открыть вклад/ кредит</string>
+</resources>
