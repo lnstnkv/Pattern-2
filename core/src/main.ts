@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
+import {VersioningType} from "@nestjs/common";
 
 async function start() {
   const PORT = process.env.PORT || 3000;
@@ -12,6 +13,9 @@ async function start() {
   //   transform: true
   // }));
   // app.useGlobalFilters(new AppExceptionsFilter());
+  app.enableVersioning({
+    type: VersioningType.URI,
+  });
 
   const config = new DocumentBuilder()
       .setTitle("Core")
