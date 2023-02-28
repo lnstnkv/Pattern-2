@@ -1,7 +1,14 @@
 Dockerfile
 .dockerignore
+docker-compose.yml
+.gitignore
+.git
+README.md
+package-lock.json
 node_modules
 npm-debug.log
 dist
 rs-init.sh
 app-start.sh
+app-stop.sh
+example.env
