@@ -3,14 +3,13 @@ import {ApiOperation, ApiQuery, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {AccountCreateModel} from "../../writeModels/AccountCreateModel";
 import {AccountDetailsReadModel} from "../../readModels/AccountDetailsReadModel";
 import {MoneyAmountModel} from "../../writeModels/MoneyAmountModel";
-import {Operation} from "../../aggregates/Operation";
 import {PaginationParamsModel} from "../../writeModels/PaginationParamsModel";
+import {OperationReadModel} from "../../readModels/OperationReadModel";
 
 
 @Controller("accounts")
 @ApiTags("Accounts service")
 export class AccountsController {
-
     @Post("/")
     @ApiOperation({
         summary: "Create new bank account"
@@ -38,6 +37,7 @@ export class AccountsController {
     async getList(@Query() paginationParams: PaginationParamsModel): Promise<AccountDetailsReadModel[]> {
         return [];
     }
+
 
     @Get("/:id")
     @ApiOperation({
@@ -119,9 +119,11 @@ export class AccountsController {
     @ApiResponse({
         status: 200,
         description: "success",
-        type: [Operation]
+        type: [OperationReadModel]
     })
-    async getOperationsHistory(@Param("id") id: string): Promise<Operation[]> {
+    @ApiQuery({name: "limit", required: false})
+    @ApiQuery({name: "skip", required: false})
+    async getOperationsHistory(@Param("id") id: string, @Query() paginationParams: PaginationParamsModel): Promise<OperationReadModel[]> {
         return [];
     }
 

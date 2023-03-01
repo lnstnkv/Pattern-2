@@ -3,7 +3,7 @@ import {OperationType} from "./OperationType";
 export abstract class Operation {
     id: string
     type: OperationType
-    date: string
+    date: Date
     callerId: string
     targetAccountIds: []
 }
