@@ -1,7 +1,6 @@
 export class DatabaseConfigService {
     public async getMongoConfig() {
         const options = ["REPLICASET", "AUTHMECHANISM", "AUTHSOURCE", "DIRECTCONNECTION"];
-        console.log(this._getCoreConnectionAddressFromEnv() + this._getConnectionOptionsFromEnv(options))
         return {
             uri: this._getCoreConnectionAddressFromEnv() + this._getConnectionOptionsFromEnv(options),
             useNewUrlParser: true,

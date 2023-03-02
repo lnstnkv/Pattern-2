@@ -1,4 +1,4 @@
-import {Module} from "@nestjs/common";
+import {MiddlewareConsumer, Module, NestModule, RequestMethod} from "@nestjs/common";
 import {AccountsModule} from "./modules/accounts/accounts.module";
 import {CurrenciesModule} from "./modules/currencies/currencies.module";
 import {ConfigModule} from "@nestjs/config";
@@ -7,6 +7,7 @@ import {DatabaseConfigModule} from "./modules/databases/mongodb/database.module"
 import {DatabaseConfigService} from "./modules/databases/mongodb/database.config";
 import {MongooseModule} from "@nestjs/mongoose";
 import {OperationsModule} from "./modules/operations/operations.module";
+import {LoggerMiddleware} from "./utils/logger.middleware";
 
 @Module({
     imports: [
@@ -25,5 +26,10 @@ import {OperationsModule} from "./modules/operations/operations.module";
 
     ],
 })
-export class AppModule {
+export class AppModule implements NestModule {
+    configure(consumer: MiddlewareConsumer): any {
+        consumer
+            .apply(LoggerMiddleware)
+            .forRoutes({path: "*", method: RequestMethod.ALL});
+    }
 }

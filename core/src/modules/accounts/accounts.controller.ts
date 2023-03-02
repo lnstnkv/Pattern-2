@@ -9,6 +9,7 @@ import {Connection} from "mongoose";
 import {InjectConnection} from "@nestjs/mongoose";
 import {AccountsServiceInterface} from "./accounts.service.interface";
 import {AccountsDetailsWithTotalCountReadModel} from "../../readModels/AccountsDetailsWithTotalCountReadModel";
+import {ObjectIdValidationPipe} from "../../utils/database.pipes";
 
 
 @Controller("accounts")
@@ -58,7 +59,7 @@ export class AccountsController {
         description: "success",
         type: AccountDetailsReadModel
     })
-    async get(@Param("id") id: string) {
+    async get(@Param("id", ObjectIdValidationPipe) id: string) {
         return this._accountsService.get(id);
     }
 
@@ -70,7 +71,7 @@ export class AccountsController {
         status: 200,
         description: "success"
     })
-    async withdraw(@Param("id") id: string, @Body() moneyAmountModel: MoneyAmountModel) {
+    async withdraw(@Param("id", ObjectIdValidationPipe) id: string, @Body() moneyAmountModel: MoneyAmountModel) {
         await this._accountsService.withdraw(moneyAmountModel.amountOfMoney, id, "testId");
     }
 
@@ -82,7 +83,7 @@ export class AccountsController {
         status: 200,
         description: "success"
     })
-    async topUp(@Param("id") id: string, @Body() moneyAmountModel: MoneyAmountModel) {
+    async topUp(@Param("id", ObjectIdValidationPipe) id: string, @Body() moneyAmountModel: MoneyAmountModel) {
         await this._accountsService.topUp(moneyAmountModel.amountOfMoney, id, "testId");
     }
 
@@ -94,7 +95,7 @@ export class AccountsController {
         status: 200,
         description: "success"
     })
-    async transfer(@Param("id") id: string, @Param("receiverId") receiverId: string, @Body() moneyAmountModel: MoneyAmountModel) {
+    async transfer(@Param("id", ObjectIdValidationPipe) id: string, @Param("receiverId") receiverId: string, @Body() moneyAmountModel: MoneyAmountModel) {
         await this._accountsService.transfer(moneyAmountModel.amountOfMoney, id, receiverId, "testId");
     }
 
@@ -106,7 +107,7 @@ export class AccountsController {
         status: 200,
         description: "success"
     })
-    async block(@Param("id") id: string) {
+    async block(@Param("id", ObjectIdValidationPipe) id: string) {
     }
 
     @Post("/:id/unblock")
@@ -117,7 +118,7 @@ export class AccountsController {
         status: 200,
         description: "success"
     })
-    async unblock(@Param("id") id: string) {
+    async unblock(@Param("id", ObjectIdValidationPipe) id: string) {
     }
 
     @Get("/:id/history")
@@ -143,7 +144,7 @@ export class AccountsController {
         status: 200,
         description: "success"
     })
-    async delete(@Param("id") id: string) {
+    async delete(@Param("id", ObjectIdValidationPipe) id: string) {
         await this._accountsService.delete(id);
     }
 
