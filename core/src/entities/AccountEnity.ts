@@ -1,4 +1,4 @@
-export class Account {
+export class AccountEntity {
     id: string
     ownerId: string
     currency: string

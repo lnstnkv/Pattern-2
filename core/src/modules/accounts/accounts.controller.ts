@@ -1,15 +1,25 @@
-import {Body, Controller, Delete, Get, Param, Post, Query} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Inject, Param, Post, Query} from "@nestjs/common";
 import {ApiOperation, ApiQuery, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {AccountCreateModel} from "../../writeModels/AccountCreateModel";
 import {AccountDetailsReadModel} from "../../readModels/AccountDetailsReadModel";
 import {MoneyAmountModel} from "../../writeModels/MoneyAmountModel";
 import {PaginationParamsModel} from "../../writeModels/PaginationParamsModel";
 import {OperationReadModel} from "../../readModels/OperationReadModel";
+import {Connection} from "mongoose";
+import {InjectConnection} from "@nestjs/mongoose";
+import {AccountsServiceInterface} from "./accounts.service.interface";
+import {AccountsDetailsWithTotalCountReadModel} from "../../readModels/AccountsDetailsWithTotalCountReadModel";
 
 
 @Controller("accounts")
 @ApiTags("Accounts service")
 export class AccountsController {
+    constructor(
+        @InjectConnection() private readonly _mongoConnection: Connection,
+        @Inject(AccountsServiceInterface) private readonly _accountsService: AccountsServiceInterface,
+    ) {
+    }
+
     @Post("/")
     @ApiOperation({
         summary: "Create new bank account"
@@ -20,7 +30,7 @@ export class AccountsController {
         type: AccountDetailsReadModel
     })
     async create(@Body() accountCreateModel: AccountCreateModel): Promise<AccountDetailsReadModel> {
-        return null;
+        return await this._accountsService.create(accountCreateModel);
     }
 
     @Get("/")
@@ -30,12 +40,12 @@ export class AccountsController {
     @ApiResponse({
         status: 200,
         description: "success",
-        type: [AccountDetailsReadModel]
+        type: [AccountsDetailsWithTotalCountReadModel]
     })
     @ApiQuery({name: "limit", required: false})
     @ApiQuery({name: "skip", required: false})
-    async getList(@Query() paginationParams: PaginationParamsModel): Promise<AccountDetailsReadModel[]> {
-        return [];
+    async getList(@Query() paginationParams: PaginationParamsModel) {
+        return this._accountsService.getList(paginationParams);
     }
 
 
@@ -48,8 +58,8 @@ export class AccountsController {
         description: "success",
         type: AccountDetailsReadModel
     })
-    async get(@Param("id") id: string): Promise<AccountDetailsReadModel> {
-        return null;
+    async get(@Param("id") id: string) {
+        return this._accountsService.get(id);
     }
 
     @Post("/:id/withdraw")
@@ -61,7 +71,7 @@ export class AccountsController {
         description: "success"
     })
     async withdraw(@Param("id") id: string, @Body() moneyAmountModel: MoneyAmountModel) {
-
+        await this._accountsService.withdraw(moneyAmountModel.amountOfMoney, id, "testId");
     }
 
     @Post("/:id/topUp")
@@ -73,7 +83,7 @@ export class AccountsController {
         description: "success"
     })
     async topUp(@Param("id") id: string, @Body() moneyAmountModel: MoneyAmountModel) {
-
+        await this._accountsService.topUp(moneyAmountModel.amountOfMoney, id, "testId");
     }
 
     @Post("/:id/transfer/:receiverId")
@@ -85,7 +95,7 @@ export class AccountsController {
         description: "success"
     })
     async transfer(@Param("id") id: string, @Param("receiverId") receiverId: string, @Body() moneyAmountModel: MoneyAmountModel) {
-
+        await this._accountsService.transfer(moneyAmountModel.amountOfMoney, id, receiverId, "testId");
     }
 
     @Post("/:id/block")
@@ -97,7 +107,6 @@ export class AccountsController {
         description: "success"
     })
     async block(@Param("id") id: string) {
-
     }
 
     @Post("/:id/unblock")
@@ -109,7 +118,6 @@ export class AccountsController {
         description: "success"
     })
     async unblock(@Param("id") id: string) {
-
     }
 
     @Get("/:id/history")
@@ -123,8 +131,8 @@ export class AccountsController {
     })
     @ApiQuery({name: "limit", required: false})
     @ApiQuery({name: "skip", required: false})
-    async getOperationsHistory(@Param("id") id: string, @Query() paginationParams: PaginationParamsModel): Promise<OperationReadModel[]> {
-        return [];
+    async getOperationsHistory(@Param("id") id: string, @Query() paginationParams: PaginationParamsModel) {
+        return this._accountsService.getHistory(paginationParams, id);
     }
 
     @Delete("/:id")
@@ -136,7 +144,7 @@ export class AccountsController {
         description: "success"
     })
     async delete(@Param("id") id: string) {
-
+        await this._accountsService.delete(id);
     }
 
 

@@ -8,11 +8,13 @@ services:
       target: development
     ports:
       - "8000:8000"
+    networks:
+      - mongors-network
     env_file:
       - .env
     command: npm run start:dev
-    networks:
-      - mongors-network
+    depends_on:
+      - mongo1
   mongo1:
     container_name: mongo1
     image: mongo:4.4
@@ -20,6 +22,7 @@ services:
       - ~/mongors/data1:/data/db
       - ./rs-init.sh:/scripts/rs-init.sh
       - ./.env:/scripts/.env
+      - ./user-init.sh:/scripts/user-init.sh
     networks:
       - mongors-network
     ports:
