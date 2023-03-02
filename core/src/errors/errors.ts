@@ -53,3 +53,8 @@ export class NotEnoughMoneyError extends AppError {
     _code = 400;
     _message = "Not enough money on account";
 }
+
+export class SameAccountsInTransferError extends AppError {
+    _code = 400;
+    _message = "Can't transfer from account to itself";
+}

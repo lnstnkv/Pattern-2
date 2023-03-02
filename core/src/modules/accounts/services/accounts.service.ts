@@ -9,7 +9,7 @@ import {AccountsRepositoryInterface} from "../accounts.repository.interface";
 import {InjectModel} from "@nestjs/mongoose";
 import {Account, AccountDocument} from "../../../schemas/AccountSchema";
 import {Model} from "mongoose";
-import {AccountNotFoundError, NotEnoughMoneyError} from "../../../errors/errors";
+import {AccountNotFoundError, NotEnoughMoneyError, SameAccountsInTransferError} from "../../../errors/errors";
 import {OperationsHistoryModel} from "../../../readModels/OperationsHistoryModel";
 import {OperationReadModel} from "../../../readModels/OperationReadModel";
 
@@ -80,6 +80,9 @@ export class AccountsService implements AccountsServiceInterface {
         const receiverAccount = await this._accountsRepository.get(id);
         if (!receiverAccount)
             throw new AccountNotFoundError();
+
+        if (receiverId === id)
+            throw new SameAccountsInTransferError();
 
         account.balance -= amountOfMoney;
         if (account.balance < 0)
