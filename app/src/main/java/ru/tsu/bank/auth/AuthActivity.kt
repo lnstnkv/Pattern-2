@@ -1,12 +1,14 @@
 package ru.tsu.bank.auth
 
+import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tsu.bank.databinding.ActivityAuthBinding
-import ru.tsu.domain.authorization.AuthModel
+import ru.tsu.bank.main.AccountActivity
+import ru.tsu.domain.authorization.model.AuthModel
+
 @AndroidEntryPoint
 class AuthActivity : AppCompatActivity() {
     private val binding by lazy { ActivityAuthBinding.inflate(layoutInflater) }
@@ -26,12 +28,14 @@ class AuthActivity : AppCompatActivity() {
         initObserve()
     }
 
-    private fun initObserve() = with(binding)  {
+    private fun initObserve() = with(binding) {
         viewModel.authEvents.observe(this@AuthActivity) { result ->
-        if (result) {
-            Toast.makeText(this@AuthActivity, "ВАУ!!!", Toast.LENGTH_LONG).show()
+            if (result) {
+                val intent = Intent(this@AuthActivity, AccountActivity::class.java)
+                startActivity(intent)
+
+            }
         }
-    }
 
     }
 }

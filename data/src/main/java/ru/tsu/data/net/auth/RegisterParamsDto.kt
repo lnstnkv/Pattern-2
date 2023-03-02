@@ -2,7 +2,7 @@ package ru.tsu.data.net.auth
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import ru.tsu.domain.authorization.RegistrationModel
+import ru.tsu.domain.authorization.model.RegistrationModel
 
 @Serializable
 data class RegisterParamsDto(

@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import ru.tsu.domain.authorization.RegistrationModel
-import ru.tsu.domain.authorization.RegistrationUseCase
+import ru.tsu.domain.authorization.model.RegistrationModel
+import ru.tsu.domain.authorization.usecases.RegistrationUseCase
 import javax.inject.Inject
 
 @HiltViewModel

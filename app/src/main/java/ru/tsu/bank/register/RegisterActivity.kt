@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tsu.bank.auth.AuthActivity
 import ru.tsu.bank.databinding.ActivityRegisterBinding
-import ru.tsu.domain.authorization.RegistrationModel
+import ru.tsu.domain.authorization.model.RegistrationModel
 
 @AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {

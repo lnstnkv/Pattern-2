@@ -9,9 +9,15 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import ru.tsu.bank.BuildConfig
-import javax.inject.Singleton
+import ru.tsu.bank.app.di.qualifiers.CoreRetrofitService
+import ru.tsu.bank.app.di.qualifiers.CreditRetrofitService
+import ru.tsu.bank.app.di.qualifiers.UserRetrofitService
 import ru.tsu.data.net.Network
+import ru.tsu.data.net.accounts.AccountApi
 import ru.tsu.data.net.auth.AuthApi
+import ru.tsu.data.net.credit.CreditApi
+import ru.tsu.data.net.currencies.CurrencyApi
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -36,7 +42,8 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
+    @UserRetrofitService
+    fun provideUserRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
         url = "http://10.0.2.2:8080/api/",
         json = json,
@@ -44,5 +51,41 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideAuthApi(retrofit: Retrofit):AuthApi = Network.getApi(retrofit)
+    @CoreRetrofitService
+    fun provideCoreRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
+        client = client,
+        url = "http://10.0.2.2:8000/",
+        json = json,
+    )
+
+    @Singleton
+    @Provides
+    @CreditRetrofitService
+    fun provideCreditRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
+        client = client,
+        url = "http://10.0.2.2:8181/",
+        json = json,
+    )
+
+
+    @Singleton
+    @Provides
+    fun provideAuthApi(@UserRetrofitService retrofit: Retrofit): AuthApi = Network.getApi(retrofit)
+
+    @Singleton
+    @Provides
+    fun provideAccountsApi(@CoreRetrofitService retrofit: Retrofit): AccountApi =
+        Network.getApi(retrofit)
+
+    @Singleton
+    @Provides
+    fun provideCurrenciesApi(@CoreRetrofitService retrofit: Retrofit): CurrencyApi =
+        Network.getApi(retrofit)
+
+    @Singleton
+    @Provides
+    fun provideCreditApi(@CreditRetrofitService retrofit: Retrofit): CreditApi =
+        Network.getApi(retrofit)
+
+
 }

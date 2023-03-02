@@ -4,9 +4,18 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ru.tsu.data.net.accounts.AccountApi
+import ru.tsu.data.net.accounts.AccountDataSourceImpl
 import ru.tsu.data.net.auth.AuthApi
 import ru.tsu.data.net.auth.AuthDataSourceImpl
+import ru.tsu.data.net.credit.CreditApi
+import ru.tsu.data.net.credit.CreditDataSourceImpl
+import ru.tsu.data.net.currencies.CurrencyApi
+import ru.tsu.data.net.currencies.CurrencyDataSourceImpl
+import ru.tsu.domain.account.AccountsDataSource
 import ru.tsu.domain.authorization.AuthDataSource
+import ru.tsu.domain.credits.CreditDataSource
+import ru.tsu.domain.currency.CurrencyDataSource
 import javax.inject.Singleton
 
 @Module
@@ -15,4 +24,18 @@ object DataSourceModule {
     @Singleton
     @Provides
     fun provideAuthDataSource(authApi: AuthApi):AuthDataSource=AuthDataSourceImpl(authApi)
+
+    @Singleton
+    @Provides
+    fun provideAccountsDataSource(api:AccountApi): AccountsDataSource = AccountDataSourceImpl(api)
+
+    @Singleton
+    @Provides
+    fun provideCurrencyDataSource(api:CurrencyApi): CurrencyDataSource = CurrencyDataSourceImpl(api)
+
+    @Singleton
+    @Provides
+    fun provideCreditDataSource(api:CreditApi): CreditDataSource = CreditDataSourceImpl(api)
+
+
 }

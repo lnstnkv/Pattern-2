@@ -1,5 +1,6 @@
 package ru.tsu.bank.main
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +12,14 @@ import ru.tsu.bank.databinding.ItemAccountBinding
 
 class AccountAdapter(
     private val listener: AccountAdapterListener
-) : ListAdapter<Account, AccountAdapter.ViewHolder>(DIFF) {
+) : ListAdapter<AccountUiModel, AccountAdapter.ViewHolder>(DIFF) {
 
     private companion object {
-        val DIFF = object : DiffUtil.ItemCallback<Account>() {
-            override fun areItemsTheSame(oldItem: Account, newItem: Account) =
+        val DIFF = object : DiffUtil.ItemCallback<AccountUiModel>() {
+            override fun areItemsTheSame(oldItem: AccountUiModel, newItem: AccountUiModel) =
                 oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: Account, newItem: Account) = oldItem == newItem
+            override fun areContentsTheSame(oldItem: AccountUiModel, newItem: AccountUiModel) = oldItem == newItem
         }
     }
 
@@ -42,15 +43,15 @@ class AccountAdapter(
             }
         }
 
-        fun bind(accountItem: Account) = with(binding) {
-            textViewNameAccount.text = accountItem.name
-            textViewCount.text = accountItem.count.toString()
-            textViewNumberAccount.text = accountItem.id
+        @SuppressLint("SetTextI18n")
+        fun bind(accountItem: AccountUiModel) = with(binding) {
+            textViewNameAccount.text = accountItem.number
+            textViewCount.text = "${accountItem.value} ${accountItem.currency}"
 
         }
     }
 
     interface AccountAdapterListener {
-        fun onItemClick(item: Account)
+        fun onItemClick(item: AccountUiModel)
     }
 }

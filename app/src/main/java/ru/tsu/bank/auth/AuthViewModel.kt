@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import ru.tsu.domain.authorization.AuthModel
-import ru.tsu.domain.authorization.AuthUseCase
+import ru.tsu.domain.authorization.model.AuthModel
+import ru.tsu.domain.authorization.usecases.AuthUseCase
 import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(

@@ -5,12 +5,20 @@
     <string name="register">Зарегистрироваться</string>
     <string name="username">Логин</string>
     <string name="firstName">Имя</string>
+    <string name="sum">Сумма</string>
     <string name="lastName">Фамилия</string>
     <string name="middleName">Отчество</string>
     <string name="password">Пароль</string>
     <string name="back">Назад</string>
     <string name="come">Войти</string>
     <string name="main">Главная</string>
+    <string name="detail">Детали счета</string>
     <string name="pending">Загрузка...</string>
-    <string name="open">Открыть вклад/ кредит</string>
+    <string name="open">Открыть счет / кредит</string>
+    <string name="open_account">Открыть счет</string>
+    <string name="open_credit">Открыть кредит</string>
+    <string name="close">Закрыть\nсчет</string>
+    <string name="withdraw">Снять\nденьги</string>
+    <string name="top_up">Пополнить\nсчет</string>
+    <string name="run">Выполнить операцию</string>
 </resources>
