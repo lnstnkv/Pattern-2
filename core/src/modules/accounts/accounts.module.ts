@@ -22,6 +22,9 @@ import {Account, AccountSchema} from "../../schemas/AccountSchema";
     ],
     controllers: [AccountsController],
     exports: [{
+        provide: AccountsServiceInterface,
+        useClass: AccountsService
+    }, {
         provide: AccountsRepositoryInterface,
         useClass: AccountsMongodbRepository
     }],
