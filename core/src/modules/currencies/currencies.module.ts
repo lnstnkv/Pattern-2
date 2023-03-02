@@ -3,7 +3,9 @@ import {CurrenciesController} from "./currencies.controller";
 
 @Module({
     providers:[
+        {
 
+        }
     ],
     controllers: [CurrenciesController],
 

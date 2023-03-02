@@ -40,7 +40,7 @@ export class CurrenciesController {
         status: 201,
         description: "success"
     })
-    async delete(@Param("id") name: string) {
+    async delete(@Param("name") name: string) {
 
     }
 }

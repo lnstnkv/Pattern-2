@@ -4,7 +4,7 @@ docker-compose up -d
 
 export MSYS_NO_PATHCONV=0
 
-sleep 10
+sleep 15
 
 docker exec mongo1 bash /scripts/rs-init.sh
 
