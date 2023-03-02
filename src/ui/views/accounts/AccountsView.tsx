@@ -3,19 +3,20 @@ import {
   MinusCircleOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { Card, Input, Modal, Tag, message, Space, Button } from "antd";
+import { Card, Input, Modal, message, Space, Button } from "antd";
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
+  useDeleteAccountMutation,
   useGetAccountsQuery,
   usePostAccountMutation,
   useTopUpAccountMutation,
 } from "api/accounts/AccountsApi";
 
 const causeOfModalOpening = {
-  topUp: "TopUp",
-  withDraw: "WithDraw",
+  topUp: "Top Up",
+  withDraw: "Withdraw",
 };
 
 const AccountsView: React.FC = () => {
@@ -28,18 +29,18 @@ const AccountsView: React.FC = () => {
 
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
-  // const { data: accountList } = useGetAccountsQuery();
-  // const [createAccount] = usePostAccountMutation();
-  // const [topUp] = useTopUpAccountMutation();
-  // const [withdraw] = useTopUpAccountMutation();
-  // const [createAccount] = usePostAccountMutation();
+  const { data: accountList } = useGetAccountsQuery();
+  const [createAccount] = usePostAccountMutation();
+  const [deleteAccount] = useDeleteAccountMutation();
+  const [topUp] = useTopUpAccountMutation();
+  const [withdraw] = useTopUpAccountMutation();
 
-  const accountList = JSON.parse(localStorage.getItem("accs")!);
-  const createAccount = (data: any) =>
-    localStorage.setItem(
-      "accs",
-      JSON.stringify([...JSON.parse(localStorage.getItem("accs")!), data])
-    );
+  // const accountList = JSON.parse(localStorage.getItem("accs")!);
+  // const createAccount = (data: any) =>
+  //   localStorage.setItem(
+  //     "accs",
+  //     JSON.stringify([...JSON.parse(localStorage.getItem("accs")!), data])
+  //   );
   // const topUp = (data: any) =>
   //   localStorage.setItem("acc", JSON.parse(localStorage.getItem()));
 
@@ -48,41 +49,41 @@ const AccountsView: React.FC = () => {
   };
 
   const topUpAccount = () => {
-    // topUp({ id: modalInfo.cardId, amountOfMoney: inputValue })
-    //   .then(() => {
-    //     messageApi.open({
-    //       type: "success",
-    //       content: "Account replenished",
-    //     });
-    //   })
-    //   .catch(() => {
-    //     messageApi.open({
-    //       type: "error",
-    //       content: "Failed to top up account",
-    //     });
-    //   })
-    //   .finally(() => {
-    //     setModalInfo(initialModalInfoState);
-    //   });
+    topUp({ id: modalInfo.cardId, amountOfMoney: inputValue })
+      .then(() => {
+        messageApi.open({
+          type: "success",
+          content: "Account replenished",
+        });
+      })
+      .catch(() => {
+        messageApi.open({
+          type: "error",
+          content: "Failed to top up account",
+        });
+      })
+      .finally(() => {
+        setModalInfo(initialModalInfoState);
+      });
   };
 
   const withdrawAccount = () => {
-    // withdraw({ id: modalInfo.cardId, amountOfMoney: inputValue })
-    //   .then(() => {
-    //     messageApi.open({
-    //       type: "success",
-    //       content: "Money withdrawn",
-    //     });
-    //   })
-    //   .catch(() => {
-    //     messageApi.open({
-    //       type: "error",
-    //       content: "Failed to withdraw",
-    //     });
-    //   })
-    //   .finally(() => {
-    //     setModalInfo(initialModalInfoState);
-    //   });
+    withdraw({ id: modalInfo.cardId, amountOfMoney: inputValue })
+      .then(() => {
+        messageApi.open({
+          type: "success",
+          content: "Money withdrawn",
+        });
+      })
+      .catch(() => {
+        messageApi.open({
+          type: "error",
+          content: "Failed to withdraw",
+        });
+      })
+      .finally(() => {
+        setModalInfo(initialModalInfoState);
+      });
   };
 
   const handleOk = () => {
@@ -100,6 +101,22 @@ const AccountsView: React.FC = () => {
 
   const handleCancel = () => {
     setModalInfo(initialModalInfoState);
+  };
+ 
+  const handleDeleteAccount = (id: string) => {
+    deleteAccount({ id})
+    .then(() => {
+      messageApi.open({
+        type: "success",
+        content: "Account deleted",
+      });
+    })
+    .catch(() => {
+      messageApi.open({
+        type: "error",
+        content: "Failed to delete account",
+      });
+    })
   };
 
   return (
@@ -124,13 +141,15 @@ const AccountsView: React.FC = () => {
             <MinusCircleOutlined
               onClick={() => showModal(causeOfModalOpening.topUp, el.id)}
             />
-            <DeleteOutlined />
+            <DeleteOutlined 
+              onClick={() => handleDeleteAccount(el.id)}
+              />
           </Space>
         </Card>
       ))}
 
       <Modal
-        title='Top up account'
+        title={`${causeOfModalOpening} account`}
         open={modalInfo.open}
         onOk={handleOk}
         onCancel={handleCancel}
