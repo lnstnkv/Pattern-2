@@ -7,9 +7,10 @@ import {PaginationParamsModel} from "../../writeModels/PaginationParamsModel";
 import {OperationReadModel} from "../../readModels/OperationReadModel";
 import {Connection} from "mongoose";
 import {InjectConnection} from "@nestjs/mongoose";
-import {AccountsServiceInterface} from "./accounts.service.interface";
+import {AccountsServiceInterface} from "./services/accounts.service.interface";
 import {AccountsDetailsWithTotalCountReadModel} from "../../readModels/AccountsDetailsWithTotalCountReadModel";
 import {ObjectIdValidationPipe} from "../../utils/database.pipes";
+import {AccountsServiceTransactionsDecorator} from "./services/accounts.service.transactions.decorator";
 
 
 @Controller("accounts")
@@ -19,6 +20,7 @@ export class AccountsController {
         @InjectConnection() private readonly _mongoConnection: Connection,
         @Inject(AccountsServiceInterface) private readonly _accountsService: AccountsServiceInterface,
     ) {
+        this._accountsService = new AccountsServiceTransactionsDecorator(this._accountsService, this._mongoConnection);
     }
 
     @Post("/")

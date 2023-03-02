@@ -1,8 +1,8 @@
-import {PaginationParamsModel} from "../../writeModels/PaginationParamsModel";
-import {AccountCreateModel} from "../../writeModels/AccountCreateModel";
-import {AccountDetailsReadModel} from "../../readModels/AccountDetailsReadModel";
-import {AccountsDetailsWithTotalCountReadModel} from "../../readModels/AccountsDetailsWithTotalCountReadModel";
-import {OperationsHistoryModel} from "../../readModels/OperationsHistoryModel";
+import {PaginationParamsModel} from "../../../writeModels/PaginationParamsModel";
+import {AccountCreateModel} from "../../../writeModels/AccountCreateModel";
+import {AccountDetailsReadModel} from "../../../readModels/AccountDetailsReadModel";
+import {AccountsDetailsWithTotalCountReadModel} from "../../../readModels/AccountsDetailsWithTotalCountReadModel";
+import {OperationsHistoryModel} from "../../../readModels/OperationsHistoryModel";
 
 export interface AccountsServiceInterface {
     get(accountId: string): Promise<AccountDetailsReadModel>
