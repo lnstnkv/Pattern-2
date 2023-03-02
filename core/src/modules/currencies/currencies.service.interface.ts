@@ -7,4 +7,4 @@ export interface CurrenciesServiceInterface {
 
     delete(name: string): Promise<void>
 }
-export const CurrenciesServicesInterface = Symbol("CurrenciesServiceInterface");
+export const CurrenciesServiceInterface = Symbol("CurrenciesServiceInterface");
