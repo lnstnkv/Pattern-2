@@ -15,12 +15,19 @@ data class RegisterParamsDto(
     @SerialName("password")
     val password:String,
     @SerialName("username")
-    val username:String
+    val username:String,
+    @SerialName("role")
+    val role:Role,
+    @SerialName("status")
+    val status:StatusRegister
 )
 internal fun RegistrationModel.toData()=RegisterParamsDto(
     firstName = this.firstName,
     middleName = this.middleName,
     lastName = this.lastName,
     password = this.password,
-    username = this.username
+    username = this.username,
+    role = Role.CLIENT,
+    status = StatusRegister.ACTIVE,
+
 )

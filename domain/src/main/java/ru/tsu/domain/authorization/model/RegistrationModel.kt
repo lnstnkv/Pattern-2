@@ -5,5 +5,7 @@ data class RegistrationModel(
     val middleName: String,
     val lastName: String,
     val password: String,
-    val username: String
+    val username: String,
+    val role:Role,
+    val status:StatusRegister,
 )

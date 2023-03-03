@@ -8,6 +8,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.tsu.bank.auth.AuthActivity
 import ru.tsu.bank.databinding.ActivityRegisterBinding
 import ru.tsu.domain.authorization.model.RegistrationModel
+import ru.tsu.domain.authorization.model.Role
+import ru.tsu.domain.authorization.model.StatusRegister
 
 @AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
@@ -24,6 +26,8 @@ class RegisterActivity : AppCompatActivity() {
                     lastName = binding.editTextLastName.text.toString(),
                     password = binding.editTextPasswordAuto.text.toString(),
                     username = binding.editTextEmailAddressAuto.text.toString(),
+                    role = Role.CLIENT,
+                    status = StatusRegister.ACTIVE,
                 )
             )
 
