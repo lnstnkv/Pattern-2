@@ -13,6 +13,7 @@ async function start() {
   // app.useGlobalPipes(new ValidationPipe({
   //   transform: true
   // }));
+  app.enableCors();
   app.useGlobalFilters(new AppExceptionsFilter());
   app.enableVersioning({
     type: VersioningType.URI,
