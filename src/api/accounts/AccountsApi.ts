@@ -9,10 +9,12 @@ import {
   GetAccountHistoryPayload,
 } from "./AccountsModels";
 
+const ACCOUNTS_API_HOST = "http://localhost:8000";
+
 export const accountsApi = createApi({
   reducerPath: "accountsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_ACCOUNTS_API_HOST}/`,
+    baseUrl: `${ACCOUNTS_API_HOST}/`,
   }),
 
   endpoints: (build) => {

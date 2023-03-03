@@ -6,29 +6,29 @@ import {
   GetTariffPayload,
 } from "./LoansModels";
 
+const LOANS_API_HOST =  'http://localhost:8181';
+
 export const loansApi = createApi({
   reducerPath: "loansApi",
-  baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_LOANS_API_HOST}/`,
-  }),
+  baseQuery: fetchBaseQuery({ baseUrl: `${LOANS_API_HOST}/api/` }),
 
   endpoints: (build) => {
     return {
       getLoans: build.query<GetLoanPayload[], void>({
         query: () => ({
-          url: "credits/",
+          url: "credits",
           method: "GET",
         }),
       }),
       getTariffs: build.query<GetTariffPayload[], void>({
         query: () => ({
-          url: "tariffs/",
+          url: "tariffs",
           method: "GET",
         }),
       }),
       postLoan: build.mutation<GetLoanPayload, PostLoanPayload>({
         query: (body) => ({
-          url: "credits/",
+          url: "credits",
           method: "POST",
           body,
         }),

@@ -2,10 +2,12 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
 import { GetUserPayload } from "./UsersModels";
 
+const USERS_API_HOST = "http://localhost:8080";
+
 export const usersApi = createApi({
   reducerPath: "usersApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.REACT_APP_USERS_API_HOST}/api/`,
+    baseUrl: `${USERS_API_HOST}/api/`,
   }),
 
   endpoints: (build) => {
