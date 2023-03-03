@@ -34,7 +34,7 @@ const LoansView: React.FC = () => {
   const [postLoan] = usePostLoanMutation();
 
   const handleCreateLoan = () => {
-    postLoan({ creditDuration: 1000, creditAmount: 10000000, tariffName: "" })
+    postLoan(form.getFieldsValue())
       .then(() => {
         messageApi.open({
           type: "success",
@@ -109,7 +109,7 @@ const LoansView: React.FC = () => {
           >
             <Select
               placeholder='Select a option and change input text above'
-              // onChange={onGenderChange}
+              // onChange={onTariffChange}
               allowClear
             >
               {tariffsList?.map((el) => (

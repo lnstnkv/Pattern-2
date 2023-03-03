@@ -6,12 +6,12 @@ import {
   GetTariffPayload,
 } from "./LoansModels";
 
-const LOANS_API_HOST =  'http://localhost:8181';
+const LOANS_API_HOST = "http://localhost:8181";
 
 export const loansApi = createApi({
   reducerPath: "loansApi",
   baseQuery: fetchBaseQuery({ baseUrl: `${LOANS_API_HOST}/api/` }),
-
+  tagTypes: ["Credits"],
   endpoints: (build) => {
     return {
       getLoans: build.query<GetLoanPayload[], void>({
@@ -19,6 +19,8 @@ export const loansApi = createApi({
           url: "credits",
           method: "GET",
         }),
+        providesTags: [{ type: 'Credits' }],
+        
       }),
       getTariffs: build.query<GetTariffPayload[], void>({
         query: () => ({
@@ -32,6 +34,7 @@ export const loansApi = createApi({
           method: "POST",
           body,
         }),
+        invalidatesTags: [{ type: "Credits" }],
       }),
     };
   },

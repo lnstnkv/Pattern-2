@@ -61,7 +61,7 @@ export const accountsApi = createApi({
           body: { rest },
         }),
       }),
-      getAccountHistory: build.query<GetAccountHistoryPayload, { id: string }>({
+      getAccountHistory: build.query<GetAccountHistoryPayload[], { id: string }>({
         query: ({ id }) => ({
           url: `accounts/${id}`,
           method: "GET",
