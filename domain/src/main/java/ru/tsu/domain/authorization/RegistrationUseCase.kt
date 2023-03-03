@@ -4,6 +4,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.tsu.domain.FlowUseCase
 import javax.inject.Inject
+import ru.tsu.domain.authorization.model.RegistrationModel
+import ru.tsu.domain.authorization.model.RegistrationToken
 
 interface RegistrationUseCase:FlowUseCase<RegistrationModel,RegistrationToken>
 
