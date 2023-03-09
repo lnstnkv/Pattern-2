@@ -1,0 +1,26 @@
+[
+    {
+      "id": "1",
+      "ownerId": "1",
+      "currency": "rub", 
+      "balance": 0,
+      "isBlocked": false,
+      "isDeleted": false
+    },
+    {
+      "id": "2",
+      "ownerId": "2",
+      "currency": "usd", 
+      "balance": 200,
+      "isBlocked": true,
+      "isDeleted": true
+    },
+    {
+      "id": "3",
+      "ownerId": "3",
+      "currency": "euro", 
+      "balance": 100,
+      "isBlocked": false,
+      "isDeleted": false
+    }    
+]
