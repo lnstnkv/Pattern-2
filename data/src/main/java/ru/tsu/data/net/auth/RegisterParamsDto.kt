@@ -8,8 +8,6 @@ import ru.tsu.domain.authorization.model.RegistrationModel
 data class RegisterParamsDto(
     @SerialName("firstName")
     val firstName:String,
-    @SerialName("middleName")
-    val middleName:String,
     @SerialName("lastName")
     val lastName:String,
     @SerialName("password")
@@ -23,7 +21,6 @@ data class RegisterParamsDto(
 )
 internal fun RegistrationModel.toData()=RegisterParamsDto(
     firstName = this.firstName,
-    middleName = this.middleName,
     lastName = this.lastName,
     password = this.password,
     username = this.username,

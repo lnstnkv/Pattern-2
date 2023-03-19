@@ -9,7 +9,6 @@ import ru.tsu.domain.authorization.model.StatusRegister
 data class RegisterResponseDto(
     val id: Int,
     val firstName: String,
-    val middleName: String,
     val lastName: String,
     val password: String,
     val username: String,
@@ -19,7 +18,6 @@ data class RegisterResponseDto(
     fun toDomain() = RegistrationToken(
         this.id,
         this.firstName,
-        this.middleName,
         this.lastName,
         this.password,
         this.username,

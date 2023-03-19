@@ -3,7 +3,9 @@ package ru.tsu.bank.credit
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import ru.tsu.domain.credits.CreateCreditUseCases
 import ru.tsu.domain.credits.CreditParamsModel
@@ -36,7 +38,7 @@ class CreditViewModel @Inject constructor(
 
                 }
             )
-        }
+        }.launchIn(viewModelScope)
 
     }
 

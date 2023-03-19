@@ -45,7 +45,7 @@ object NetworkModule {
     @UserRetrofitService
     fun provideUserRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "http://10.0.2.2:8080/api/",
+        url = "http://185.130.83.18:32701/api/",
         json = json,
     )
 
@@ -54,7 +54,7 @@ object NetworkModule {
     @CoreRetrofitService
     fun provideCoreRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "http://10.0.2.2:8000/",
+        url = "http://185.130.83.18:32702/",
         json = json,
     )
 
@@ -63,7 +63,7 @@ object NetworkModule {
     @CreditRetrofitService
     fun provideCreditRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "http://10.0.2.2:8181/",
+        url = "http://185.130.83.18:32700/api/",
         json = json,
     )
 

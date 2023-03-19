@@ -1,11 +1,14 @@
 package ru.tsu.bank.credit
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tsu.bank.databinding.ActivityCreditBinding
+import ru.tsu.bank.openaccount.OpenAccountActivity
 
 @AndroidEntryPoint
 class CreditActivity : AppCompatActivity() {
@@ -29,5 +32,11 @@ class CreditActivity : AppCompatActivity() {
             Toast.makeText(this@CreditActivity, "Вы взяли кредит!", Toast.LENGTH_LONG).show()
         }
 
+    }
+    companion object{
+        fun startActivity(context: Context){
+            val intent = Intent(context, CreditActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 }

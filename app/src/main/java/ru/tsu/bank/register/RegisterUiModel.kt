@@ -1,10 +1,10 @@
-package ru.tsu.domain.authorization
+package ru.tsu.bank.register
 
 import ru.tsu.domain.authorization.model.Role
 import ru.tsu.domain.authorization.model.StatusRegister
 
-
-data class RegistrationToken(
+data class RegisterUiModel(
+    val id: Int,
     val firstName: String,
     val lastName: String,
     val password: String,

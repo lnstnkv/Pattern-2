@@ -2,11 +2,12 @@ package ru.tsu.bank.register
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
-import ru.tsu.bank.auth.AuthActivity
 import ru.tsu.bank.databinding.ActivityRegisterBinding
+import ru.tsu.bank.main.AccountActivity
 import ru.tsu.domain.authorization.model.RegistrationModel
 import ru.tsu.domain.authorization.model.Role
 import ru.tsu.domain.authorization.model.StatusRegister
@@ -22,7 +23,6 @@ class RegisterActivity : AppCompatActivity() {
             viewModel.register(
                 RegistrationModel(
                     firstName = binding.editTextFirstName.text.toString(),
-                    middleName = binding.editTextSecondName.text.toString(),
                     lastName = binding.editTextLastName.text.toString(),
                     password = binding.editTextPasswordAuto.text.toString(),
                     username = binding.editTextEmailAddressAuto.text.toString(),
@@ -37,10 +37,8 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun initObserve() = with(binding) {
         viewModel.registrationEvents.observe(this@RegisterActivity) { result ->
-            if (result) {
-                val intent = Intent(this@RegisterActivity, AuthActivity::class.java)
-                startActivity(intent)
-            }
+            Toast.makeText(this@RegisterActivity, "Не, ну работаю", Toast.LENGTH_LONG).show()
+            AccountActivity.startActivity(this@RegisterActivity,result.id.toString())
         }
     }
 }
