@@ -4,7 +4,7 @@ set -o allexport
 . ./.env
 set +o allexport
 
-mongo <<EOF
+mongo <<'EOF'
 use coredb
 if(!(db.getUser('coreuser'))){
   db.createUser( {

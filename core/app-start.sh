@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker-compose up -d
+docker-compose up -d --build
 
 export MSYS_NO_PATHCONV=0
 
