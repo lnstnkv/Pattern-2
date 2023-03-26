@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: credit-service-postgres
+    environment:
+      POSTGRES_DB: credit_service_db
+      POSTGRES_USER: creditService
+      POSTGRES_PASSWORD: creditService
+
+  app:
+    build: ./
+    container_name: credit-service
+    ports:
+      - "8181:8080"
