@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mongo <<EOF
-use coredb
+use coredb;
 if(!(db.getUser('coreuser'))){
   db.createUser( {
     user: 'coreuser',

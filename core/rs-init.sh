@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export $(xargs < /scripts/.env)
-
 mongo <<EOF
 var config = {
     "_id": "dbrs",

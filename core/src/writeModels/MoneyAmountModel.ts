@@ -1,8 +1,9 @@
 import {ApiProperty} from "@nestjs/swagger";
-import {IsInt} from "class-validator";
+import {IsInt, IsPositive} from "class-validator";
 
 export class MoneyAmountModel {
     @ApiProperty()
     @IsInt()
+    @IsPositive()
     amountOfMoney: number
 }
