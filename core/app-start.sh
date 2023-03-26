@@ -1,5 +1,8 @@
 #!/bin/bash
 
+sed -i 's/\r$//' rs-init.sh
+sed -i 's/\r$//' user-init.sh
+
 docker-compose up -d --build
 
 export MSYS_NO_PATHCONV=0
