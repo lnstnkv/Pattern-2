@@ -8,7 +8,7 @@ export class Account {
     ownerId: string;
     @Prop({type: String, required: true})
     currency: string;
-    @Prop({type: Number, required: true, default: 0})
+    @Prop({type: Number, required: true, default: 0, min: [0, "Account balance < 0"]})
     balance: number = 0;
     @Prop({type: Boolean, default: false})
     isBlocked: boolean = false;

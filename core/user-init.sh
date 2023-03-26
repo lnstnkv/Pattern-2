@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mongo <<EOF
+mongo <<'EOF'
 use coredb;
 if(!(db.getUser('coreuser'))){
   db.createUser( {
