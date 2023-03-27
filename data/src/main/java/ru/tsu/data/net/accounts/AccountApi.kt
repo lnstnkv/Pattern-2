@@ -48,5 +48,5 @@ interface AccountApi {
     suspend fun unblockAccount(@Path("id") accountId: String)
 
     @POST("accounts")
-    suspend fun createAccount(@Body currency: CurrencyDto):AccountResponseDto
+    suspend fun createAccount(@Body account: AccountDto):AccountResponseDto
 }

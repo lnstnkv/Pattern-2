@@ -9,7 +9,7 @@
     <string name="lastName">Фамилия</string>
     <string name="middleName">Отчество</string>
     <string name="password">Пароль</string>
-    <string name="back">Назад</string>
+    <string name="back">Уже есть аккаунт</string>
     <string name="come">Войти</string>
     <string name="main">Главная</string>
     <string name="detail">Детали счета</string>

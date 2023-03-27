@@ -5,4 +5,7 @@ data class CreditModel(
     val creditStart: String? = null,
     val creditDuration: Int? = null,
     val tariff: TariffModel? = null,
+    val debt:Float?=null,
+    val userId:Int?=null,
+    val payed:Float?=null,
 )

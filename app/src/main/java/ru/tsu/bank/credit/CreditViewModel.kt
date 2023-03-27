@@ -17,22 +17,22 @@ class CreditViewModel @Inject constructor(
     private val createCreditUseCases: CreateCreditUseCases,
 ) : ViewModel() {
 
-    private val _creditDetails = MutableLiveData<Unit>()
-    val creditDetails: LiveData<Unit> = _creditDetails
+    private val _creditDetails = MutableLiveData<Boolean>()
+    val creditDetails: LiveData<Boolean> = _creditDetails
 
-    fun createCredit(duration: Int, amount: Int, tariff: String) {
+    fun createCredit(duration: Int, amount: Int, tariff: String,ownerId:Int) {
         val currentDate = DateTimeFormatter.toServerDate(Calendar.getInstance().time)
         createCreditUseCases(
             CreditParamsModel(
-                currentDate,
                 duration,
                 amount,
-                tariff
+                tariff,
+                ownerId,
             )
         ).onEach { result ->
             result.fold(
                 onSuccess = {
-                    _creditDetails.postValue(Unit)
+                    _creditDetails.postValue(true)
                 },
                 onFailure = {
 

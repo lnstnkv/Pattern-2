@@ -12,5 +12,5 @@ interface AccountsDataSource {
     suspend fun transferMoney(param:TransferMoneyModel)
     suspend fun blockAccount(accountId: String)
     suspend fun unblockAccount(accountId: String)
-    suspend fun createAccount(currency: CurrencyModel):AccountModel
+    suspend fun createAccount(currency: CreateAccountModel):AccountModel
 }

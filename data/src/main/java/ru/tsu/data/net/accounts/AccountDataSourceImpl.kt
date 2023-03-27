@@ -48,7 +48,7 @@ class AccountDataSourceImpl(private val accountApi: AccountApi) : AccountsDataSo
         accountApi.unblockAccount(accountId)
     }
 
-    override suspend fun createAccount(currency: CurrencyModel): AccountModel {
+    override suspend fun createAccount(currency: CreateAccountModel): AccountModel {
        return accountApi.createAccount(currency.toData()).toDomain()
     }
 

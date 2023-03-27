@@ -1,11 +1,11 @@
 package ru.tsu.bank.register
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
+import ru.tsu.bank.auth.AuthActivity
 import ru.tsu.bank.databinding.ActivityRegisterBinding
 import ru.tsu.bank.main.AccountActivity
 import ru.tsu.domain.authorization.model.RegistrationModel
@@ -33,12 +33,15 @@ class RegisterActivity : AppCompatActivity() {
 
         }
         initObserve()
+        binding.buttonBackAuto.setOnClickListener {
+            AuthActivity.startActivity(this)
+        }
     }
 
     private fun initObserve() = with(binding) {
         viewModel.registrationEvents.observe(this@RegisterActivity) { result ->
             Toast.makeText(this@RegisterActivity, "Не, ну работаю", Toast.LENGTH_LONG).show()
-            AccountActivity.startActivity(this@RegisterActivity,result.id.toString())
+            AccountActivity.startActivity(this@RegisterActivity, result.id.toString())
         }
     }
 }

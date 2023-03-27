@@ -3,6 +3,7 @@ package ru.tsu.bank.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,10 +33,10 @@ class AccountActivity : AppCompatActivity() {
         viewModel.getListAccounts(ownerId)
         initView()
         binding.buttonAccount.setOnClickListener {
-            OpenAccountActivity.startActivity(this)
+            OpenAccountActivity.startActivity(this,ownerId)
         }
         binding.buttonCredit.setOnClickListener {
-            CreditActivity.startActivity(this)
+            CreditActivity.startActivity(this,ownerId)
         }
     }
 
@@ -46,6 +47,7 @@ class AccountActivity : AppCompatActivity() {
             addItemDecoration(AccountItemDecorator())
         }
         viewModel.accountsEvents.observe(this@AccountActivity) { accounts ->
+            Toast.makeText(this@AccountActivity,"Работает!",Toast.LENGTH_LONG).show()
             accountAdapter.submitList(accounts)
         }
     }

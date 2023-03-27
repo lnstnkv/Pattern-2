@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import ru.tsu.bank.main.AccountUiModel
 import ru.tsu.bank.main.mappers.toUiModel
-import ru.tsu.domain.account.model.CurrencyModel
+import ru.tsu.domain.account.model.CreateAccountModel
 import ru.tsu.domain.account.usecases.CreateAccountUseCase
 import ru.tsu.domain.currency.GetCurrenciesUseCase
 import javax.inject.Inject
@@ -48,8 +48,8 @@ class OpenActivityViewModel @Inject constructor(
         _selectedCurrency.value = currency
     }
 
-    fun createAccount(currency: String) {
-        createAccountUseCase(CurrencyModel(currency)).onEach { result ->
+    fun createAccount(ownerId:String,currency: String) {
+        createAccountUseCase(CreateAccountModel("currency",ownerId)).onEach { result ->
             result.fold(
                 onSuccess = { account ->
                     _accountModel.postValue(account.toUiModel())

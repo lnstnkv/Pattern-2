@@ -1,5 +1,6 @@
 package ru.tsu.bank.auth
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -7,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tsu.bank.databinding.ActivityAuthBinding
 import ru.tsu.bank.main.AccountActivity
+import ru.tsu.bank.openaccount.OpenAccountActivity
 import ru.tsu.domain.authorization.model.AuthModel
 
 @AndroidEntryPoint
@@ -37,5 +39,11 @@ class AuthActivity : AppCompatActivity() {
             }
         }
 
+    }
+    companion object{
+            fun startActivity(context: Context) {
+            val intent = Intent(context, AuthActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 }
