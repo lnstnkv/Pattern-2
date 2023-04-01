@@ -17,15 +17,36 @@ services:
       POSTGRES_USER: userService
       POSTGRES_PASSWORD: userService
 
+#TODO: оптимизировать Dockerfile каждого сервиса и docker-compose.yml
+#  discovery-server:
+#    build: discovery-server
+#    container_name: discovery-server
+#    ports:
+#      - "8761:8761"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#
+#  api-gateway:
+#    build: api-gateway
+#    container_name: api-gateway
+#    ports:
+#      - "8080:8080"
+#    expose:
+#      - "8080"
+#    environment:
+#      - SPRING_PROFILES_ACTIVE=docker
+#    depends_on:
+#      - discovery-server
+
   user_service:
     build: user-service
     container_name: user-service
     ports:
-      - "8080:8080"
+      - "8081:8080"
+
 
   credit_service:
     build: credit-service
     container_name: credit-service
     ports:
-      - "8081:8080"
-
+      - "8082:8080"

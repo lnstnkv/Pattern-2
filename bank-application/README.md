@@ -4,5 +4,6 @@
     ```
     docker compose up
     ```
-2) [Swagger](http://localhost:8080/swagger-ui/index.html#/) для сервиса пользователей.
-3) [Swagger](http://localhost:8081/swagger-ui/index.html#/) сервиса кредитования.
+2) [Swagger](http://localhost:8081/swagger-ui/index.html#/) для сервиса пользователей.
+3) [Swagger](http://localhost:8082/swagger-ui/index.html#/) сервиса кредитования.
+
