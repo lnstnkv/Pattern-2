@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import {VersioningType} from "@nestjs/common";
-import {AppExceptionsFilter} from "./utils/exceptions.filter";
+import {AppExceptionsFilter} from "~shared/utils/exceptions.filter";
 
 async function start() {
   const PORT = process.env.PORT || 3000;

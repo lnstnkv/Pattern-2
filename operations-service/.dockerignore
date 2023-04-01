@@ -8,8 +8,6 @@ package-lock.json
 node_modules
 npm-debug.log
 dist
-rs-init.sh
-user-init.sh
 app-start.sh
 app-stop.sh
 example.env

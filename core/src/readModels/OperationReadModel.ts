@@ -1,5 +1,5 @@
 import {ApiProperty} from "@nestjs/swagger";
-import {Operation} from "../schemas/OperationSchema";
+import {Operation} from "../modules/databases/mongodb/schemas/OperationSchema";
 
 export class OperationReadModel {
     @ApiProperty()

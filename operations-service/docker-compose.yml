@@ -1,0 +1,19 @@
+version: '1.0.1'
+
+services:
+  web:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      target: development
+    ports:
+      - "8001:8000"
+    networks:
+      - operations-network
+    env_file:
+      - .env
+    command: npm run start:dev
+
+networks:
+  operations-network:
+    driver: bridge

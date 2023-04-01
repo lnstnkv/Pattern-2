@@ -1,4 +1,4 @@
-import {Currency} from "../../schemas/CurrencySchema";
+import {Currency} from "../databases/mongodb/schemas/CurrencySchema";
 
 export interface CurrenciesRepositoryInterface {
     getList(): Promise<Currency>

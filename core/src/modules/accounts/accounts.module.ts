@@ -6,7 +6,7 @@ import {AccountsRepositoryInterface} from "./accounts.repository.interface";
 import {AccountsMongodbRepository} from "./accounts.mongodb.repository";
 import {OperationsModule} from "../operations/operations.module";
 import {MongooseModule} from "@nestjs/mongoose";
-import {Account, AccountSchema} from "../../schemas/AccountSchema";
+import {Account, AccountSchema} from "../databases/mongodb/schemas/AccountSchema";
 
 @Module({
     providers: [

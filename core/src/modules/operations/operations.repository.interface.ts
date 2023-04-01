@@ -1,4 +1,4 @@
-import {Operation} from "../../schemas/OperationSchema";
+import {Operation} from "../databases/mongodb/schemas/OperationSchema";
 
 export interface OperationsRepositoryInterface {
     transfer(amountOfMoney: number, id: string, receiverId: string, callerId: string): Promise<void>;

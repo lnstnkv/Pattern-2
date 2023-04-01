@@ -1,5 +1,5 @@
 import {AccountsRepositoryInterface} from "./accounts.repository.interface";
-import {Account, AccountDocument} from "../../schemas/AccountSchema";
+import {Account, AccountDocument} from "../databases/mongodb/schemas/AccountSchema";
 import {Model} from "mongoose";
 import {InjectModel} from "@nestjs/mongoose";
 

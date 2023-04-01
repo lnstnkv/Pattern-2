@@ -1,6 +1,5 @@
 export abstract class OperationPayloadType {
 }
-
 export class TransferOperationPayload extends OperationPayloadType {
     senderAccountId: string
     payeeAccountId: string

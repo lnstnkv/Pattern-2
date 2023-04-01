@@ -7,7 +7,7 @@ import {DatabaseConfigModule} from "./modules/databases/mongodb/database.module"
 import {DatabaseConfigService} from "./modules/databases/mongodb/database.config";
 import {MongooseModule} from "@nestjs/mongoose";
 import {OperationsModule} from "./modules/operations/operations.module";
-import {LoggerMiddleware} from "./utils/logger.middleware";
+import {LoggerMiddleware} from "~shared/utils/logger.middleware";
 
 @Module({
     imports: [

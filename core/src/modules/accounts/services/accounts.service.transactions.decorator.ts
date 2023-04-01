@@ -1,9 +1,9 @@
 import {AccountsServiceBaseDecorator} from "./accounts.service.base.decorator";
-import {AccountCreateModel} from "../../../writeModels/AccountCreateModel";
+import {Connection} from "mongoose";
 import {AccountDetailsReadModel} from "../../../readModels/AccountDetailsReadModel";
 import {AccountsServiceInterface} from "./accounts.service.interface";
 import {InjectConnection} from "@nestjs/mongoose";
-import {Connection} from "mongoose";
+import {AccountCreateModel} from "~shared/writeModels/AccountCreateModel";
 
 export class AccountsServiceTransactionsDecorator extends AccountsServiceBaseDecorator {
 

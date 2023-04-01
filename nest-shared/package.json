@@ -1,0 +1,17 @@
+{
+  "name": "nest-shared",
+  "version": "0.0.1",
+  "description": "",
+  "author": "",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {},
+  "dependencies": {
+    "@nestjs/common": "^9.3.12",
+    "@nestjs/swagger": "^6.3.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "mongoose": "^7.0.3"
+  },
+  "jest": {}
+}

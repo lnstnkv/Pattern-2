@@ -1,5 +1,5 @@
 import {CurrenciesRepositoryInterface} from "./currencies.repository.interface";
-import {Currency} from "../../schemas/CurrencySchema";
+import {Currency} from "../databases/mongodb/schemas/CurrencySchema";
 
 export class CurrenciesMongodbRepository implements CurrenciesRepositoryInterface {
     create(name: string): Promise<void> {

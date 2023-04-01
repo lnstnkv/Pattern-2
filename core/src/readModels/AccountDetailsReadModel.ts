@@ -1,5 +1,5 @@
 import {ApiProperty} from "@nestjs/swagger";
-import {Account} from "../schemas/AccountSchema";
+import {Account} from "../modules/databases/mongodb/schemas/AccountSchema";
 
 export class AccountDetailsReadModel {
     @ApiProperty()

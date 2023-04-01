@@ -4,4 +4,4 @@ docker-compose down
 
 sleep 3
 
-echo "Core-service is stopped"
+echo "Operations-service is stopped"

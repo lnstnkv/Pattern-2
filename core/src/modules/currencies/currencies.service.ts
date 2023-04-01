@@ -1,6 +1,7 @@
 import {CurrenciesServiceInterface} from "./currencies.service.interface";
 import {CurrencyReadModel} from "../../readModels/CurrencyReadModel";
 
+
 export class CurrenciesService implements CurrenciesServiceInterface {
     create(name: string): Promise<void> {
         return Promise.resolve(undefined);

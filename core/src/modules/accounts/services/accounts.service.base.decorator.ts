@@ -1,9 +1,9 @@
-import {AccountsServiceInterface} from "./accounts.service.interface";
-import {PaginationParamsModel} from "../../../writeModels/PaginationParamsModel";
+import {PaginationParamsModel} from "~shared/writeModels/PaginationParamsModel";
 import {OperationsHistoryModel} from "../../../readModels/OperationsHistoryModel";
 import {AccountsDetailsWithTotalCountReadModel} from "../../../readModels/AccountsDetailsWithTotalCountReadModel";
 import {AccountDetailsReadModel} from "../../../readModels/AccountDetailsReadModel";
-import {AccountCreateModel} from "../../../writeModels/AccountCreateModel";
+import {AccountsServiceInterface} from "./accounts.service.interface";
+import {AccountCreateModel} from "~shared/writeModels/AccountCreateModel";
 
 export abstract class AccountsServiceBaseDecorator implements AccountsServiceInterface {
     protected readonly _wrapped: AccountsServiceInterface;

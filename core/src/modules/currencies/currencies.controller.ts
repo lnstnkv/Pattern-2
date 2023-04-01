@@ -1,15 +1,16 @@
 import {Body, Controller, Delete, Get, Param, Post} from "@nestjs/common";
 import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {CurrencyCreateModel} from "../../writeModels/CurrencyCreateModel";
+import {CurrencyCreateModel} from "~shared/writeModels/CurrencyCreateModel";
 import {CurrencyReadModel} from "../../readModels/CurrencyReadModel";
 
 @Controller("currencies")
-@ApiTags("Currencies service")
+@ApiTags("Currencies")
 export class CurrenciesController {
 
     @Post("/")
     @ApiOperation({
-        summary: "Add new currency"
+        summary: "Add new currency",
+        deprecated: true
     })
     @ApiResponse({
         status: 201,
@@ -21,7 +22,8 @@ export class CurrenciesController {
 
     @Get("/")
     @ApiOperation({
-        summary: "Get list of currencies"
+        summary: "Get list of currencies",
+        deprecated: true
     })
     @ApiResponse({
         status: 200,
@@ -34,7 +36,8 @@ export class CurrenciesController {
 
     @Delete("/:name")
     @ApiOperation({
-        summary: "Delete currency"
+        summary: "Delete currency",
+        deprecated: true
     })
     @ApiResponse({
         status: 201,

@@ -1,4 +1,4 @@
-import {Account} from "../../schemas/AccountSchema";
+import {Account} from "../databases/mongodb/schemas/AccountSchema";
 
 export interface AccountsRepositoryInterface {
     create(account: Account): Promise<void>

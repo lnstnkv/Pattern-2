@@ -1,5 +1,6 @@
 import {CurrencyReadModel} from "../../readModels/CurrencyReadModel";
 
+
 export interface CurrenciesServiceInterface {
     getList(): Promise<CurrencyReadModel[]>
 

@@ -1,14 +1,14 @@
 import {Injectable} from "@nestjs/common";
 import {InjectModel} from "@nestjs/mongoose";
-import {Operation, OperationDocument} from "../../schemas/OperationSchema";
+import {Operation, OperationDocument} from "../databases/mongodb/schemas/OperationSchema";
 import {Model, Types} from "mongoose";
 import {OperationsRepositoryInterface} from "./operations.repository.interface";
-import {OperationType} from "../../entities/OperationType";
+import {OperationType} from "~shared/entities/OperationType";
 import {
     TopUpOperationPayload,
     TransferOperationPayload,
     WithdrawOperationPayload
-} from "../../entities/OperationPayloadType";
+} from "~shared/entities/OperationPayloadType";
 
 @Injectable()
 export class OperationsMongodbRepository implements OperationsRepositoryInterface {

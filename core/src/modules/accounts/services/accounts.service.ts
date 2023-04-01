@@ -1,17 +1,18 @@
-import {AccountsServiceInterface} from "./accounts.service.interface";
-import {AccountCreateModel} from "../../../writeModels/AccountCreateModel";
-import {AccountDetailsReadModel} from "../../../readModels/AccountDetailsReadModel";
-import {PaginationParamsModel} from "../../../writeModels/PaginationParamsModel";
-import {AccountsDetailsWithTotalCountReadModel} from "../../../readModels/AccountsDetailsWithTotalCountReadModel";
 import {Inject} from "@nestjs/common";
-import {OperationsRepositoryInterface} from "../../operations/operations.repository.interface";
-import {AccountsRepositoryInterface} from "../accounts.repository.interface";
-import {InjectModel} from "@nestjs/mongoose";
-import {Account, AccountDocument} from "../../../schemas/AccountSchema";
-import {Model} from "mongoose";
-import {AccountNotFoundError, NotEnoughMoneyError, SameAccountsInTransferError} from "../../../errors/errors";
+import {Account, AccountDocument} from "../../databases/mongodb/schemas/AccountSchema";
 import {OperationsHistoryModel} from "../../../readModels/OperationsHistoryModel";
+import {AccountsDetailsWithTotalCountReadModel} from "../../../readModels/AccountsDetailsWithTotalCountReadModel";
 import {OperationReadModel} from "../../../readModels/OperationReadModel";
+import {InjectModel} from "@nestjs/mongoose";
+import {AccountNotFoundError, NotEnoughMoneyError, SameAccountsInTransferError} from "~shared/errors/errors";
+import {AccountsServiceInterface} from "./accounts.service.interface";
+import {AccountCreateModel} from "~shared/writeModels/AccountCreateModel";
+import {PaginationParamsModel} from "~shared/writeModels/PaginationParamsModel";
+import {OperationsRepositoryInterface} from "../../operations/operations.repository.interface";
+import {Model} from "mongoose";
+import {AccountDetailsReadModel} from "../../../readModels/AccountDetailsReadModel";
+import {AccountsRepositoryInterface} from "../accounts.repository.interface";
+
 
 export class AccountsService implements AccountsServiceInterface {
     constructor(@Inject(OperationsRepositoryInterface) private readonly _operationsRepository: OperationsRepositoryInterface,

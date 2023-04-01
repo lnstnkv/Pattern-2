@@ -2,7 +2,7 @@ import {Module} from "@nestjs/common";
 import {OperationsRepositoryInterface} from "./operations.repository.interface";
 import {OperationsMongodbRepository} from "./operations.mongodb.repository";
 import {MongooseModule} from "@nestjs/mongoose";
-import {Operation, OperationSchema} from "../../schemas/OperationSchema";
+import {Operation, OperationSchema} from "../databases/mongodb/schemas/OperationSchema";
 
 @Module({
     providers: [

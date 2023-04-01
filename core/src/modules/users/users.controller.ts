@@ -1,7 +1,7 @@
-import {Controller, Get, Inject, Param, Query} from "@nestjs/common";
 import {ApiOperation, ApiQuery, ApiResponse, ApiTags} from "@nestjs/swagger";
+import {Controller, Get, Inject, Param, Query} from "@nestjs/common";
+import {PaginationParamsModel} from "~shared/writeModels/PaginationParamsModel";
 import {AccountDetailsReadModel} from "../../readModels/AccountDetailsReadModel";
-import {PaginationParamsModel} from "../../writeModels/PaginationParamsModel";
 import {AccountsServiceInterface} from "../accounts/services/accounts.service.interface";
 
 @Controller("users")

@@ -1,20 +1,20 @@
 import {Body, Controller, Delete, Get, Inject, Param, Post, Query} from "@nestjs/common";
 import {ApiOperation, ApiQuery, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {AccountCreateModel} from "../../writeModels/AccountCreateModel";
-import {AccountDetailsReadModel} from "../../readModels/AccountDetailsReadModel";
-import {MoneyAmountModel} from "../../writeModels/MoneyAmountModel";
-import {PaginationParamsModel} from "../../writeModels/PaginationParamsModel";
-import {OperationReadModel} from "../../readModels/OperationReadModel";
-import {Connection} from "mongoose";
-import {InjectConnection} from "@nestjs/mongoose";
-import {AccountsServiceInterface} from "./services/accounts.service.interface";
-import {AccountsDetailsWithTotalCountReadModel} from "../../readModels/AccountsDetailsWithTotalCountReadModel";
-import {ObjectIdValidationPipe} from "../../utils/database.pipes";
+import {MoneyAmountModel} from "~shared/writeModels/MoneyAmountModel";
+import {AccountCreateModel} from "~shared/writeModels/AccountCreateModel";
 import {AccountsServiceTransactionsDecorator} from "./services/accounts.service.transactions.decorator";
+import {PaginationParamsModel} from "~shared/writeModels/PaginationParamsModel";
+import {AccountsDetailsWithTotalCountReadModel} from "../../readModels/AccountsDetailsWithTotalCountReadModel";
+import {OperationReadModel} from "../../readModels/OperationReadModel";
+import {ObjectIdValidationPipe} from "~shared/utils/database.pipes";
+import {Connection} from "mongoose";
+import {AccountDetailsReadModel} from "../../readModels/AccountDetailsReadModel";
+import {AccountsServiceInterface} from "./services/accounts.service.interface";
+import {InjectConnection} from "@nestjs/mongoose";
 
 
 @Controller("accounts")
-@ApiTags("Accounts service")
+@ApiTags("Accounts")
 export class AccountsController {
     constructor(
         @InjectConnection() private readonly _mongoConnection: Connection,
@@ -103,7 +103,8 @@ export class AccountsController {
 
     @Post("/:id/block")
     @ApiOperation({
-        summary: "Block account"
+        summary: "Block account",
+        deprecated:true
     })
     @ApiResponse({
         status: 200,
@@ -114,7 +115,8 @@ export class AccountsController {
 
     @Post("/:id/unblock")
     @ApiOperation({
-        summary: "Unblock account"
+        summary: "Unblock account",
+        deprecated: true
     })
     @ApiResponse({
         status: 200,
