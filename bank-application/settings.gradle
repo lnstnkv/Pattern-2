@@ -1,4 +1,5 @@
 rootProject.name = 'bank-application'
 include 'user-service'
 include 'credit-service'
+include 'discovery-server'
 
