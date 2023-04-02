@@ -1,5 +1,6 @@
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 import {HydratedDocument, Types} from "mongoose";
+import {OperationStatus} from "~shared/entities/OperationStatus";
 
 
 @Schema()
@@ -15,6 +16,8 @@ export class Operation {
     targetAccountIds: Types.ObjectId[] = [];
     @Prop({type: Object, required: true, default: {}})
     payload: object = {}
+    @Prop({type: String, required: true})
+    status: string = OperationStatus.pending
 }
 
 export type OperationDocument = HydratedDocument<Operation>;

@@ -9,13 +9,14 @@ import {
     TransferOperationPayload,
     WithdrawOperationPayload
 } from "~shared/entities/OperationPayloadType";
+import {OperationStatus} from "~shared/entities/OperationStatus";
 
 @Injectable()
 export class OperationsMongodbRepository implements OperationsRepositoryInterface {
     constructor(@InjectModel(Operation.name) private readonly _operationModel: Model<OperationDocument>) {
     }
 
-    async topUp(amountOfMoney: number, id: string, callerId: string): Promise<void> {
+    async topUp(amountOfMoney: number, id: string, callerId: string, status:OperationStatus): Promise<void> {
         const payload = new TopUpOperationPayload(id, amountOfMoney);
 
         await this._operationModel.create(new this._operationModel({
@@ -26,7 +27,7 @@ export class OperationsMongodbRepository implements OperationsRepositoryInterfac
         }))
     }
 
-    async transfer(amountOfMoney: number, id: string, receiverId: string, callerId: string): Promise<void> {
+    async transfer(amountOfMoney: number, id: string, receiverId: string, callerId: string, status:OperationStatus): Promise<void> {
         const payload = new TransferOperationPayload(id, receiverId, amountOfMoney);
 
         await this._operationModel.create(new this._operationModel({
@@ -37,7 +38,7 @@ export class OperationsMongodbRepository implements OperationsRepositoryInterfac
         }))
     }
 
-    async withdraw(amountOfMoney: number, id: string, callerId: string): Promise<void> {
+    async withdraw(amountOfMoney: number, id: string, callerId: string, status:OperationStatus): Promise<void> {
         const payload = new WithdrawOperationPayload(id, amountOfMoney);
 
         await this._operationModel.create(new this._operationModel({

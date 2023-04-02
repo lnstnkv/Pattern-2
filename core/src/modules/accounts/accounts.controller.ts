@@ -72,7 +72,6 @@ export class AccountsController {
         return this._accountsService.getList(paginationParams);
     }
 
-
     @Get("/:id")
     @ApiOperation({
         summary: "Get account info"

@@ -9,6 +9,8 @@ export class OperationReadModel {
     @ApiProperty()
     date: Date
     @ApiProperty()
+    status: string
+    @ApiProperty()
     callerId: string
     @ApiProperty()
     payload: object

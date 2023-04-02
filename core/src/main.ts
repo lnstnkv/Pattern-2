@@ -1,7 +1,7 @@
 import {NestFactory} from "@nestjs/core";
 import {AppModule} from "./app.module";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
-import {VersioningType} from "@nestjs/common";
+import {ValidationPipe, VersioningType} from "@nestjs/common";
 import {AppExceptionsFilter} from "~shared/utils/exceptions.filter";
 import {MicroserviceOptions, Transport} from "@nestjs/microservices";
 
@@ -22,9 +22,9 @@ async function start() {
             },
         }
     });
-    // app.useGlobalPipes(new ValidationPipe({
-    //   transform: true
-    // }));
+    app.useGlobalPipes(new ValidationPipe({
+      transform: true
+    }));
     app.enableCors();
     app.useGlobalFilters(new AppExceptionsFilter());
     app.enableVersioning({
