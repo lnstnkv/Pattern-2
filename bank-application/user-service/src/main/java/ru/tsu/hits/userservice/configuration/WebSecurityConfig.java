@@ -23,6 +23,7 @@ public class WebSecurityConfig {
             auth.requestMatchers(HttpMethod.POST, "/api/users").hasRole(Role.EMPLOYEE.name());
             auth.requestMatchers(HttpMethod.GET, "/api/users").hasRole(Role.EMPLOYEE.name());
             auth.requestMatchers(HttpMethod.DELETE, "/api/users/**").hasRole(Role.EMPLOYEE.name());
+            auth.requestMatchers("/swagger-ui", "/swagger-ui/**", "/v3/api-docs/**").permitAll();
             auth.anyRequest().authenticated();
         });
         http.oauth2ResourceServer()
@@ -31,6 +32,4 @@ public class WebSecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         return http.build();
     }
-
-
 }

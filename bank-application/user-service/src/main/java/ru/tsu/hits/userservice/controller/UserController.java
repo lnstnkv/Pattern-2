@@ -1,5 +1,6 @@
 package ru.tsu.hits.userservice.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,30 +24,41 @@ public class UserController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "Bearer Authentication")
     public List<UserEntity> getUsers() {
         return service.get();
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public UserEntity getUser(@PathVariable String id, Principal principal) throws UnauthorizedUserException {
+        if (principal == null) {
+            throw new UnauthorizedUserException("Авторизуйтесь");
+        }
         return service.getUser(Integer.parseInt(id), principal.getName());
     }
 
     @PostMapping
+    @SecurityRequirement(name = "Bearer Authentication")
     public UserEntity createUser(@RequestBody @Valid CreateUpdateUserRequest request) {
         return service.createUser(request);
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public UserEntity updateUser(
             @PathVariable int id,
             @RequestBody @Valid CreateUpdateUserRequest request,
             Principal principal
     ) throws UnauthorizedUserException {
+        if (principal == null) {
+            throw new UnauthorizedUserException("Авторизуйтесь");
+        }
         return service.updateUser(id, request, principal.getName());
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public void deleteUser(@PathVariable int id) {
         service.deleteUser(id);
     }

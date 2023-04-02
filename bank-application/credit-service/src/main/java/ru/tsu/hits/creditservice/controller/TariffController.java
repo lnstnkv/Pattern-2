@@ -1,5 +1,6 @@
 package ru.tsu.hits.creditservice.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.tsu.hits.creditservice.entity.TariffEntity;
@@ -26,6 +27,7 @@ public class TariffController {
     }
 
     @PostMapping
+    @SecurityRequirement(name = "Bearer Authentication")
     public TariffEntity createTariff(@RequestBody CreateUpdateTariffRequest request) throws Exception {
         return service.createTariff(request);
     }

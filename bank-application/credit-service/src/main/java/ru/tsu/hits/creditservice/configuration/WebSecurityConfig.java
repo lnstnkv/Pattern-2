@@ -21,6 +21,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers(HttpMethod.POST, "/api/tariffs").hasRole(Role.EMPLOYEE.name());
+            auth.requestMatchers(HttpMethod.GET, "/api/tariffs").permitAll();
+            auth.requestMatchers("/swagger-ui", "/swagger-ui/**", "/v3/api-docs/**").permitAll();
             auth.anyRequest().authenticated();
         });
         http.oauth2ResourceServer()

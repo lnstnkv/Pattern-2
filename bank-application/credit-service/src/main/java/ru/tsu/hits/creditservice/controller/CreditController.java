@@ -1,5 +1,6 @@
 package ru.tsu.hits.creditservice.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.tsu.hits.creditservice.dto.CreateUpdateCreditRequest;
@@ -22,26 +23,31 @@ public class CreditController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "Bearer Authentication")
     public List<CreditEntity> get() {
         return service.get();
     }
 
     @GetMapping("/{userId}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public List<CreditEntity> getCreditByUser(@PathVariable Integer userId) {
         return service.getByUser(userId);
     }
 
     @GetMapping("/{tariff}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public List<CreditEntity> getAllWithTariff(@PathVariable String tariff) {
         return service.getByTariff(tariff);
     }
 
     @PostMapping
+    @SecurityRequirement(name = "Bearer Authentication")
     public CreditEntity createEntity(@RequestBody CreateUpdateCreditRequest request) {
         return service.createCredit(request);
     }
 
     @PostMapping("/payment")
+    @SecurityRequirement(name = "Bearer Authentication")
     public CreditEntity payDebt(@RequestBody PaymentRequest request) {
         return service.payDebt(request);
     }

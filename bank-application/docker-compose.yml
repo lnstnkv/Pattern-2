@@ -17,36 +17,85 @@ services:
       POSTGRES_USER: userService
       POSTGRES_PASSWORD: userService
 
-#TODO: оптимизировать Dockerfile каждого сервиса и docker-compose.yml
-#  discovery-server:
-#    build: discovery-server
-#    container_name: discovery-server
-#    ports:
-#      - "8761:8761"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#
-#  api-gateway:
-#    build: api-gateway
-#    container_name: api-gateway
-#    ports:
-#      - "8080:8080"
-#    expose:
-#      - "8080"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#    depends_on:
-#      - discovery-server
+  postgres_keycloak:
+    image: postgres:15
+    container_name: keycloak-postgres
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.0.2
+    container_name: keycloak
+    command: [ "start-dev", "--import-realm" ]
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres_keycloak
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - ./realm/:/opt/keycloak/data/import/
+    ports:
+      - "8181:8080"
+    expose:
+      - "8181"
+    depends_on:
+      - postgres_keycloak
+
+  discovery-server:
+    build: discovery-server
+    container_name: discovery-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8761:8761"
+    expose:
+      - "8761"
+
+  api-gateway:
+    build: api-gateway
+    container_name: api-gateway
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    depends_on:
+      - keycloak
+      - discovery-server
 
   user_service:
     build: user-service
     container_name: user-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8081:8080"
-
+    expose:
+      - "8081"
+    depends_on:
+      - keycloak
+      - discovery-server
+      - api-gateway
+      - postgres_user
 
   credit_service:
     build: credit-service
     container_name: credit-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8082:8080"
+    expose:
+      - "8082"
+    depends_on:
+      - keycloak
+      - discovery-server
+      - api-gateway
+      - postgres_credit
