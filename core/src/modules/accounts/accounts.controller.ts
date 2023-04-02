@@ -1,6 +1,5 @@
 import {Body, Controller, Delete, Get, Inject, Param, Post, Query} from "@nestjs/common";
 import {ApiOperation, ApiQuery, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {MoneyAmountModel} from "~shared/writeModels/MoneyAmountModel";
 import {AccountCreateModel} from "~shared/writeModels/AccountCreateModel";
 import {AccountsServiceTransactionsDecorator} from "./services/accounts.service.transactions.decorator";
 import {PaginationParamsModel} from "~shared/writeModels/PaginationParamsModel";
@@ -11,11 +10,34 @@ import {Connection} from "mongoose";
 import {AccountDetailsReadModel} from "../../readModels/AccountDetailsReadModel";
 import {AccountsServiceInterface} from "./services/accounts.service.interface";
 import {InjectConnection} from "@nestjs/mongoose";
+import {Client, ClientKafka, MessagePattern, Payload, Transport} from "@nestjs/microservices"
+import {KafkaMoneyOperationsMessagePatterns} from "~shared/constants/KafkaMessagePatterns";
+import {KafkaMessageInterface} from "~shared/writeModels/kafka/KafkaMessageInerface";
+import {
+    KafkaTopUpOperationModel,
+    KafkaTransferOperationModel,
+    KafkaWithdrawOperationModel
+} from "~shared/writeModels/kafka/KafkaOperationModel";
+import {AsyncApiSub} from "nestjs-asyncapi";
 
 
 @Controller("accounts")
 @ApiTags("Accounts")
 export class AccountsController {
+    @Client({
+        transport: Transport.KAFKA,
+        options: {
+            client: {
+                clientId: "operations",
+                brokers: ["localhost:9092"],
+            },
+            consumer: {
+                groupId: "operations-consumer"
+            }
+        }
+    })
+    client: ClientKafka;
+
     constructor(
         @InjectConnection() private readonly _mongoConnection: Connection,
         @Inject(AccountsServiceInterface) private readonly _accountsService: AccountsServiceInterface,
@@ -65,46 +87,25 @@ export class AccountsController {
         return this._accountsService.get(id);
     }
 
-    @Post("/:id/withdraw")
-    @ApiOperation({
-        summary: "Withdraw money from account"
-    })
-    @ApiResponse({
-        status: 200,
-        description: "success"
-    })
-    async withdraw(@Param("id", ObjectIdValidationPipe) id: string, @Body() moneyAmountModel: MoneyAmountModel) {
-        await this._accountsService.withdraw(moneyAmountModel.amountOfMoney, id, "testId");
+    @MessagePattern(KafkaMoneyOperationsMessagePatterns.WITHDRAW)
+    async withdraw(@Payload() writeModel: KafkaMessageInterface<KafkaWithdrawOperationModel>) {
+        await this._accountsService.withdraw(writeModel.value.amountOfMoney, writeModel.value.id, writeModel.value.callerId);
     }
 
-    @Post("/:id/topUp")
-    @ApiOperation({
-        summary: "Top up bank account"
-    })
-    @ApiResponse({
-        status: 200,
-        description: "success"
-    })
-    async topUp(@Param("id", ObjectIdValidationPipe) id: string, @Body() moneyAmountModel: MoneyAmountModel) {
-        await this._accountsService.topUp(moneyAmountModel.amountOfMoney, id, "testId");
+    @MessagePattern(KafkaMoneyOperationsMessagePatterns.TOP_UP)
+    async topUp(@Payload() writeModel: KafkaMessageInterface<KafkaTopUpOperationModel>) {
+        await this._accountsService.topUp(writeModel.value.amountOfMoney, writeModel.value.id, writeModel.value.callerId);
     }
 
-    @Post("/:id/transfer/:receiverId")
-    @ApiOperation({
-        summary: "Transfer money"
-    })
-    @ApiResponse({
-        status: 200,
-        description: "success"
-    })
-    async transfer(@Param("id", ObjectIdValidationPipe) id: string, @Param("receiverId") receiverId: string, @Body() moneyAmountModel: MoneyAmountModel) {
-        await this._accountsService.transfer(moneyAmountModel.amountOfMoney, id, receiverId, "testId");
+    @MessagePattern(KafkaMoneyOperationsMessagePatterns.TRANSFER)
+    async transfer(@Payload() writeModel: KafkaMessageInterface<KafkaTransferOperationModel>) {
+        await this._accountsService.transfer(writeModel.value.amountOfMoney, writeModel.value.id, writeModel.value.receiverId, writeModel.value.callerId);
     }
 
     @Post("/:id/block")
     @ApiOperation({
         summary: "Block account",
-        deprecated:true
+        deprecated: true
     })
     @ApiResponse({
         status: 200,
@@ -139,6 +140,17 @@ export class AccountsController {
     async getOperationsHistory(@Param("id") id: string, @Query() paginationParams: PaginationParamsModel) {
         return this._accountsService.getHistory(paginationParams, id);
     }
+
+    // @AsyncApiSub({
+    //     channel: 'operations/history',
+    //     message: {
+    //         payload: CreateFelineDto
+    //     },
+    //
+    // })
+    // async getOnlineHistory(){
+    //
+    // }
 
     @Delete("/:id")
     @ApiOperation({

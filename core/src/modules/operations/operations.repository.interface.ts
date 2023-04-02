@@ -7,7 +7,7 @@ export interface OperationsRepositoryInterface {
 
     withdraw(amountOfMoney: number, id: string, callerId: string): Promise<void>;
 
-    getList(limit: number, skip: number,accountId: string): Promise<Operation[]>
+    getList(limit: number, skip: number, accountId: string): Promise<Operation[]>
 
     getTotalCount(accountId?: string): Promise<number>
 }

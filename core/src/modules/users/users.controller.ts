@@ -5,7 +5,7 @@ import {AccountDetailsReadModel} from "../../readModels/AccountDetailsReadModel"
 import {AccountsServiceInterface} from "../accounts/services/accounts.service.interface";
 
 @Controller("users")
-@ApiTags("Accounts service")
+@ApiTags("Accounts")
 export class UsersController {
     constructor(@Inject(AccountsServiceInterface) private readonly _accountsService: AccountsServiceInterface,
     ) {

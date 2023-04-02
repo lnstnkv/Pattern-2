@@ -23,6 +23,7 @@ export class AccountDetailsReadModel {
             this.balance = account.balance;
             this.isBlocked = account.isBlocked;
             this.isDeleted = account.isDeleted;
+            this.currency = account.currency;
         }
     }
 }

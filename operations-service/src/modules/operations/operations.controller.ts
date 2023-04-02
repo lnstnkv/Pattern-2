@@ -3,13 +3,42 @@ import {Body, Controller, Inject, Param, Post} from "@nestjs/common";
 import {ObjectIdValidationPipe} from "~shared/utils/database.pipes";
 import {MoneyAmountModel} from "~shared/writeModels/MoneyAmountModel";
 import {OperationsServiceInterface} from "./operations.service.interface";
+import {Client, ClientKafka, Transport} from "@nestjs/microservices";
+import {KafkaMoneyOperationsMessagePatterns} from "~shared/constants/KafkaMessagePatterns";
+import {
+    KafkaTopUpOperationModel,
+    KafkaTransferOperationModel,
+    KafkaWithdrawOperationModel
+} from "~shared/writeModels/kafka/KafkaOperationModel";
 
 @Controller("operations")
 @ApiTags("Operations")
 export class OperationsController {
+    @Client({
+        transport: Transport.KAFKA,
+        options: {
+            client: {
+                clientId: "operations",
+                brokers: ["localhost:9092"],
+            },
+            consumer: {
+                groupId: "operations-consumer"
+            }
+        }
+    })
+    client: ClientKafka;
+
     constructor(
         @Inject(OperationsServiceInterface) private readonly _operationsService: OperationsServiceInterface,
     ) {
+    }
+
+    async onModuleInit() {
+        for (const messagePattern in KafkaMoneyOperationsMessagePatterns) {
+            this.client.subscribeToResponseOf(KafkaMoneyOperationsMessagePatterns[messagePattern]);
+        }
+
+        await this.client.connect();
     }
 
     @Post("/:id/withdraw")
@@ -21,7 +50,13 @@ export class OperationsController {
         description: "success"
     })
     async withdraw(@Param("id", ObjectIdValidationPipe) id: string, @Body() moneyAmountModel: MoneyAmountModel) {
-        await this._operationsService.withdraw(moneyAmountModel.amountOfMoney, id, "testId");
+        const operationModel = KafkaWithdrawOperationModel.fromObject({
+            id: id,
+            amountOfMoney: moneyAmountModel.amountOfMoney,
+            callerId: "testId"
+        });
+
+        await this.client.send(KafkaMoneyOperationsMessagePatterns.WITHDRAW, operationModel);
     }
 
     @Post("/:id/topUp")
@@ -33,7 +68,13 @@ export class OperationsController {
         description: "success"
     })
     async topUp(@Param("id", ObjectIdValidationPipe) id: string, @Body() moneyAmountModel: MoneyAmountModel) {
-        await this._operationsService.topUp(moneyAmountModel.amountOfMoney, id, "testId");
+        const operationModel = KafkaTopUpOperationModel.fromObject({
+            id: id,
+            amountOfMoney: moneyAmountModel.amountOfMoney,
+            callerId: "testId"
+        });
+
+        await this.client.send(KafkaMoneyOperationsMessagePatterns.TOP_UP, operationModel);
     }
 
     @Post("/:id/transfer/:receiverId")
@@ -45,7 +86,14 @@ export class OperationsController {
         description: "success"
     })
     async transfer(@Param("id", ObjectIdValidationPipe) id: string, @Param("receiverId") receiverId: string, @Body() moneyAmountModel: MoneyAmountModel) {
-        await this._operationsService.transfer(moneyAmountModel.amountOfMoney, id, receiverId, "testId");
+        const operationModel = KafkaTransferOperationModel.fromObject({
+            id: id,
+            receiverId: receiverId,
+            amountOfMoney: moneyAmountModel.amountOfMoney,
+            callerId: "testId"
+        });
+
+        await this.client.send(KafkaMoneyOperationsMessagePatterns.TRANSFER, operationModel);
     }
 
 }
