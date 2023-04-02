@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
+import okhttp3.Authenticator
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -12,11 +13,15 @@ import ru.tsu.bank.BuildConfig
 import ru.tsu.bank.app.di.qualifiers.CoreRetrofitService
 import ru.tsu.bank.app.di.qualifiers.CreditRetrofitService
 import ru.tsu.bank.app.di.qualifiers.UserRetrofitService
+import ru.tsu.data.net.AppAuthenticator
+import ru.tsu.data.net.AuthInterceptor
 import ru.tsu.data.net.Network
 import ru.tsu.data.net.accounts.AccountApi
 import ru.tsu.data.net.auth.AuthApi
 import ru.tsu.data.net.credit.CreditApi
 import ru.tsu.data.net.currencies.CurrencyApi
+import ru.tsu.data.net.di.AuthApiProvider
+import ru.tsu.domain.preferences.PreferencesDataSource
 import javax.inject.Singleton
 
 @Module
@@ -34,12 +39,16 @@ object NetworkModule {
     @Provides
     fun provideHttpClient(
         cache: Cache,
+        authInterceptor: AuthInterceptor,
+        authenticator: Authenticator,
     ) = Network.getHttpClient(
         cache = cache,
-        interceptors = emptyList(),
+        interceptors = listOf(authInterceptor),
         isDebug = BuildConfig.DEBUG,
+        authenticator = authenticator
     )
-//http://10.0.2.2:8080/api/"
+
+    //http://10.0.2.2:8080/api/"
     @Singleton
     @Provides
     @UserRetrofitService
@@ -47,7 +56,7 @@ object NetworkModule {
         client = client,
         url = "http://185.130.83.18:32701/api/",
         json = json,
-    )
+    ).also { retrofit -> provideAuthApi(retrofit).also { authApi -> AuthApiProvider.inject(authApi) } }
 
     @Singleton
     @Provides
@@ -66,7 +75,6 @@ object NetworkModule {
         url = "http://185.130.83.18:32700/api/",
         json = json,
     )
-
 
     @Singleton
     @Provides
@@ -87,5 +95,12 @@ object NetworkModule {
     fun provideCreditApi(@CreditRetrofitService retrofit: Retrofit): CreditApi =
         Network.getApi(retrofit)
 
+    @Singleton
+    @Provides
+    fun provideAuthInterceptor(preferences: PreferencesDataSource) = AuthInterceptor(preferences)
+
+    @Singleton
+    @Provides
+    fun provideAuthenticator(preferences: PreferencesDataSource): Authenticator = AppAuthenticator(preferences)
 
 }

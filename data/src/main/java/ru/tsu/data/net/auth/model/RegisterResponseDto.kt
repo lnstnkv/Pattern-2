@@ -1,4 +1,4 @@
-package ru.tsu.data.net.auth
+package ru.tsu.data.net.auth.model
 
 import kotlinx.serialization.Serializable
 import ru.tsu.domain.authorization.model.RegistrationToken

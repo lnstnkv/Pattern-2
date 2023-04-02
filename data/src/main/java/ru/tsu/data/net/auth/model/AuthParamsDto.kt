@@ -1,18 +1,18 @@
-package ru.tsu.data.net.auth
+package ru.tsu.data.net.auth.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import ru.tsu.domain.authorization.model.AuthModel
 
-
 @Serializable
 data class AuthParamsDto(
     @SerialName("username")
-    val username:String,
+    val username: String,
     @SerialName("password")
-    val password:String,
+    val password: String,
 )
-internal fun AuthModel.toData()=AuthParamsDto(
+
+internal fun AuthModel.toData() = AuthParamsDto(
     password = this.password,
     username = this.username
 )

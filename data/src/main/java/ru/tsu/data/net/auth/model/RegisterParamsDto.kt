@@ -1,25 +1,28 @@
-package ru.tsu.data.net.auth
+package ru.tsu.data.net.auth.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import ru.tsu.data.net.auth.Role
+import ru.tsu.data.net.auth.StatusRegister
 import ru.tsu.domain.authorization.model.RegistrationModel
 
 @Serializable
 data class RegisterParamsDto(
     @SerialName("firstName")
-    val firstName:String,
+    val firstName: String,
     @SerialName("lastName")
-    val lastName:String,
+    val lastName: String,
     @SerialName("password")
-    val password:String,
+    val password: String,
     @SerialName("username")
-    val username:String,
+    val username: String,
     @SerialName("role")
-    val role:Role,
+    val role: Role,
     @SerialName("status")
-    val status:StatusRegister
+    val status: StatusRegister
 )
-internal fun RegistrationModel.toData()=RegisterParamsDto(
+
+internal fun RegistrationModel.toData() = RegisterParamsDto(
     firstName = this.firstName,
     lastName = this.lastName,
     password = this.password,
@@ -27,4 +30,4 @@ internal fun RegistrationModel.toData()=RegisterParamsDto(
     role = Role.CLIENT,
     status = StatusRegister.ACTIVE,
 
-)
+    )

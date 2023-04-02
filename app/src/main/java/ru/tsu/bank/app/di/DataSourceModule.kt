@@ -1,5 +1,6 @@
 package ru.tsu.bank.app.di
 
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -12,10 +13,12 @@ import ru.tsu.data.net.credit.CreditApi
 import ru.tsu.data.net.credit.CreditDataSourceImpl
 import ru.tsu.data.net.currencies.CurrencyApi
 import ru.tsu.data.net.currencies.CurrencyDataSourceImpl
+import ru.tsu.data.preferences.PreferencesDataSourceImpl
 import ru.tsu.domain.account.AccountsDataSource
 import ru.tsu.domain.authorization.AuthDataSource
 import ru.tsu.domain.credits.CreditDataSource
 import ru.tsu.domain.currency.CurrencyDataSource
+import ru.tsu.domain.preferences.PreferencesDataSource
 import javax.inject.Singleton
 
 @Module
@@ -23,19 +26,23 @@ import javax.inject.Singleton
 object DataSourceModule {
     @Singleton
     @Provides
-    fun provideAuthDataSource(authApi: AuthApi,accountApi: AccountApi):AuthDataSource=AuthDataSourceImpl(authApi,accountApi)
+    fun provideAuthDataSource(authApi: AuthApi, accountApi: AccountApi): AuthDataSource =
+        AuthDataSourceImpl(authApi, accountApi)
 
     @Singleton
     @Provides
-    fun provideAccountsDataSource(api:AccountApi): AccountsDataSource = AccountDataSourceImpl(api)
+    fun provideAccountsDataSource(api: AccountApi): AccountsDataSource = AccountDataSourceImpl(api)
 
     @Singleton
     @Provides
-    fun provideCurrencyDataSource(api:CurrencyApi): CurrencyDataSource = CurrencyDataSourceImpl(api)
+    fun provideCurrencyDataSource(api: CurrencyApi): CurrencyDataSource = CurrencyDataSourceImpl(api)
 
     @Singleton
     @Provides
-    fun provideCreditDataSource(api:CreditApi): CreditDataSource = CreditDataSourceImpl(api)
+    fun provideCreditDataSource(api: CreditApi): CreditDataSource = CreditDataSourceImpl(api)
 
-
+    @Singleton
+    @Provides
+    fun providePreferencesDataSource(preferences: SharedPreferences): PreferencesDataSource =
+        PreferencesDataSourceImpl(preferences)
 }

@@ -2,6 +2,7 @@ package ru.tsu.data.net
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
+import okhttp3.Authenticator
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -36,12 +37,14 @@ object Network {
     fun getHttpClient(
         cache: Cache,
         interceptors: List<Interceptor>,
+        authenticator: Authenticator,
         isDebug: Boolean,
     ): OkHttpClient {
         val httpClientBuilder = OkHttpClient.Builder().apply {
             connectTimeout(60, TimeUnit.SECONDS)
             readTimeout(60, TimeUnit.SECONDS)
             writeTimeout(30, TimeUnit.SECONDS)
+            authenticator(authenticator)
             cache(cache)
             interceptors.forEach { addInterceptor(it) }
             if (isDebug) {

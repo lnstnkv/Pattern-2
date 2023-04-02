@@ -8,6 +8,8 @@ import ru.tsu.domain.account.*
 import ru.tsu.domain.account.usecases.*
 import ru.tsu.domain.authorization.usecases.AuthUseCase
 import ru.tsu.domain.authorization.usecases.AuthUseCaseImpl
+import ru.tsu.domain.authorization.usecases.LogoutUseCase
+import ru.tsu.domain.authorization.usecases.LogoutUseCaseImpl
 import ru.tsu.domain.authorization.usecases.RegistrationUseCase
 import ru.tsu.domain.authorization.usecases.RegistrationUseCaseImpl
 import ru.tsu.domain.credits.CreateCreditUseCases
@@ -65,4 +67,6 @@ abstract class UseCaseModule {
     @Binds
     abstract fun provideGetCreditUseCase(useCase: GetCreditsUseCasesImpl): GetCreditsUseCases
 
+    @Binds
+    abstract fun provideLogoutUseCase(useCase: LogoutUseCaseImpl): LogoutUseCase
 }
