@@ -12,4 +12,6 @@ public interface CreditRepository extends JpaRepository<CreditEntity, Integer> {
 
     @Query("select c from CreditEntity c where c.debt > 0")
     List<CreditEntity> findAllDebtors();
+
+    List<CreditEntity> findByUserId(Integer id);
 }

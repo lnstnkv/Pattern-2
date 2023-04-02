@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import ru.tsu.hits.userservice.dto.CreateUpdateUserRequest;
 import ru.tsu.hits.userservice.dto.UserIdRequest;
 import ru.tsu.hits.userservice.entity.UserEntity;
+import ru.tsu.hits.userservice.exception.user.UnauthorizedUserException;
 import ru.tsu.hits.userservice.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -29,8 +31,8 @@ public class UserControllerWebSocket {
 
     @MessageMapping("/get-user")
     @SendTo("/userServiceTopic/get-user-data")
-    public UserEntity getUserData(UserIdRequest id) {
-        return service.getUser(id.getId());
+    public UserEntity getUserData(UserIdRequest id, Principal principal) throws UnauthorizedUserException {
+        return service.getUser(id.getId(), principal.getName());
     }
 
     @MessageMapping("/create-user")
@@ -41,8 +43,8 @@ public class UserControllerWebSocket {
 
     @MessageMapping("/update-user")
     @SendTo("/userServiceTopic/update-user")
-    public UserEntity updateUser(UserEntity entity) {
-        return service.updateUser(entity.getId(), map(entity));
+    public UserEntity updateUser(UserEntity entity, Principal principal) throws UnauthorizedUserException {
+        return service.updateUser(entity.getId(), map(entity), principal.getName());
     }
 
     @MessageMapping("/delete-user")

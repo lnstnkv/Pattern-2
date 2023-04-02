@@ -6,6 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.tsu.hits.userservice.exception.user.UnauthorizedUserException;
 import ru.tsu.hits.userservice.exception.user.UserNotFoundException;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,13 @@ import java.util.List;
 @Slf4j
 @RestControllerAdvice
 public class ApplicationExceptionHandler {
+
+    @ExceptionHandler(UnauthorizedUserException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ApplicationException handleUserNotFound(UnauthorizedUserException exception) {
+        log.error(exception.getMessage(), exception);
+        return new ApplicationException(exception.getMessage(), HttpStatus.FORBIDDEN, LocalDateTime.now());
+    }
 
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

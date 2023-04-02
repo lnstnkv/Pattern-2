@@ -32,6 +32,10 @@ public class CreditService {
         return repository.findAll();
     }
 
+    public List<CreditEntity> getByUser(Integer userId){
+        return repository.findByUserId(userId);
+    }
+
     public CreditEntity createCredit(CreateUpdateCreditRequest request) {
         TariffEntity tariff = tariffRepository.findByName(request.getTariffName()).orElseThrow();
         CreditEntity entity = map(request);

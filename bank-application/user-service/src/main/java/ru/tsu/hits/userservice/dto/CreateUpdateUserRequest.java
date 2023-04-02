@@ -17,7 +17,6 @@ public class CreateUpdateUserRequest {
     @NotBlank(message = "Поле не должно быть пустым")
     private String username;
 
-    @NotBlank(message = "Поле не должно быть пустым")
     private String password;
 
     private Role role;

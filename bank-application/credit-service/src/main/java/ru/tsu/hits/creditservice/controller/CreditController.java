@@ -26,6 +26,11 @@ public class CreditController {
         return service.get();
     }
 
+    @GetMapping("/{userId}")
+    public List<CreditEntity> getCreditByUser(@PathVariable Integer userId) {
+        return service.getByUser(userId);
+    }
+
     @GetMapping("/{tariff}")
     public List<CreditEntity> getAllWithTariff(@PathVariable String tariff) {
         return service.getByTariff(tariff);
