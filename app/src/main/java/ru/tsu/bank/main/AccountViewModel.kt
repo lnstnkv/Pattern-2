@@ -1,5 +1,6 @@
 package ru.tsu.bank.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,11 +24,11 @@ class AccountViewModel @Inject constructor(
     fun getListAccounts(id: String) {
         useCase(OwnerId(id)).onEach { result ->
             result.fold(
-                onSuccess = { list ->
-                    _accountsEvents.postValue(list.map { account -> account.toUiModel() })
+                onSuccess = { accounts ->
+                    _accountsEvents.postValue(accounts.accounts.map { it.toUiModel() })
                 },
                 onFailure = {
-
+                    Log.e("error",it.stackTraceToString())
                 }
             )
         }.launchIn(viewModelScope)

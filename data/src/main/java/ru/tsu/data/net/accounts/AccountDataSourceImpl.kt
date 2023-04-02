@@ -7,8 +7,8 @@ import ru.tsu.domain.account.model.*
 class AccountDataSourceImpl(private val accountApi: AccountApi) : AccountsDataSource {
     override suspend fun getListAccounts(
         ownerId: String, skip: Int, limit: Int
-    ): List<AccountModel> {
-        return accountApi.getAccounts(ownerId, skip, limit).map { account -> account.toDomain() }
+    ): AccountsModel {
+        return accountApi.getAccounts(ownerId, skip, limit).toDomain()
     }
 
     override suspend fun deleteAccounts(accountId: String) {

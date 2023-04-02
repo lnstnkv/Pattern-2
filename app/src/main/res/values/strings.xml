@@ -18,7 +18,7 @@
     <string name="open_account">Открыть счет</string>
     <string name="open_credit">Открыть кредит</string>
     <string name="close">Закрыть\nсчет</string>
-    <string name="withdraw">Снять\nденьги</string>
-    <string name="top_up">Пополнить\nсчет</string>
+    <string name="withdraw">Снять</string>
+    <string name="top_up">Пополнить</string>
     <string name="run">Выполнить операцию</string>
 </resources>

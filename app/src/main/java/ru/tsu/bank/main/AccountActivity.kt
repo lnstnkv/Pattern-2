@@ -3,6 +3,7 @@ package ru.tsu.bank.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -30,13 +31,13 @@ class AccountActivity : AppCompatActivity() {
         setContentView(binding.root)
         val ownerId = getOwnerId()
         //TODO:: сюда надо передавать id пользователя по которому тапаю
-        viewModel.getListAccounts(ownerId)
         initView()
+        viewModel.getListAccounts(ownerId)
         binding.buttonAccount.setOnClickListener {
-            OpenAccountActivity.startActivity(this,ownerId)
+            OpenAccountActivity.startActivity(this, ownerId)
         }
         binding.buttonCredit.setOnClickListener {
-            CreditActivity.startActivity(this,ownerId)
+            CreditActivity.startActivity(this, ownerId)
         }
     }
 
@@ -47,7 +48,8 @@ class AccountActivity : AppCompatActivity() {
             addItemDecoration(AccountItemDecorator())
         }
         viewModel.accountsEvents.observe(this@AccountActivity) { accounts ->
-            Toast.makeText(this@AccountActivity,"Работает!",Toast.LENGTH_LONG).show()
+            Toast.makeText(this@AccountActivity, "Работает!", Toast.LENGTH_LONG).show()
+            Log.e("123132132132", accounts.toString())
             accountAdapter.submitList(accounts)
         }
     }

@@ -8,7 +8,7 @@ interface AccountApi {
         @Path("id") ownerId: String,
         @Query("skip") skip: Int,
         @Query("limit") limit: Int
-    ): List<AccountResponseDto>
+    ): AccountsResponseDto
 
     @DELETE("accounts/{id}")
     suspend fun deleteAccount(@Path("id") accountId: String)

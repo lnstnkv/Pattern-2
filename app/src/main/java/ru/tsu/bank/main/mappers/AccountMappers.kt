@@ -7,5 +7,5 @@ fun AccountModel.toUiModel() = AccountUiModel(
     id = this.id,
     number=this.id,
     value = this.balance,
-    currency = this.currency.name
+   // currency = this.currency.name
 )

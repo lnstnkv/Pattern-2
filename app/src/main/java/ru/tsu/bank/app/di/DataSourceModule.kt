@@ -23,7 +23,7 @@ import javax.inject.Singleton
 object DataSourceModule {
     @Singleton
     @Provides
-    fun provideAuthDataSource(authApi: AuthApi):AuthDataSource=AuthDataSourceImpl(authApi)
+    fun provideAuthDataSource(authApi: AuthApi,accountApi: AccountApi):AuthDataSource=AuthDataSourceImpl(authApi,accountApi)
 
     @Singleton
     @Provides

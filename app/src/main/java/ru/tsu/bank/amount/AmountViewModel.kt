@@ -1,5 +1,6 @@
 package ru.tsu.bank.amount
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -36,7 +37,7 @@ class AmountViewModel @Inject constructor(
                     _withdrawAccounts.postValue(Unit)
                 },
                 onFailure = {
-
+                    Log.e("error2", it.stackTraceToString())
                 }
             )
 
@@ -55,7 +56,7 @@ class AmountViewModel @Inject constructor(
                     _topUpAccounts.postValue(Unit)
                 },
                 onFailure = {
-
+                    Log.e("error", it.stackTraceToString())
                 }
             )
 

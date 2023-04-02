@@ -46,7 +46,9 @@ class AccountAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(accountItem: AccountUiModel) = with(binding) {
             textViewNameAccount.text = accountItem.number
-            textViewCount.text = "${accountItem.value} ${accountItem.currency}"
+            textViewNumberAccount.text = "Дебетовый счет"
+            textViewCount.text = accountItem.value.toString()
+                //"${accountItem.value} ${accountItem.currency}"
 
         }
     }

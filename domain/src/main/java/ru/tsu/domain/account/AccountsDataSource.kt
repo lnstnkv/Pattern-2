@@ -3,7 +3,7 @@ package ru.tsu.domain.account
 import ru.tsu.domain.account.model.*
 
 interface AccountsDataSource {
-    suspend fun getListAccounts(ownerId:String, skip:Int, limit:Int): List<AccountModel>
+    suspend fun getListAccounts(ownerId:String, skip:Int, limit:Int): AccountsModel
     suspend fun deleteAccounts(accountId:String)
     suspend fun getAccountHistory(accountId: String, skip:Int, limit:Int):List<AccountHistoryModel>
     suspend fun getAccount(accountId: String): AccountModel

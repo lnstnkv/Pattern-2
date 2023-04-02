@@ -13,12 +13,14 @@ data class AccountResponseDto(
     val ownerId:String,
     @SerialName("balance")
     val balance:Float,
-    @SerialName("currency")
+  /*  @SerialName("currency")
     val currency:String,
+
+   */
     @SerialName("isBlocked")
     val isBlocked: Boolean,
     @SerialName("isDeleted")
     val isDeleted:Boolean,
 ){
-    fun toDomain()= AccountModel(id, balance,ownerId,Currency.RUB,isDeleted,isBlocked)
+    fun toDomain()= AccountModel(id, balance,ownerId,isDeleted,isBlocked)
 }

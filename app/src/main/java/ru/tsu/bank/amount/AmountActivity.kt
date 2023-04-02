@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tsu.bank.databinding.ActivityAmountBinding
 
@@ -16,16 +17,16 @@ class AmountActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        initView()
         val purpose = getPurposeOpening()
         val accountId = getAccountId()
         binding.buttonNext.setOnClickListener {
             if (purpose == PurposeOpening.WITHDRAW) {
-                viewModel.withdraw(accountId, binding.editTextFirstName.text.toString())
-            } else {
                 viewModel.topUp(accountId, binding.editTextFirstName.text.toString())
+            } else {
+                viewModel.withdraw(accountId, binding.editTextFirstName.text.toString())
             }
         }
-        initView()
 
     }
 
@@ -41,8 +42,11 @@ class AmountActivity : AppCompatActivity() {
 
     private fun initView() = with(binding) {
         viewModel.topUpAccounts.observe(this@AmountActivity) { result ->
+            Snackbar.make(binding.root, "Это снекбар",Snackbar.LENGTH_LONG).show()
             Toast.makeText(
-                this@AmountActivity, "Пополнение счета прошло успешно", Toast.LENGTH_LONG
+                binding.root.context.applicationContext,
+                "Пополнение счета прошло успешно",
+                Toast.LENGTH_SHORT
             ).show()
         }
         viewModel.withdrawAccounts.observe(this@AmountActivity) { result ->

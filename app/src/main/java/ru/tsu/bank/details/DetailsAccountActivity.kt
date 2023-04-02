@@ -34,6 +34,9 @@ class DetailsAccountActivity : AppCompatActivity() {
         binding.buttonTopUp.setOnClickListener {
             AmountActivity.startActivity(this, accountId, PurposeOpening.TOPUP)
         }
+        binding.buttonRefresh.setOnClickListener {
+            viewModel.getAccountHistory(accountId)
+        }
         initView()
 
     }
@@ -66,7 +69,8 @@ class DetailsAccountActivity : AppCompatActivity() {
         }
         viewModel.accountDetails.observe(this@DetailsAccountActivity) { account ->
             textViewNameAccount.text = account.id
-            textViewCount.text = "${account.value} ${account.currency}"
+            textViewCount.text = account.value.toString()
+            //"${account.value} ${account.currency}"
         }
     }
 
