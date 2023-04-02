@@ -18,7 +18,6 @@ import {
     KafkaTransferOperationModel,
     KafkaWithdrawOperationModel
 } from "~shared/writeModels/kafka/KafkaOperationModel";
-import {AsyncApiSub} from "nestjs-asyncapi";
 
 
 @Controller("accounts")
@@ -140,17 +139,6 @@ export class AccountsController {
     async getOperationsHistory(@Param("id") id: string, @Query() paginationParams: PaginationParamsModel) {
         return this._accountsService.getHistory(paginationParams, id);
     }
-
-    // @AsyncApiSub({
-    //     channel: 'operations/history',
-    //     message: {
-    //         payload: CreateFelineDto
-    //     },
-    //
-    // })
-    // async getOnlineHistory(){
-    //
-    // }
 
     @Delete("/:id")
     @ApiOperation({

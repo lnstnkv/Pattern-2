@@ -7,6 +7,7 @@ import {AccountsMongodbRepository} from "./accounts.mongodb.repository";
 import {OperationsModule} from "../operations/operations.module";
 import {MongooseModule} from "@nestjs/mongoose";
 import {Account, AccountSchema} from "../databases/mongodb/schemas/AccountSchema";
+import {AccountsGateway} from "./accounts.gateway";
 
 @Module({
     providers: [
@@ -17,8 +18,8 @@ import {Account, AccountSchema} from "../databases/mongodb/schemas/AccountSchema
         {
             provide: AccountsRepositoryInterface,
             useClass: AccountsMongodbRepository
-        }
-
+        },
+        AccountsGateway
     ],
     controllers: [AccountsController],
     exports: [{
