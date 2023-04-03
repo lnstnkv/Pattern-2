@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import {ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   // const [receivedMessage, setReceivedMessage] = useState("");
@@ -31,12 +33,18 @@ function App() {
         body: formBody,
       }
     )
-      .then((res) => sendMessage(res.json()))
-      .catch((e) => sendMessage("error", e));
+      .then((res) => {
+        toast.success("send");
+        sendMessage(res);
+      })
+      .catch((e) => {
+        console.log("error", e);
+        // toast.error("error");l
+      });
   };
 
   const sendMessage = (message) => {
-    window.opener.postMessage(message, "http://localhost:3000");
+    window.opener?.postMessage(message, "http://localhost:3000");
   };
 
   // useEffect(() => {
@@ -56,6 +64,7 @@ function App() {
         padding: "50px",
       }}
     >
+      <ToastContainer />
       <h2>Authorization</h2>
       <input
         placeholder='username'
