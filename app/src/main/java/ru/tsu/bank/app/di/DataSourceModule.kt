@@ -5,6 +5,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ru.tsu.data.db.history.HistoryDao
+import ru.tsu.data.db.history.HistoryDataSourceImpl
 import ru.tsu.data.net.accounts.AccountApi
 import ru.tsu.data.net.accounts.AccountDataSourceImpl
 import ru.tsu.data.net.auth.AuthApi
@@ -15,6 +17,7 @@ import ru.tsu.data.net.currencies.CurrencyApi
 import ru.tsu.data.net.currencies.CurrencyDataSourceImpl
 import ru.tsu.data.preferences.PreferencesDataSourceImpl
 import ru.tsu.domain.account.AccountsDataSource
+import ru.tsu.domain.account.HistoryDataSource
 import ru.tsu.domain.authorization.AuthDataSource
 import ru.tsu.domain.credits.CreditDataSource
 import ru.tsu.domain.currency.CurrencyDataSource
@@ -45,4 +48,8 @@ object DataSourceModule {
     @Provides
     fun providePreferencesDataSource(preferences: SharedPreferences): PreferencesDataSource =
         PreferencesDataSourceImpl(preferences)
+
+    @Singleton
+    @Provides
+    fun provideHistoryDataSource(dao: HistoryDao): HistoryDataSource = HistoryDataSourceImpl(dao)
 }

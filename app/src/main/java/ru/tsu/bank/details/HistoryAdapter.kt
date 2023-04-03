@@ -10,14 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.tsu.bank.R
 import ru.tsu.bank.databinding.ItemHistoryBinding
 
-class HistoryAdapter () : ListAdapter<AccountHistoryUiModel, HistoryAdapter.ViewHolder>(DIFF) {
+class HistoryAdapter : ListAdapter<AccountHistoryUiModel, HistoryAdapter.ViewHolder>(DIFF) {
 
     private companion object {
         val DIFF = object : DiffUtil.ItemCallback<AccountHistoryUiModel>() {
             override fun areItemsTheSame(oldItem: AccountHistoryUiModel, newItem: AccountHistoryUiModel) =
-                oldItem.id == newItem.id
+                oldItem == newItem
 
-            override fun areContentsTheSame(oldItem: AccountHistoryUiModel, newItem: AccountHistoryUiModel) = oldItem == newItem
+            override fun areContentsTheSame(oldItem: AccountHistoryUiModel, newItem: AccountHistoryUiModel) =
+                oldItem == newItem
         }
     }
 

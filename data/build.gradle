@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlinx-serialization'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -44,5 +45,22 @@ dependencies {
     api 'com.squareup.retrofit2:retrofit:2.9.0'
     api 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
     api 'com.squareup.okhttp3:logging-interceptor:4.9.0'
-    implementation project (path :":domain")
+    implementation project(path: ":domain")
+
+    def room_version = "2.5.1"
+
+    api "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    api "androidx.room:room-guava:$room_version"
+
+    // optional - Test helpers
+    testApi "androidx.room:room-testing:$room_version"
+
+    // optional - Paging 3 Integration
+    api "androidx.room:room-paging:$room_version"
 }

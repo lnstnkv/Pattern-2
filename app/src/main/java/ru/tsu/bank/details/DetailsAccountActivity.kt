@@ -34,11 +34,7 @@ class DetailsAccountActivity : AppCompatActivity() {
         binding.buttonTopUp.setOnClickListener {
             AmountActivity.startActivity(this, accountId, PurposeOpening.TOPUP)
         }
-        binding.buttonRefresh.setOnClickListener {
-            viewModel.getAccountHistory(accountId)
-        }
         initView()
-
     }
 
     private fun getAccountId(): String {
