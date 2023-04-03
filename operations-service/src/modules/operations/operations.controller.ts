@@ -19,7 +19,7 @@ export class OperationsController {
         options: {
             client: {
                 clientId: "operations",
-                brokers: ["localhost:9092"],
+                brokers: ["kafka:19092"],
             },
             consumer: {
                 groupId: "operations-consumer"

@@ -7,13 +7,13 @@ services:
       context: .
       target: development
     ports:
-      - "8001:8000"
+      - "8001:8001"
     networks:
-      - operations-network
+      - mongors-network
     env_file:
       - .env
     command: npm run start:dev
 
 networks:
-  operations-network:
-    driver: bridge
+  mongors-network:
+    external: true

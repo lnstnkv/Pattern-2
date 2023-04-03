@@ -5,6 +5,8 @@ sed -i 's/\r$//' user-init.sh
 
 cp -r ./../nest-shared ./
 
+docker network create mongors-network
+
 docker-compose up -d --build
 
 export MSYS_NO_PATHCONV=0

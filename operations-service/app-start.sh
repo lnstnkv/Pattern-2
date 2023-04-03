@@ -2,7 +2,11 @@
 
 cp -r ./../nest-shared ./
 
+docker network create mongors-network
+
 docker-compose up -d --build
+
+export MSYS_NO_PATHCONV=0
 
 sleep 10
 

@@ -28,6 +28,8 @@ services:
       - mongors-network
     ports:
       - 27021:27017
+    expose:
+      - 27017
     links:
       - mongo2
       - mongo3
@@ -42,6 +44,8 @@ services:
       - mongors-network
     ports:
       - 27022:27017
+    expose:
+      - 27017
     restart: always
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
   mongo3:
@@ -53,9 +57,11 @@ services:
       - mongors-network
     ports:
       - 27023:27017
+    expose:
+      - 27017
     restart: always
     entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "dbrs" ]
 
 networks:
   mongors-network:
-    driver: bridge
+    external: true
