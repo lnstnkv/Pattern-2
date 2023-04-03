@@ -18,7 +18,7 @@ public class CreditEntity {
 
     private Integer creditDuration;
 
-    private Float creditAmount;
+    private Float creditAmount; // Я вкурсе что деньги так хранят, но в рамках лабороторной сойдёт
 
     private String tariff;
 
@@ -27,4 +27,6 @@ public class CreditEntity {
     private Integer userId;
 
     private Float payed;
+
+    private boolean closed;
 }

@@ -1,6 +1,6 @@
 package ru.tsu.hits.creditservice.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.tsu.hits.creditservice.dto.CreateUpdateCreditRequest;
 import ru.tsu.hits.creditservice.dto.PaymentRequest;
@@ -14,19 +14,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CreditService {
 
     private final TariffRepository tariffRepository;
     private final CreditRepository repository;
-
-    @Autowired
-    public CreditService(
-            CreditRepository repository,
-            TariffRepository tariffRepository
-    ) {
-        this.repository = repository;
-        this.tariffRepository = tariffRepository;
-    }
+    private final PaymentService paymentService;
+    private final CreditRatingService ratingService;
 
     public List<CreditEntity> get() {
         return repository.findAll();
@@ -42,20 +36,29 @@ public class CreditService {
         entity.setDebt(entity.getCreditAmount() + entity.getCreditAmount() * (tariff.getPercentage() / 100));
         entity.setPayed(0F);
         entity.setCreditStart(Timestamp.valueOf(LocalDateTime.now()));
-
+        entity.setClosed(false);
         entity = repository.save(entity);
+        ratingService.createRating(entity.getUserId());
         return entity;
     }
 
     public CreditEntity payDebt(PaymentRequest request) {
         CreditEntity credit = repository.findById(request.getCreditId()).orElseThrow();
+        float payed;
+        float paymentValue;
         if (credit.getDebt() - request.getPayment() < 0) {
-            credit.setPayed(credit.getPayed() + credit.getDebt());
+            payed = credit.getPayed() + credit.getDebt();
+            paymentValue = credit.getDebt();
             credit.setDebt(0F);
+            credit.setClosed(true);
+            ratingService.updateRating(credit.getUserId());
         } else {
-            credit.setPayed(credit.getPayed() + request.getPayment());
+            payed = credit.getPayed() + request.getPayment();
+            paymentValue = request.getPayment();
             credit.setDebt(credit.getDebt() - request.getPayment());
         }
+        credit.setPayed(payed);
+        paymentService.createPayment(credit.getUserId(), paymentValue);
         repository.flush();
         return credit;
     }
@@ -67,13 +70,21 @@ public class CreditService {
     public void payAllDebts() {
         List<CreditEntity> allCredits = repository.findAllDebtors();
         for (CreditEntity credit : allCredits) {
+            float payed;
+            float paymentValue;
             if (credit.getDebt() - (credit.getCreditAmount() * 0.05F) < 0) {
-                credit.setPayed(credit.getPayed() + credit.getDebt());
+                payed = credit.getPayed() + credit.getDebt();
+                paymentValue = credit.getDebt();
                 credit.setDebt(0F);
+                credit.setClosed(true);
+                ratingService.updateRating(credit.getUserId());
             } else {
-                credit.setPayed(credit.getPayed() + (credit.getCreditAmount() * 0.05F));
+                payed = credit.getPayed() + (credit.getCreditAmount() * 0.05F);
+                paymentValue = credit.getCreditAmount() * 0.05F;
                 credit.setDebt(credit.getDebt() - (credit.getCreditAmount() * 0.05F));
             }
+            credit.setPayed(payed);
+            paymentService.createPayment(credit.getUserId(), paymentValue);
             repository.save(credit);
         }
     }
