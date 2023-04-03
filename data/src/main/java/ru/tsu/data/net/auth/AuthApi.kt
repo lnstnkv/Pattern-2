@@ -10,8 +10,6 @@ import ru.tsu.data.net.auth.model.RegisterParamsDto
 import ru.tsu.data.net.auth.model.RegisterResponseDto
 
 interface AuthApi {
-    @POST("users")
-    suspend fun register(@Body registerParams: RegisterParamsDto): RegisterResponseDto
 
     @POST("token")
     @FormUrlEncoded

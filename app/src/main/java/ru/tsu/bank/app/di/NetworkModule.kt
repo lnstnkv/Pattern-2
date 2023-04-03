@@ -19,6 +19,7 @@ import ru.tsu.data.net.AuthInterceptor
 import ru.tsu.data.net.Network
 import ru.tsu.data.net.accounts.AccountApi
 import ru.tsu.data.net.auth.AuthApi
+import ru.tsu.data.net.auth.UserApi
 import ru.tsu.data.net.credit.CreditApi
 import ru.tsu.data.net.currencies.CurrencyApi
 import ru.tsu.data.net.di.AuthApiProvider
@@ -56,17 +57,17 @@ object NetworkModule {
     @UserRetrofitService
     fun provideUserRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "http://192.168.1.67:8181/realms/bank-application-realm/protocol/openid-connect/",
+        url = "http://185.130.83.18:32701/api/",
         json = json,
     )
 
-    /*
+
     @Singleton
     @Provides
     @AuthRetrofitService
     fun provideAuthRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "http://10.0.2.2:8181/realms/bank-application-realm/protocol/openid-connect/",
+        url = "http://192.168.1.67:8181/realms/bank-application-realm/protocol/openid-connect/",
         json = json,
     ).also { retrofit ->
         provideAuthApi(retrofit).also { authApi ->
@@ -75,7 +76,7 @@ object NetworkModule {
             )
         }
     }
-    */
+
 
     @Singleton
     @Provides
@@ -97,7 +98,11 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideAuthApi(@UserRetrofitService retrofit: Retrofit): AuthApi = Network.getApi(retrofit)
+    fun provideUserApi(@UserRetrofitService retrofit: Retrofit): UserApi = Network.getApi(retrofit)
+
+    @Singleton
+    @Provides
+    fun provideAuthApi(@AuthRetrofitService retrofit: Retrofit): AuthApi = Network.getApi(retrofit)
 
     @Singleton
     @Provides

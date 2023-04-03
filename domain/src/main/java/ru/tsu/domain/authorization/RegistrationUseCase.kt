@@ -9,7 +9,7 @@ import ru.tsu.domain.authorization.model.RegistrationToken
 
 interface RegistrationUseCase:FlowUseCase<RegistrationModel,RegistrationToken>
 
-class RegistrationUseCaseImpl @Inject constructor(private val authDataSource: AuthDataSource):RegistrationUseCase{
+class RegistrationUseCaseImpl @Inject constructor(private val authDataSource: UserDataSource):RegistrationUseCase{
     override fun execute(param: RegistrationModel): Flow<Result<RegistrationToken>> =flow {
         val result = authDataSource.register(param)
         emit(Result.success(result))
