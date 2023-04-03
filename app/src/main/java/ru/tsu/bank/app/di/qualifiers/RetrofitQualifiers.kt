@@ -13,3 +13,7 @@ annotation class UserRetrofitService
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class CreditRetrofitService
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class AuthRetrofitService

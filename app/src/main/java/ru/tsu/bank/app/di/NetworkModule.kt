@@ -10,6 +10,7 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import ru.tsu.bank.BuildConfig
+import ru.tsu.bank.app.di.qualifiers.AuthRetrofitService
 import ru.tsu.bank.app.di.qualifiers.CoreRetrofitService
 import ru.tsu.bank.app.di.qualifiers.CreditRetrofitService
 import ru.tsu.bank.app.di.qualifiers.UserRetrofitService
@@ -49,14 +50,32 @@ object NetworkModule {
     )
 
     //http://10.0.2.2:8080/api/"
+    // http://185.130.83.18:32701/api/
     @Singleton
     @Provides
     @UserRetrofitService
     fun provideUserRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "http://185.130.83.18:32701/api/",
+        url = "http://192.168.1.67:8181/realms/bank-application-realm/protocol/openid-connect/",
         json = json,
-    ).also { retrofit -> provideAuthApi(retrofit).also { authApi -> AuthApiProvider.inject(authApi) } }
+    )
+
+    /*
+    @Singleton
+    @Provides
+    @AuthRetrofitService
+    fun provideAuthRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
+        client = client,
+        url = "http://10.0.2.2:8181/realms/bank-application-realm/protocol/openid-connect/",
+        json = json,
+    ).also { retrofit ->
+        provideAuthApi(retrofit).also { authApi ->
+            AuthApiProvider.inject(
+                authApi
+            )
+        }
+    }
+    */
 
     @Singleton
     @Provides
@@ -101,6 +120,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideAuthenticator(preferences: PreferencesDataSource): Authenticator = AppAuthenticator(preferences)
+    fun provideAuthenticator(preferences: PreferencesDataSource): Authenticator =
+        AppAuthenticator(preferences)
 
 }

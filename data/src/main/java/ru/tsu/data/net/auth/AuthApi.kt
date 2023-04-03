@@ -1,8 +1,9 @@
 package ru.tsu.data.net.auth
 
 import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
-import ru.tsu.data.net.auth.model.AuthParamsDto
 import ru.tsu.data.net.auth.model.AuthResponseDto
 import ru.tsu.data.net.auth.model.ParamsRefreshTokenDto
 import ru.tsu.data.net.auth.model.RegisterParamsDto
@@ -12,8 +13,14 @@ interface AuthApi {
     @POST("users")
     suspend fun register(@Body registerParams: RegisterParamsDto): RegisterResponseDto
 
-    @POST("users")
-    suspend fun login(@Body authParams: AuthParamsDto): AuthResponseDto
+    @POST("token")
+    @FormUrlEncoded
+    suspend fun login(
+        @Field("client_id") clientId: String,
+        @Field("grant_type") grantType: String,
+        @Field("username") username: String,
+        @Field("password") password: String
+    ): AuthResponseDto
 
     // TODO: check on backend
     @POST("logout")

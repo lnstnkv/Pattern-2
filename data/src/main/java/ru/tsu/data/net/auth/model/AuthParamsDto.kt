@@ -6,6 +6,10 @@ import ru.tsu.domain.authorization.model.AuthModel
 
 @Serializable
 data class AuthParamsDto(
+    @SerialName("client_id")
+    val clientId: String,
+    @SerialName("grant_type")
+    val grantType: String,
     @SerialName("username")
     val username: String,
     @SerialName("password")
@@ -14,5 +18,7 @@ data class AuthParamsDto(
 
 internal fun AuthModel.toData() = AuthParamsDto(
     password = this.password,
-    username = this.username
+    username = this.username,
+    grantType = this.grantType,
+    clientId = this.clientId,
 )

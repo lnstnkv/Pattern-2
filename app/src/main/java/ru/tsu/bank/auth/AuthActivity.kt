@@ -22,8 +22,11 @@ class AuthActivity : AppCompatActivity() {
         binding.buttonNext.setOnClickListener {
             viewModel.login(
                 AuthModel(
+                    "bank-application-client",
+                    "password",
                     binding.editTextEmailAddressAuto.text.toString(),
-                    binding.editTextPasswordAuto.text.toString()
+                    binding.editTextPasswordAuto.text.toString(),
+
                 )
             )
         }
