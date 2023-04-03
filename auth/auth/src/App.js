@@ -36,7 +36,7 @@ function App() {
   };
 
   const sendMessage = (message) => {
-    window.opener.postMessage("message" + message, "http://localhost:3000");
+    window.opener.postMessage(message, "http://localhost:3000");
   };
 
   // useEffect(() => {
