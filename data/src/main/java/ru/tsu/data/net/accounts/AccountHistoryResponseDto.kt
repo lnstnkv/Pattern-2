@@ -8,14 +8,14 @@ data class AccountHistoryResponseDto(
     val id: String,
     val type: String,
     val date: String,
-    val ownerId: String,
-    val payload: List<String>,
+    val callerId: String,
+    val payload: List<PayloadHistoryData>,
 ) {
     fun toDomain() = AccountHistoryModel(
         id = id,
         type = type,
         date = date,
-        ownerId = ownerId,
-        payload = payload
+        callerId = callerId,
+        payload = payload.map { it.toDomain() }
     )
 }

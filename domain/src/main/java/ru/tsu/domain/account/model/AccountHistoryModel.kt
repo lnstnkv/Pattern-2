@@ -4,6 +4,6 @@ data class AccountHistoryModel(
     val id: String,
     val type: String,
     val date: String,
-    val ownerId: String,
-    val payload: List<String>,
+    val callerId: String,
+    val payload: List<PayloadHistory>,
 )
