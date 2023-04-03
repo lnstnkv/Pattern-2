@@ -22,8 +22,8 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers(HttpMethod.POST, "/api/tariffs").hasRole(Role.EMPLOYEE.name());
             auth.requestMatchers(HttpMethod.GET, "/api/tariffs").permitAll();
-            auth.requestMatchers("/swagger-ui", "/swagger-ui/**", "/v3/api-docs/**").permitAll();
             auth.requestMatchers(HttpMethod.GET, "/api/ratings", "/api/ratings/**").hasRole(Role.EMPLOYEE.name());
+            auth.requestMatchers("/swagger-ui", "/swagger-ui/**", "/v3/api-docs/**").permitAll();
             auth.anyRequest().authenticated();
         });
         http.oauth2ResourceServer()

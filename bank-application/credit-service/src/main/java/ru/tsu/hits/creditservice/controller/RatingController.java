@@ -1,5 +1,6 @@
 package ru.tsu.hits.creditservice.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ public class RatingController {
     private final CreditRatingService service;
 
     @GetMapping("/{userId}")
+    @SecurityRequirement(name = "Bearer Authentication")
     public CreditRatingEntity getRating(@PathVariable Integer userId) {
         return service.getByUser(userId);
     }
