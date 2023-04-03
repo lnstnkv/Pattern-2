@@ -11,13 +11,13 @@ docker-compose up -d --build
 
 export MSYS_NO_PATHCONV=0
 
-sleep 15
+sleep 45
 
 docker exec mongo1 bash /scripts/rs-init.sh
 
 echo "wait for user creation"
 
-sleep 30
+sleep 45
 
 docker exec mongo1 bash /scripts/user-init.sh
 
