@@ -23,6 +23,7 @@ class WithdrawMoneyFromAccountUseCaseImpl @Inject constructor(
                 date = getCurrentData(),
                 amountOfMoney = param.amountOfMoney,
                 accountId = param.accountId,
+                ownerId = "1"
             )
         )
         emit(Result.success(result))
