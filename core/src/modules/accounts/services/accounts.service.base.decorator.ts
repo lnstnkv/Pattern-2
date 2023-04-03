@@ -4,6 +4,7 @@ import {AccountsDetailsWithTotalCountReadModel} from "../../../readModels/Accoun
 import {AccountDetailsReadModel} from "../../../readModels/AccountDetailsReadModel";
 import {AccountsServiceInterface} from "./accounts.service.interface";
 import {AccountCreateModel} from "~shared/writeModels/AccountCreateModel";
+import {AccountsGateway} from "../accounts.gateway";
 
 export abstract class AccountsServiceBaseDecorator implements AccountsServiceInterface {
     protected readonly _wrapped: AccountsServiceInterface;
@@ -42,6 +43,10 @@ export abstract class AccountsServiceBaseDecorator implements AccountsServiceInt
 
     withdraw(amountOfMoney: number, id: string, callerId: string): Promise<void> {
         return this._wrapped.withdraw(amountOfMoney, id, callerId);
+    }
+
+    setGateway(accountsGateway: AccountsGateway): void {
+        return this._wrapped.setGateway(accountsGateway);
     }
 
 }

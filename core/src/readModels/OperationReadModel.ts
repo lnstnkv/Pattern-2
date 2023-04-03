@@ -22,6 +22,13 @@ export class OperationReadModel {
             this.date = operation.date;
             this.callerId = operation.callerId;
             this.payload = operation.payload;
+            this.status = operation.status;
         }
+    }
+
+    static fromObject(input) {
+        const newModel = new this();
+        Object.assign(newModel, input);
+        return newModel;
     }
 }

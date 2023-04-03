@@ -28,7 +28,8 @@ import {AccountsGateway} from "./accounts.gateway";
     }, {
         provide: AccountsRepositoryInterface,
         useClass: AccountsMongodbRepository
-    }],
+    },
+    AccountsGateway],
     imports: [
         OperationsModule,
         MongooseModule.forFeature([

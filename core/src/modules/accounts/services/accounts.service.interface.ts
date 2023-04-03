@@ -3,6 +3,7 @@ import {OperationsHistoryModel} from "../../../readModels/OperationsHistoryModel
 import {AccountsDetailsWithTotalCountReadModel} from "../../../readModels/AccountsDetailsWithTotalCountReadModel";
 import {AccountDetailsReadModel} from "../../../readModels/AccountDetailsReadModel";
 import {AccountCreateModel} from "~shared/writeModels/AccountCreateModel";
+import {AccountsGateway} from "../accounts.gateway";
 
 export interface AccountsServiceInterface {
     get(accountId: string): Promise<AccountDetailsReadModel>
@@ -19,7 +20,9 @@ export interface AccountsServiceInterface {
 
     transfer(amountOfMoney: number, id: string, receiverId: string, callerId: string): Promise<void>
 
-    getHistory(paginationParams: PaginationParamsModel, accountId):Promise<OperationsHistoryModel>
+    getHistory(paginationParams: PaginationParamsModel, accountId): Promise<OperationsHistoryModel>
+
+    setGateway(accountsGateway: AccountsGateway): void
 }
 
 export const AccountsServiceInterface = Symbol("AccountsServiceInterface");

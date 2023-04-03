@@ -1,5 +1,5 @@
 import {ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {Body, Controller, Inject, Param, Post} from "@nestjs/common";
+import {Body, Controller, Inject, Logger, Param, Post} from "@nestjs/common";
 import {ObjectIdValidationPipe} from "~shared/utils/database.pipes";
 import {MoneyAmountModel} from "~shared/writeModels/MoneyAmountModel";
 import {OperationsServiceInterface} from "./operations.service.interface";
@@ -26,7 +26,9 @@ export class OperationsController {
             }
         }
     })
-    client: ClientKafka;
+    _client: ClientKafka;
+
+    _logger: Logger = new Logger(OperationsController.name);
 
     constructor(
         @Inject(OperationsServiceInterface) private readonly _operationsService: OperationsServiceInterface,
@@ -35,10 +37,12 @@ export class OperationsController {
 
     async onModuleInit() {
         for (const messagePattern in KafkaMoneyOperationsMessagePatterns) {
-            this.client.subscribeToResponseOf(KafkaMoneyOperationsMessagePatterns[messagePattern]);
+            this._client.subscribeToResponseOf(KafkaMoneyOperationsMessagePatterns[messagePattern]);
+            this._logger.log(`Subscribed to messagePattern ${KafkaMoneyOperationsMessagePatterns[messagePattern]}`);
         }
+        await this._client.connect();
 
-        await this.client.connect();
+        this._logger.log("Kafka client connected");
     }
 
     @Post("/:id/withdraw")
@@ -55,8 +59,8 @@ export class OperationsController {
             amountOfMoney: moneyAmountModel.amountOfMoney,
             callerId: "testId"
         });
-
-        await this.client.send(KafkaMoneyOperationsMessagePatterns.WITHDRAW, operationModel);
+        this._logger.log(`Sent withdraw msg ${operationModel}`);
+        await this._client.emit(KafkaMoneyOperationsMessagePatterns.WITHDRAW, operationModel);
     }
 
     @Post("/:id/topUp")
@@ -73,8 +77,8 @@ export class OperationsController {
             amountOfMoney: moneyAmountModel.amountOfMoney,
             callerId: "testId"
         });
-
-        await this.client.send(KafkaMoneyOperationsMessagePatterns.TOP_UP, operationModel);
+        this._logger.log(`Sent topUp msg ${operationModel}`);
+        await this._client.emit(KafkaMoneyOperationsMessagePatterns.TOP_UP, operationModel);
     }
 
     @Post("/:id/transfer/:receiverId")
@@ -92,8 +96,8 @@ export class OperationsController {
             amountOfMoney: moneyAmountModel.amountOfMoney,
             callerId: "testId"
         });
-
-        await this.client.send(KafkaMoneyOperationsMessagePatterns.TRANSFER, operationModel);
+        this._logger.log(`Sent transfer msg ${operationModel}`);
+        await this._client.emit(KafkaMoneyOperationsMessagePatterns.TRANSFER, operationModel);
     }
 
 }

@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Inject, Param, Post, Query} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Inject, Logger, Param, Post, Query} from "@nestjs/common";
 import {ApiOperation, ApiQuery, ApiResponse, ApiTags} from "@nestjs/swagger";
 import {AccountCreateModel} from "~shared/writeModels/AccountCreateModel";
 import {AccountsServiceTransactionsDecorator} from "./services/accounts.service.transactions.decorator";
@@ -10,9 +10,8 @@ import {Connection} from "mongoose";
 import {AccountDetailsReadModel} from "../../readModels/AccountDetailsReadModel";
 import {AccountsServiceInterface} from "./services/accounts.service.interface";
 import {InjectConnection} from "@nestjs/mongoose";
-import {Client, ClientKafka, MessagePattern, Payload, Transport} from "@nestjs/microservices"
+import {MessagePattern, Payload} from "@nestjs/microservices"
 import {KafkaMoneyOperationsMessagePatterns} from "~shared/constants/KafkaMessagePatterns";
-import {KafkaMessageInterface} from "~shared/writeModels/kafka/KafkaMessageInerface";
 import {
     KafkaTopUpOperationModel,
     KafkaTransferOperationModel,
@@ -23,19 +22,7 @@ import {
 @Controller("accounts")
 @ApiTags("Accounts")
 export class AccountsController {
-    @Client({
-        transport: Transport.KAFKA,
-        options: {
-            client: {
-                clientId: "operations",
-                brokers: ["localhost:9092"],
-            },
-            consumer: {
-                groupId: "operations-consumer"
-            }
-        }
-    })
-    client: ClientKafka;
+    readonly _logger = new Logger(AccountsController.name);
 
     constructor(
         @InjectConnection() private readonly _mongoConnection: Connection,
@@ -86,18 +73,33 @@ export class AccountsController {
     }
 
     @MessagePattern(KafkaMoneyOperationsMessagePatterns.WITHDRAW)
-    async withdraw(@Payload() writeModel: KafkaMessageInterface<KafkaWithdrawOperationModel>) {
-        await this._accountsService.withdraw(writeModel.value.amountOfMoney, writeModel.value.id, writeModel.value.callerId);
+    async withdraw(@Payload() writeModel: KafkaWithdrawOperationModel) {
+        this._logger.log(`Got kafka withdraw msg ${writeModel}`);
+        try {
+            await this._accountsService.withdraw(writeModel.amountOfMoney, writeModel.id, writeModel.callerId);
+        } catch (error) {
+            this._logger.error(error);
+        }
     }
 
     @MessagePattern(KafkaMoneyOperationsMessagePatterns.TOP_UP)
-    async topUp(@Payload() writeModel: KafkaMessageInterface<KafkaTopUpOperationModel>) {
-        await this._accountsService.topUp(writeModel.value.amountOfMoney, writeModel.value.id, writeModel.value.callerId);
+    async topUp(@Payload() writeModel: KafkaTopUpOperationModel) {
+        this._logger.log(`Got kafka topUp msg ${writeModel}`);
+        try {
+            await this._accountsService.topUp(writeModel.amountOfMoney, writeModel.id, writeModel.callerId);
+        } catch (error) {
+            this._logger.error(error);
+        }
     }
 
     @MessagePattern(KafkaMoneyOperationsMessagePatterns.TRANSFER)
-    async transfer(@Payload() writeModel: KafkaMessageInterface<KafkaTransferOperationModel>) {
-        await this._accountsService.transfer(writeModel.value.amountOfMoney, writeModel.value.id, writeModel.value.receiverId, writeModel.value.callerId);
+    async transfer(@Payload() writeModel: KafkaTransferOperationModel) {
+        this._logger.log(`Got kafka transfer msg ${writeModel}`);
+        try {
+            await this._accountsService.transfer(writeModel.amountOfMoney, writeModel.id, writeModel.receiverId, writeModel.callerId);
+        } catch (error) {
+            this._logger.error(error);
+        }
     }
 
     @Post("/:id/block")

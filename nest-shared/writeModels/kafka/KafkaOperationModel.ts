@@ -6,6 +6,10 @@ class KafkaOperationModel {
         Object.assign(newModel, input)
         return newModel;
     }
+
+    toString() {
+        return JSON.stringify(this);
+    }
 }
 
 export class KafkaTopUpOperationModel extends KafkaOperationModel {

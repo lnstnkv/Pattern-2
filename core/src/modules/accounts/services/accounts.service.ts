@@ -13,12 +13,23 @@ import {Model} from "mongoose";
 import {AccountDetailsReadModel} from "../../../readModels/AccountDetailsReadModel";
 import {AccountsRepositoryInterface} from "../accounts.repository.interface";
 import {OperationStatus} from "~shared/entities/OperationStatus";
+import {AccountsGateway} from "../accounts.gateway";
+import {OperationStatusChangeReadModel} from "../../../readModels/OperationStatusChangeReadModel";
+import {Operation} from "../../databases/mongodb/schemas/OperationSchema";
+import {OperationType} from "~shared/entities/OperationType";
+import {
+    TopUpOperationPayload,
+    TransferOperationPayload,
+    WithdrawOperationPayload
+} from "~shared/entities/OperationPayloadType";
 
 
 export class AccountsService implements AccountsServiceInterface {
+    private _accountsGateway: AccountsGateway
+
     constructor(@Inject(OperationsRepositoryInterface) private readonly _operationsRepository: OperationsRepositoryInterface,
                 @Inject(AccountsRepositoryInterface) private readonly _accountsRepository: AccountsRepositoryInterface,
-                @InjectModel(Account.name) private readonly _accountModel: Model<AccountDocument>) {
+                @InjectModel(Account.name) private readonly _accountModel: Model<AccountDocument>,) {
     }
 
     async create(accountCreateModel: AccountCreateModel): Promise<AccountDetailsReadModel> {
@@ -62,6 +73,13 @@ export class AccountsService implements AccountsServiceInterface {
     }
 
     async topUp(amountOfMoney: number, id: string, callerId: string): Promise<void> {
+        const operationId = this._operationsRepository.generateId();
+        const awaitedOperation = new Operation();
+        awaitedOperation.type = OperationType.topUp;
+        awaitedOperation._id = operationId;
+        awaitedOperation.payload = new TopUpOperationPayload(id, amountOfMoney);
+        awaitedOperation.callerId = callerId;
+        await this._accountsGateway.sendNewOperation(id, new OperationReadModel(awaitedOperation));
         try {
             const account = await this._accountsRepository.get(id);
             if (!account)
@@ -71,15 +89,30 @@ export class AccountsService implements AccountsServiceInterface {
 
             let promises = [];
             promises.push(this._accountsRepository.update(account));
-            promises.push(this._operationsRepository.topUp(amountOfMoney, id, callerId, OperationStatus.accepted));
+            promises.push(this._operationsRepository.topUp(amountOfMoney, id, callerId, OperationStatus.accepted, operationId));
             await Promise.all(promises);
         } catch (error) {
-            await this._operationsRepository.topUp(amountOfMoney, id, callerId, OperationStatus.rejected);
+            await this._operationsRepository.topUp(amountOfMoney, id, callerId, OperationStatus.rejected, operationId);
+            await this._accountsGateway.sendOperationStatusChange(id, OperationStatusChangeReadModel.fromObject({
+                id: operationId.toString(),
+                status: OperationStatus.rejected
+            }))
             throw error;
         }
+        await this._accountsGateway.sendOperationStatusChange(id, OperationStatusChangeReadModel.fromObject({
+            id: operationId.toString(),
+            status: OperationStatus.accepted
+        }))
     }
 
     async transfer(amountOfMoney: number, id: string, receiverId: string, callerId: string): Promise<void> {
+        const operationId = this._operationsRepository.generateId();
+        const awaitedOperation = new Operation();
+        awaitedOperation.type = OperationType.transfer;
+        awaitedOperation._id = operationId;
+        awaitedOperation.payload = new TransferOperationPayload(id, receiverId, amountOfMoney);
+        awaitedOperation.callerId = callerId;
+        await this._accountsGateway.sendNewOperation(id, new OperationReadModel(awaitedOperation));
         try {
             const account = await this._accountsRepository.get(id);
             if (!account)
@@ -100,15 +133,30 @@ export class AccountsService implements AccountsServiceInterface {
             let promises = [];
             promises.push(this._accountsRepository.update(account));
             promises.push(this._accountsRepository.update(receiverAccount));
-            promises.push(this._operationsRepository.transfer(amountOfMoney, id, receiverId, callerId, OperationStatus.accepted));
+            promises.push(this._operationsRepository.transfer(amountOfMoney, id, receiverId, callerId, OperationStatus.accepted, operationId));
             await Promise.all(promises);
         } catch (error) {
-            await this._operationsRepository.transfer(amountOfMoney, id, receiverId, callerId, OperationStatus.rejected)
+            await this._operationsRepository.transfer(amountOfMoney, id, receiverId, callerId, OperationStatus.rejected, operationId)
+            await this._accountsGateway.sendOperationStatusChange(id, OperationStatusChangeReadModel.fromObject({
+                id: operationId.toString(),
+                status: OperationStatus.rejected
+            }))
             throw error;
         }
+        await this._accountsGateway.sendOperationStatusChange(id, OperationStatusChangeReadModel.fromObject({
+            id: operationId.toString(),
+            status: OperationStatus.accepted
+        }))
     }
 
     async withdraw(amountOfMoney: number, id: string, callerId: string): Promise<void> {
+        const operationId = this._operationsRepository.generateId();
+        const awaitedOperation = new Operation();
+        awaitedOperation.type = OperationType.withdraw;
+        awaitedOperation._id = operationId;
+        awaitedOperation.payload = new WithdrawOperationPayload(id, amountOfMoney);
+        awaitedOperation.callerId = callerId;
+        await this._accountsGateway.sendNewOperation(id, new OperationReadModel(awaitedOperation));
         try {
             const account = await this._accountsRepository.get(id);
             if (!account)
@@ -121,12 +169,20 @@ export class AccountsService implements AccountsServiceInterface {
 
             let promises = [];
             promises.push(this._accountsRepository.update(account));
-            promises.push(this._operationsRepository.withdraw(amountOfMoney, id, callerId, OperationStatus.accepted));
+            promises.push(this._operationsRepository.withdraw(amountOfMoney, id, callerId, OperationStatus.accepted, operationId));
             await Promise.all(promises);
         } catch (error) {
-            await this._operationsRepository.withdraw(amountOfMoney, id, callerId, OperationStatus.rejected);
+            await this._operationsRepository.withdraw(amountOfMoney, id, callerId, OperationStatus.rejected, operationId);
+            await this._accountsGateway.sendOperationStatusChange(id, OperationStatusChangeReadModel.fromObject({
+                id: operationId.toString(),
+                status: OperationStatus.rejected
+            }))
             throw error;
         }
+        await this._accountsGateway.sendOperationStatusChange(id, OperationStatusChangeReadModel.fromObject({
+            id: operationId.toString(),
+            status: OperationStatus.accepted
+        }))
     }
 
     async getHistory(paginationParams: PaginationParamsModel, accountId): Promise<OperationsHistoryModel> {
@@ -145,6 +201,10 @@ export class AccountsService implements AccountsServiceInterface {
         });
         return history;
 
+    }
+
+    public setGateway(accountsGateway: AccountsGateway): void {
+        this._accountsGateway = accountsGateway;
     }
 
     private async _throwErrorIfAccountDoesNotExists(id: string) {
