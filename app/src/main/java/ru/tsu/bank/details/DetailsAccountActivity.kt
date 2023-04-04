@@ -41,6 +41,7 @@ class DetailsAccountActivity : AppCompatActivity() {
         super.onResume()
         val accountId = getAccountId()
         viewModel.getAccountHistory(accountId)
+        viewModel.getAccount(accountId)
     }
 
     private fun getAccountId(): String {

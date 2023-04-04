@@ -6,11 +6,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tsu.bank.databinding.ActivityOpenAccountBinding
-import ru.tsu.bank.main.AccountActivity
 
 @AndroidEntryPoint
 class OpenAccountActivity : AppCompatActivity() {
@@ -20,13 +20,15 @@ class OpenAccountActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         viewModel.getCurrencies()
-        val ownerId=getOwnerId()
+        initView()
+        observe()
+        val ownerId = getOwnerId()
         binding.buttonNext.setOnClickListener {
             viewModel.selectedCurrency.value?.also { currency ->
-                viewModel.createAccount(ownerId,currency)
+                viewModel.createAccount(ownerId, currency)
             }
         }
-        initView()
+
     }
 
     private fun initView() = with(binding) {
@@ -53,6 +55,7 @@ class OpenAccountActivity : AppCompatActivity() {
 
                 }
             }
+
         }
 
         viewModel.selectedCurrency.observe(this@OpenAccountActivity) { result ->
@@ -60,15 +63,24 @@ class OpenAccountActivity : AppCompatActivity() {
 
         }
     }
-    private fun getOwnerId(): String {
-        return intent.getStringExtra(OpenAccountActivity.KEY_OWNER_ID) ?: error("KEY_OWNER_ID is null")
+
+    private fun observe() {
+        viewModel.accountModel.observe(this) {
+            Toast.makeText(this, "Счёт успешно открыт", Toast.LENGTH_SHORT).show()
+            onBackPressed()
+        }
     }
-        companion object{
+
+    private fun getOwnerId(): String {
+        return intent.getStringExtra(KEY_OWNER_ID) ?: error("KEY_OWNER_ID is null")
+    }
+
+    companion object {
 
         private const val KEY_OWNER_ID = "owner_id"
         fun startActivity(context: Context, ownerId: String) {
             val intent = Intent(context, OpenAccountActivity::class.java).apply {
-                putExtra(OpenAccountActivity.KEY_OWNER_ID, ownerId)
+                putExtra(KEY_OWNER_ID, ownerId)
             }
             context.startActivity(intent)
         }
