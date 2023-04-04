@@ -41,6 +41,7 @@ class HistoryAdapter : ListAdapter<AccountHistoryUiModel, HistoryAdapter.ViewHol
             textViewType.text = historyItem.type
             textViewCaller.text = historyItem.ownerId
             textViewDate.text=historyItem.date
+            textViewPayload.text=historyItem.amountOfMoney.toString()
            //TODO:: сделать payload
 
         }

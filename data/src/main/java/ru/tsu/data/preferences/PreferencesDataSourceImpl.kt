@@ -31,10 +31,10 @@ class PreferencesDataSourceImpl(
             AuthData(
                 accessToken = accessToken,
                 refreshToken = refreshToken,
-                expiresIn = expiresIn.orEmpty().toInt(),
-                refreshTokenExpiresIn= refreshExpiresIn.orEmpty().toInt(),
+                expiresIn = 120,
+                refreshTokenExpiresIn= 300,
                 tokenType= tokenType.orEmpty(),
-                policy= notBeforePolicy.orEmpty().toInt(),
+                policy= 0,
                 sessionState = sessionState.orEmpty(),
                 scope = scope.orEmpty(),
 

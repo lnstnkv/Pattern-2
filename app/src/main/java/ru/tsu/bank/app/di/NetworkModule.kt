@@ -57,7 +57,7 @@ object NetworkModule {
     @UserRetrofitService
     fun provideUserRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "http://185.130.83.18:32701/api/",
+        url = "http://185.130.83.18:28080/api/",
         json = json,
     )
 
@@ -67,7 +67,7 @@ object NetworkModule {
     @AuthRetrofitService
     fun provideAuthRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "http://192.168.1.67:8181/realms/bank-application-realm/protocol/openid-connect/",
+        url = "//185.130.83.18:280800/api/",
         json = json,
     ).also { retrofit ->
         provideAuthApi(retrofit).also { authApi ->
@@ -83,7 +83,7 @@ object NetworkModule {
     @CoreRetrofitService
     fun provideCoreRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "http://185.130.83.18:32702/",
+        url = "http://185.130.83.18:28000/",
         json = json,
     )
 
@@ -92,7 +92,7 @@ object NetworkModule {
     @CreditRetrofitService
     fun provideCreditRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "http://185.130.83.18:32700/api/",
+        url = "http://185.130.83.18:28081/api/",
         json = json,
     )
 

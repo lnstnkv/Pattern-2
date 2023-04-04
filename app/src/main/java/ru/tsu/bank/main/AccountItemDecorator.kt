@@ -15,13 +15,14 @@ class AccountItemDecorator : RecyclerView.ItemDecoration() {
         super.getItemOffsets(outRect, view, parent, state)
         val position = parent.getChildAdapterPosition(view)
         if (position == RecyclerView.NO_POSITION) return
+        val margin4 = parent.context.resources.getDimensionPixelSize(R.dimen.margin4)
         val margin8 = parent.context.resources.getDimensionPixelSize(R.dimen.margin8)
         val margin16 = parent.context.resources.getDimensionPixelSize(R.dimen.margin16)
         var margin32 = parent.context.resources.getDimensionPixelSize(R.dimen.margin32)
         val newRect = when (position) {
-            0 -> Rect(margin16, margin16, margin16, margin8)
-            state.itemCount - 1 -> Rect(margin16, margin8, margin16, margin16)
-            else ->Rect(margin16, margin8, margin16, margin8)
+            0 -> Rect(margin8, margin8, margin8, margin4)
+            state.itemCount - 1 -> Rect(margin8, margin4, margin8, margin8)
+            else ->Rect(margin8, margin4, margin8, margin4)
         }
         outRect.apply {
             left=newRect.left
