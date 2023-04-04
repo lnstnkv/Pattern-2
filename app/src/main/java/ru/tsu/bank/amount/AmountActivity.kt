@@ -48,10 +48,12 @@ class AmountActivity : AppCompatActivity() {
                 "Пополнение счета прошло успешно",
                 Toast.LENGTH_SHORT
             ).show()
+            onBackPressed()
         }
         viewModel.withdrawAccounts.observe(this@AmountActivity) { result ->
             Toast.makeText(this@AmountActivity, "Снятие со счета прошло успешно", Toast.LENGTH_LONG)
                 .show()
+            onBackPressed()
         }
     }
 
