@@ -37,6 +37,12 @@ class DetailsAccountActivity : AppCompatActivity() {
         initView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        val accountId = getAccountId()
+        viewModel.getAccountHistory(accountId)
+    }
+
     private fun getAccountId(): String {
         return intent.getStringExtra(KEY_ACCOUNT_ID) ?: error("KEY_ACCOUNT_ID is null")
     }
