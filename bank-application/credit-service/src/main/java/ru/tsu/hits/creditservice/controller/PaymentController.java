@@ -16,9 +16,15 @@ public class PaymentController {
 
     private final PaymentService service;
 
-    @GetMapping("/{creditId}")
+    @GetMapping("/{accountId}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public List<PaymentEntity> getPayments(@PathVariable String creditId) {
-        return service.getPayments(creditId);
+    public List<PaymentEntity> getPayments(@PathVariable String accountId) {
+        return service.getPayments(accountId);
+    }
+
+    @GetMapping("/overdue/{accountId}")
+    @SecurityRequirement(name = "Bearer Authentication")
+    public List<PaymentEntity> getNotPayed(@PathVariable String accountId) {
+        return service.getNotPayedPayments(accountId);
     }
 }

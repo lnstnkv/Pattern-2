@@ -28,16 +28,16 @@ public class CreditController {
         return service.get();
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/accounts/{userId}")
     @SecurityRequirement(name = "Bearer Authentication")
     public List<CreditEntity> getCreditByUser(@PathVariable String userId) {
         return service.getByUser(userId);
     }
 
-    @GetMapping("/{tariff}")
+    @GetMapping("/{tariffName}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public List<CreditEntity> getAllWithTariff(@PathVariable String tariff) {
-        return service.getByTariff(tariff);
+    public List<CreditEntity> getAllWithTariff(@PathVariable String tariffName) {
+        return service.getByTariff(tariffName);
     }
 
     @PostMapping

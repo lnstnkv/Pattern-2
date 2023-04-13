@@ -89,7 +89,7 @@ public class CreditService {
             credit.setDebt(credit.getDebt() - request.getAmount());
         }
         credit.setPayed(payed);
-        paymentService.createPayment(credit.getUserId(), paymentValue);
+        paymentService.createPayment(credit.getAccountId(), paymentValue);
         payDebt(request.getAccountId(), paymentValue);
         repository.flush();
         return credit;
@@ -124,12 +124,13 @@ public class CreditService {
                 credit.setDebt(credit.getDebt() - (credit.getCreditAmount() * 0.05F));
             }
             if (paymentValue > account.getBalance()) {
-                throw new IllegalArgumentException("Payment sum more then balance in core");
+                paymentService.createPayment(credit.getAccountId(), 0F);
+            } else {
+                credit.setPayed(payed);
+                paymentService.createPayment(credit.getAccountId(), paymentValue);
+                payDebt(credit.getAccountId(), paymentValue);
+                repository.save(credit);
             }
-            credit.setPayed(payed);
-            paymentService.createPayment(credit.getUserId(), paymentValue);
-            payDebt(credit.getAccountId(), paymentValue);
-            repository.save(credit);
         }
     }
 

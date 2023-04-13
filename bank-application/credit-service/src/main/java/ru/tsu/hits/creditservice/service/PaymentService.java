@@ -15,14 +15,18 @@ public class PaymentService {
 
     private final PaymentRepository repository;
 
-    public List<PaymentEntity> getPayments(String userId) {
-        return repository.getAll(userId);
+    public List<PaymentEntity> getPayments(String accountId) {
+        return repository.getAll(accountId);
     }
 
-    public void createPayment(String userId, Float payed) {
+    public List<PaymentEntity> getNotPayedPayments(String accountId) {
+        return repository.getNotPayedDebts(accountId);
+    }
+
+    public void createPayment(String accountId, Float payed) {
         PaymentEntity entity = new PaymentEntity();
         entity.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
-        entity.setUserId(userId);
+        entity.setAccountId(accountId);
         entity.setPayed(payed);
         repository.save(entity);
     }
