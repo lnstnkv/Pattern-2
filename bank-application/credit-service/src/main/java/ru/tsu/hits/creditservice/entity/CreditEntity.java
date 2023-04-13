@@ -18,13 +18,15 @@ public class CreditEntity {
 
     private Integer creditDuration;
 
-    private Float creditAmount; // Я вкурсе что деньги так хранят, но в рамках лабороторной сойдёт
+    private Float creditAmount; // Я вкурсе деньги нельзя так хранить, но в рамках лабороторной сойдёт
 
     private String tariff;
 
     private Float debt;
 
-    private Integer userId;
+    private String userId;
+
+    private String accountId;
 
     private Float payed;
 

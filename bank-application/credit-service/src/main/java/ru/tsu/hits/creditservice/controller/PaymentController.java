@@ -18,7 +18,7 @@ public class PaymentController {
 
     @GetMapping("/{creditId}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public List<PaymentEntity> getPayments(@PathVariable Integer creditId) {
+    public List<PaymentEntity> getPayments(@PathVariable String creditId) {
         return service.getPayments(creditId);
     }
 }

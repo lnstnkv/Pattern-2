@@ -18,7 +18,8 @@ public class Scheduler {
         this.service = service;
     }
 
-    @Scheduled(fixedDelay = 1000 * 3600 * 24)
+//    @Scheduled(fixedDelay = 1000 * 3600 * 24)
+    @Scheduled(fixedDelay = 3000)
     public void payDebt() {
         service.payAllDebts();
     }

@@ -30,7 +30,7 @@ public class CreditController {
 
     @GetMapping("/{userId}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public List<CreditEntity> getCreditByUser(@PathVariable Integer userId) {
+    public List<CreditEntity> getCreditByUser(@PathVariable String userId) {
         return service.getByUser(userId);
     }
 

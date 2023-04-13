@@ -15,11 +15,11 @@ public class PaymentService {
 
     private final PaymentRepository repository;
 
-    public List<PaymentEntity> getPayments(Integer userId) {
+    public List<PaymentEntity> getPayments(String userId) {
         return repository.getAll(userId);
     }
 
-    public void createPayment(Integer userId, Float payed) {
+    public void createPayment(String userId, Float payed) {
         PaymentEntity entity = new PaymentEntity();
         entity.setTimestamp(Timestamp.valueOf(LocalDateTime.now()));
         entity.setUserId(userId);

@@ -16,7 +16,7 @@ public class PaymentEntity {
 
     private Timestamp timestamp;
 
-    private Integer userId;
+    private String userId;
 
     private Float payed;
 }

@@ -16,7 +16,7 @@ public class RatingController {
 
     @GetMapping("/{userId}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public CreditRatingEntity getRating(@PathVariable Integer userId) {
+    public CreditRatingEntity getRating(@PathVariable String userId) {
         return service.getByUser(userId);
     }
 }

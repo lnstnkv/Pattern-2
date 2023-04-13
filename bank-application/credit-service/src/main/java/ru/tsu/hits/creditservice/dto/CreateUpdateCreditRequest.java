@@ -11,5 +11,7 @@ public class CreateUpdateCreditRequest {
 
     private String tariffName;
 
-    private Integer userId;
+    private String userId;
+
+    private String accountId;
 }

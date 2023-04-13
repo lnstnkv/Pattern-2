@@ -7,5 +7,7 @@ public class PaymentRequest {
 
     private Integer creditId;
 
-    private Float payment;
+    private String accountId;
+
+    private Float amount;
 }

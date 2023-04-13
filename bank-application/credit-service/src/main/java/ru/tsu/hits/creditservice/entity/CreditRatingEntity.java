@@ -12,7 +12,7 @@ public class CreditRatingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer userId;
+    private String userId;
 
     private Float returnProbability;
 }
