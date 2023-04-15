@@ -2,14 +2,11 @@ package ru.tsu.hits.userservice.service;
 
 import org.springframework.stereotype.Service;
 import ru.tsu.hits.userservice.dto.CreateUpdateUserRequest;
-import ru.tsu.hits.userservice.entity.Role;
 import ru.tsu.hits.userservice.entity.UserEntity;
-import ru.tsu.hits.userservice.exception.user.UnauthorizedUserException;
 import ru.tsu.hits.userservice.exception.user.UserNotFoundException;
 import ru.tsu.hits.userservice.repository.UserRepository;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class UserService {
@@ -24,10 +21,8 @@ public class UserService {
         return repository.findAll();
     }
 
-    public UserEntity getUser(Integer id, String username) throws UnauthorizedUserException {
-        UserEntity user = repository.findById(id).orElseThrow(() -> new UserNotFoundException("Пользователь не найден."));
-        validateRequester(username, user);
-        return user;
+    public UserEntity getUser(Integer id) {
+        return repository.findById(id).orElseThrow(() -> new UserNotFoundException("Пользователь не найден."));
     }
 
     public UserEntity createUser(CreateUpdateUserRequest request) {
@@ -36,11 +31,10 @@ public class UserService {
         return user;
     }
 
-    public UserEntity updateUser(int id, CreateUpdateUserRequest request, String username) throws UnauthorizedUserException {
+    public UserEntity updateUser(int id, CreateUpdateUserRequest request) {
         UserEntity user = repository.findById(id).orElseThrow(
                 () -> new UserNotFoundException("Пользователь не найден.")
         );
-        validateRequester(username, user);
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setUsername(request.getUsername());
@@ -68,12 +62,5 @@ public class UserService {
         entity.setRole(request.getRole());
         entity.setStatus(request.getStatus());
         return entity;
-    }
-
-    private void validateRequester(String username, UserEntity user) throws UnauthorizedUserException {
-        UserEntity requester = repository.findByUsername(username);
-        if (!Objects.equals(requester.getRole(), Role.EMPLOYEE) && !Objects.equals(requester, user)) {
-            throw new UnauthorizedUserException("У вас нет прав на данную операцию.");
-        }
     }
 }

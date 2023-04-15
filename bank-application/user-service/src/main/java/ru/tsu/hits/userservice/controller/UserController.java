@@ -6,10 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.tsu.hits.userservice.dto.CreateUpdateUserRequest;
 import ru.tsu.hits.userservice.entity.UserEntity;
-import ru.tsu.hits.userservice.exception.user.UnauthorizedUserException;
 import ru.tsu.hits.userservice.service.UserService;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -31,11 +29,8 @@ public class UserController {
 
     @GetMapping("/{id}")
     @SecurityRequirement(name = "Bearer Authentication")
-    public UserEntity getUser(@PathVariable String id, Principal principal) throws UnauthorizedUserException {
-        if (principal == null) {
-            throw new UnauthorizedUserException("Авторизуйтесь");
-        }
-        return service.getUser(Integer.parseInt(id), principal.getName());
+    public UserEntity getUser(@PathVariable String id) {
+        return service.getUser(Integer.parseInt(id));
     }
 
     @PostMapping
@@ -48,13 +43,10 @@ public class UserController {
     @SecurityRequirement(name = "Bearer Authentication")
     public UserEntity updateUser(
             @PathVariable int id,
-            @RequestBody @Valid CreateUpdateUserRequest request,
-            Principal principal
-    ) throws UnauthorizedUserException {
-        if (principal == null) {
-            throw new UnauthorizedUserException("Авторизуйтесь");
-        }
-        return service.updateUser(id, request, principal.getName());
+            @RequestBody @Valid CreateUpdateUserRequest request
+    ) {
+
+        return service.updateUser(id, request);
     }
 
     @DeleteMapping("/{id}")
