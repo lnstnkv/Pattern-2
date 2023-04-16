@@ -3,7 +3,7 @@ package ru.tsu.hits.creditservice.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.tsu.hits.creditservice.controller.AmountOfMoney;
+import ru.tsu.hits.creditservice.dto.AmountOfMoney;
 import ru.tsu.hits.creditservice.dto.Account;
 import ru.tsu.hits.creditservice.dto.CreateUpdateCreditRequest;
 import ru.tsu.hits.creditservice.dto.PaymentRequest;
