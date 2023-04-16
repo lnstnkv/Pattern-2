@@ -1,25 +1,25 @@
 version: "3.9"
 
 services:
-  postgres_credit:
+  postgres-credit:
     image: postgres:15
-    container_name: credit-service-postgres
+    container_name: postgres-credit
     environment:
       POSTGRES_DB: credit_service_db
       POSTGRES_USER: creditService
       POSTGRES_PASSWORD: creditService
 
-  postgres_user:
+  postgres-user:
     image: postgres:15
-    container_name: user-service-postgres
+    container_name: postgres-user
     environment:
       POSTGRES_DB: user_service_db
       POSTGRES_USER: userService
       POSTGRES_PASSWORD: userService
 
-  postgres_keycloak:
+  postgres-keycloak:
     image: postgres:15
-    container_name: keycloak-postgres
+    container_name: postgres-keycloak
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
@@ -31,7 +31,7 @@ services:
     command: [ "start-dev", "--import-realm" ]
     environment:
       DB_VENDOR: POSTGRES
-      DB_ADDR: postgres_keycloak
+      DB_ADDR: postgres-keycloak
       DB_DATABASE: keycloak
       DB_USER: keycloak
       DB_SCHEMA: public
@@ -45,17 +45,29 @@ services:
     expose:
       - "8181"
     depends_on:
-      - postgres_keycloak
+      - postgres-keycloak
 
   discovery-server:
     build: discovery-server
     container_name: discovery-server
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-    ports:
-      - "8761:8761"
+    depends_on:
+      - keycloak
     expose:
       - "8761"
+
+  auth_server:
+    build: auth-service
+    container_name: auth-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - discovery-server
+    ports:
+      - "8083:8083"
+    expose:
+      - "8083"
 
   api-gateway:
     build: api-gateway
@@ -67,7 +79,6 @@ services:
     expose:
       - "8080"
     depends_on:
-      - keycloak
       - discovery-server
 
   user_service:
@@ -76,14 +87,12 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
-      - "8081:8080"
+      - "8081:8081"
     expose:
       - "8081"
     depends_on:
-      - keycloak
-      - discovery-server
       - api-gateway
-      - postgres_user
+      - postgres-user
 
   credit_service:
     build: credit-service
@@ -91,11 +100,9 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
-      - "8082:8080"
+      - "8082:8082"
     expose:
       - "8082"
     depends_on:
-      - keycloak
-      - discovery-server
       - api-gateway
-      - postgres_credit
+      - postgres-credit

@@ -4,18 +4,22 @@
     ```
     docker compose up
     ```
-2) [Swagger](http://localhost:8081/swagger-ui/index.html#/) для сервиса пользователей.
-3) [Swagger](http://localhost:8082/swagger-ui/index.html#/) сервиса кредитования.
+2) Ждём пока соберется docker-compose
+3) [Swagger](http://localhost:8083/swagger-ui/index.html#/) для сервиса авторизации
+4) [Swagger](http://localhost:8081/swagger-ui/index.html#/) для сервиса пользователей
+5) [Swagger](http://localhost:8082/swagger-ui/index.html#/) сервиса кредитования
 
-Установка keycloak
-```
-docker run -p 8181:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:21.0.2 start-dev
-```
-Для получения токена
-```
-http://localhost:8181/realms/bank-application-realm/protocol/openid-connect/token
-```
-Для logout
-```
-http://localhost:8181/realms/bank-application-realm/protocol/openid-connect/logout
-```
+### Подводные камни
+1) Убедитесь, что сервис ядра запущен
+2) Между сервисами кредитования и ядра есть следующие связи:
+   > **userId** - идентификатор пользователя в сервисе кредитования
+   > 
+   > **accountId** - номер счета
+   > 
+   > **amount** - сумма для оплаты задолжности
+   > 
+   > **userId(сервис кредитования) == ownerId(сервис ядра)**
+   >
+   > **accountId(сервис кредитования) == id)(сервис ядра)**
+3) Списать задолжность через метод **/api/credits/payment** возможно только, если **amount <= balance** для заданного в теле запроса **accountId**
+4) Списания по кредитам происходят раз в день по заданному при создании кредита **accountId**

@@ -38,7 +38,7 @@ public class CreditService {
     public CreditEntity createCredit(CreateUpdateCreditRequest request) {
         TariffEntity tariff = tariffRepository.findByName(request.getTariffName()).orElseThrow();
         UserAccount account = webClient.get()
-                .uri(String.format("http://localhost:8000/users/%s/accounts", request.getUserId()))
+                .uri(String.format("http://host.docker.internal:8000/users/%s/accounts", request.getUserId()))
                 .retrieve()
                 .bodyToMono(UserAccount.class)
                 .block();
@@ -65,7 +65,7 @@ public class CreditService {
     public CreditEntity payDebt(PaymentRequest request) {
         CreditEntity credit = repository.findById(request.getCreditId()).orElseThrow();
         Account account = webClient.get()
-                .uri(String.format("http://localhost:8000/accounts/%s", request.getAccountId()))
+                .uri(String.format("http://host.docker.internal:8000/accounts/%s", request.getAccountId()))
                 .retrieve()
                 .bodyToMono(Account.class)
                 .block();
@@ -103,7 +103,7 @@ public class CreditService {
         List<CreditEntity> allCredits = repository.findAllDebtors();
         for (CreditEntity credit : allCredits) {
             Account account = webClient.get()
-                    .uri(String.format("http://localhost:8000/accounts/%s", credit.getAccountId()))
+                    .uri(String.format("http://host.docker.internal:8000/accounts/%s", credit.getAccountId()))
                     .retrieve()
                     .bodyToMono(Account.class)
                     .block();
@@ -146,7 +146,7 @@ public class CreditService {
 
     private void payDebt(String accountId, Float amount) {
         webClient.post()
-                .uri(String.format("http://localhost:8001/operations/%s/withdraw", accountId))
+                .uri(String.format("http://host.docker.internal:8001/operations/%s/withdraw", accountId))
                 .bodyValue(new AmountOfMoney(amount))
                 .retrieve()
                 .bodyToMono(Void.class)

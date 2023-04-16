@@ -3,4 +3,5 @@ include 'user-service'
 include 'credit-service'
 include 'discovery-server'
 include 'api-gateway'
+include 'auth-service'
 
