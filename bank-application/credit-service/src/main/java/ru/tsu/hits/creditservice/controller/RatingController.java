@@ -9,13 +9,13 @@ import ru.tsu.hits.creditservice.service.CreditRatingService;
 @RestController
 @RequestMapping("/api/ratings")
 @RequiredArgsConstructor
-@CrossOrigin
 public class RatingController {
 
     private final CreditRatingService service;
 
     @GetMapping("/{userId}")
     @SecurityRequirement(name = "Bearer Authentication")
+    @CrossOrigin
     public CreditRatingEntity getRating(@PathVariable String userId) {
         return service.getByUser(userId);
     }
