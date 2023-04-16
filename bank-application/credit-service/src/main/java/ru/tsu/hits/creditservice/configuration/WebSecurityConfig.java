@@ -19,7 +19,7 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> {
+        http.cors().and().authorizeHttpRequests(auth -> {
             auth.requestMatchers(HttpMethod.POST, "/api/tariffs").hasRole(Role.EMPLOYEE.name());
             auth.requestMatchers(HttpMethod.GET, "/api/tariffs").permitAll();
             auth.requestMatchers(HttpMethod.GET, "/api/ratings", "/api/ratings/**").hasRole(Role.EMPLOYEE.name());

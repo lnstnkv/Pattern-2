@@ -11,20 +11,19 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/payments")
 @RequiredArgsConstructor
+@CrossOrigin
 public class PaymentController {
 
     private final PaymentService service;
 
     @GetMapping("/{accountId}")
     @SecurityRequirement(name = "Bearer Authentication")
-    @CrossOrigin
     public List<PaymentEntity> getPayments(@PathVariable String accountId) {
         return service.getPayments(accountId);
     }
 
     @GetMapping("/overdue/{accountId}")
     @SecurityRequirement(name = "Bearer Authentication")
-    @CrossOrigin
     public List<PaymentEntity> getNotPayed(@PathVariable String accountId) {
         return service.getNotPayedPayments(accountId);
     }

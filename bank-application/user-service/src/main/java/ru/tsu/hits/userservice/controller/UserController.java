@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin
 public class UserController {
 
     private final UserService service;
@@ -23,28 +24,24 @@ public class UserController {
 
     @GetMapping
     @SecurityRequirement(name = "Bearer Authentication")
-    @CrossOrigin
     public List<UserEntity> getUsers() {
         return service.get();
     }
 
     @GetMapping("/{id}")
     @SecurityRequirement(name = "Bearer Authentication")
-    @CrossOrigin
     public UserEntity getUser(@PathVariable String id) {
         return service.getUser(Integer.parseInt(id));
     }
 
     @PostMapping
     @SecurityRequirement(name = "Bearer Authentication")
-    @CrossOrigin
     public UserEntity createUser(@RequestBody @Valid CreateUpdateUserRequest request) {
         return service.createUser(request);
     }
 
     @PutMapping("/{id}")
     @SecurityRequirement(name = "Bearer Authentication")
-    @CrossOrigin
     public UserEntity updateUser(
             @PathVariable int id,
             @RequestBody @Valid CreateUpdateUserRequest request
@@ -55,7 +52,6 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @SecurityRequirement(name = "Bearer Authentication")
-    @CrossOrigin
     public void deleteUser(@PathVariable int id) {
         service.deleteUser(id);
     }

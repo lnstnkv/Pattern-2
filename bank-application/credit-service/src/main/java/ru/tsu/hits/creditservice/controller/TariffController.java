@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tariffs")
+@CrossOrigin
 public class TariffController {
 
     private final TariffService service;
@@ -21,14 +22,12 @@ public class TariffController {
     }
 
     @GetMapping
-    @CrossOrigin
     public List<TariffEntity> get() {
         return service.get();
     }
 
     @PostMapping
     @SecurityRequirement(name = "Bearer Authentication")
-    @CrossOrigin
     public TariffEntity createTariff(@RequestBody CreateUpdateTariffRequest request) throws Exception {
         return service.createTariff(request);
     }

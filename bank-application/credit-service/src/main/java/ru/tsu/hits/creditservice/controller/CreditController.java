@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/credits")
+@CrossOrigin
 public class CreditController {
 
     private final CreditService service;
@@ -23,35 +24,30 @@ public class CreditController {
 
     @GetMapping
     @SecurityRequirement(name = "Bearer Authentication")
-    @CrossOrigin
     public List<CreditEntity> get() {
         return service.get();
     }
 
     @GetMapping("/accounts/{userId}")
     @SecurityRequirement(name = "Bearer Authentication")
-    @CrossOrigin
     public List<CreditEntity> getCreditByUser(@PathVariable String userId) {
         return service.getByUser(userId);
     }
 
     @GetMapping("/{tariffName}")
     @SecurityRequirement(name = "Bearer Authentication")
-    @CrossOrigin
     public List<CreditEntity> getAllWithTariff(@PathVariable String tariffName) {
         return service.getByTariff(tariffName);
     }
 
     @PostMapping
     @SecurityRequirement(name = "Bearer Authentication")
-    @CrossOrigin
     public CreditEntity createEntity(@RequestBody CreateUpdateCreditRequest request) {
         return service.createCredit(request);
     }
 
     @PostMapping("/payment")
     @SecurityRequirement(name = "Bearer Authentication")
-    @CrossOrigin
     public CreditEntity payDebt(@RequestBody PaymentRequest request) {
         return service.payDebt(request);
     }
