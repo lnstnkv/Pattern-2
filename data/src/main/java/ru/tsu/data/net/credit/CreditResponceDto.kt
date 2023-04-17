@@ -1,8 +1,9 @@
 package ru.tsu.data.net.credit
 
+import kotlinx.serialization.Serializable
 import ru.tsu.domain.credits.CreditModel
 
-@kotlinx.serialization.Serializable
+@Serializable
 data class CreditResponseDto(
     val id: Int? = null,
     val creditStart: String? = null,

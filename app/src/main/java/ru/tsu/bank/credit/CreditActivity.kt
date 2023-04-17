@@ -6,7 +6,10 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import ru.tsu.bank.databinding.ActivityCreditBinding
 import ru.tsu.bank.main.AccountActivity
 
@@ -38,6 +41,9 @@ class CreditActivity : AppCompatActivity() {
 
             }
         }
+        viewModel.errorFlow.onEach { message ->
+            Toast.makeText(this@CreditActivity, message, Toast.LENGTH_SHORT).show()
+        }.launchIn(lifecycleScope)
 
     }
 

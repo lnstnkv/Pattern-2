@@ -7,10 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import ru.tsu.domain.account.*
 import ru.tsu.domain.account.usecases.*
 import ru.tsu.domain.authorization.usecases.*
-import ru.tsu.domain.credits.CreateCreditUseCases
-import ru.tsu.domain.credits.CreateCreditUseCasesImpl
-import ru.tsu.domain.credits.GetCreditsUseCases
-import ru.tsu.domain.credits.GetCreditsUseCasesImpl
+import ru.tsu.domain.credits.*
 import ru.tsu.domain.currency.GetCurrenciesUseCase
 import ru.tsu.domain.currency.GetCurrenciesUseCaseImpl
 import ru.tsu.domain.operations.usecases.*
@@ -68,4 +65,7 @@ abstract class UseCaseModule {
 
     @Binds
     abstract fun provideLogoutUseCase(useCase: LogoutUseCaseImpl): LogoutUseCase
+
+    @Binds
+    abstract fun provideGetRatingUseCase(useCase:GetRatingUseCaseImpl):GetRatingUseCase
 }

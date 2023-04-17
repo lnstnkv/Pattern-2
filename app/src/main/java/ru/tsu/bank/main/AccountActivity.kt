@@ -7,8 +7,11 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import ru.tsu.bank.credit.CreditActivity
 import ru.tsu.bank.databinding.ActivityAccountBinding
 import ru.tsu.bank.details.DetailsAccountActivity
@@ -55,9 +58,11 @@ class AccountActivity : AppCompatActivity() {
         }
         viewModel.accountsEvents.observe(this@AccountActivity) { accounts ->
             Toast.makeText(this@AccountActivity, "Работает!", Toast.LENGTH_LONG).show()
-            Log.e("123132132132", accounts.toString())
             accountAdapter.submitList(accounts)
         }
+        viewModel.errorFlow.onEach { message ->
+            Toast.makeText(this@AccountActivity, message, Toast.LENGTH_SHORT).show()
+        }.launchIn(lifecycleScope)
     }
 
     private fun getOwnerId(): String {

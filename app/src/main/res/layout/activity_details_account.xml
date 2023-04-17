@@ -24,15 +24,15 @@
         style="@style/Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="16dp"
         android:backgroundTint="@color/blue"
         android:paddingVertical="18dp"
         android:text="@string/close"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonWithdraw"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCount" />
+        app:layout_constraintEnd_toStartOf="@+id/buttonTransfer"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/buttonTopUp"
+        app:layout_constraintTop_toBottomOf="@+id/buttonTopUp" />
 
     <Button
         android:id="@+id/buttonTopUp"
@@ -40,7 +40,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
         android:backgroundTint="@color/blue"
         android:paddingVertical="18dp"
@@ -56,13 +56,26 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginRight="16dp"
         android:backgroundTint="@color/blue"
         android:paddingVertical="18dp"
         android:text="@string/top_up"
-        app:layout_constraintEnd_toStartOf="@+id/buttonNext"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/buttonTopUp"
         app:layout_constraintTop_toBottomOf="@+id/textViewCount" />
+
+    <Button
+        android:id="@+id/buttonTransfer"
+        style="@style/Button"
+        android:layout_width="0dp"
+        android:layout_marginLeft="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/blue"
+        android:paddingVertical="18dp"
+        android:text="@string/transfer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonNext"
+        app:layout_constraintTop_toBottomOf="@+id/buttonWithdraw" />
 
     <TextView
         android:id="@+id/textViewNameAccount"
@@ -96,6 +109,6 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonWithdraw"
+        app:layout_constraintTop_toBottomOf="@+id/buttonNext"
         tools:listitem="@layout/item_account" />
 </androidx.constraintlayout.widget.ConstraintLayout>

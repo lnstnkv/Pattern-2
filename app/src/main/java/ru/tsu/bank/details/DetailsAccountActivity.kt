@@ -7,12 +7,16 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import ru.tsu.bank.amount.AmountActivity
 import ru.tsu.bank.amount.PurposeOpening
 import ru.tsu.bank.databinding.ActivityDetailsAccountBinding
 import ru.tsu.bank.main.AccountItemDecorator
+import ru.tsu.bank.transfer.TransferActivity
 
 @AndroidEntryPoint
 class DetailsAccountActivity : AppCompatActivity() {
@@ -26,13 +30,16 @@ class DetailsAccountActivity : AppCompatActivity() {
         viewModel.getAccountHistory(accountId)
         viewModel.getAccount(accountId)
         binding.buttonNext.setOnClickListener {
-            viewModel.blockAccount(accountId)
+            viewModel.deleteAccount(accountId)
         }
         binding.buttonWithdraw.setOnClickListener {
             AmountActivity.startActivity(this, accountId, PurposeOpening.WITHDRAW)
         }
         binding.buttonTopUp.setOnClickListener {
             AmountActivity.startActivity(this, accountId, PurposeOpening.TOPUP)
+        }
+        binding.buttonTransfer.setOnClickListener {
+            TransferActivity.start(this,accountId)
         }
         initView()
     }
@@ -75,6 +82,9 @@ class DetailsAccountActivity : AppCompatActivity() {
             textViewCount.text = account.value.toString()
             //"${account.value} ${account.currency}"
         }
+        viewModel.errorFlow.onEach { message ->
+            Toast.makeText(this@DetailsAccountActivity, message, Toast.LENGTH_SHORT).show()
+        }.launchIn(lifecycleScope)
     }
 
     companion object {

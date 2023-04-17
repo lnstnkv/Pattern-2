@@ -6,6 +6,7 @@
     <string name="username">Логин</string>
     <string name="firstName">Имя</string>
     <string name="sum">Сумма</string>
+    <string name="from_account">Номер счета для перевода</string>
     <string name="lastName">Фамилия</string>
     <string name="middleName">Отчество</string>
     <string name="password">Пароль</string>
@@ -17,8 +18,9 @@
     <string name="open">Открыть счет / кредит</string>
     <string name="open_account">Открыть счет</string>
     <string name="open_credit">Открыть кредит</string>
-    <string name="close">Закрыть\nсчет</string>
+    <string name="close">Закрыть счет</string>
     <string name="withdraw">Снять</string>
     <string name="top_up">Пополнить</string>
+    <string name="transfer">Перевести</string>
     <string name="run">Выполнить операцию</string>
 </resources>

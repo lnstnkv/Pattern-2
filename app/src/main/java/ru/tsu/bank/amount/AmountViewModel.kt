@@ -6,8 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.Flow
 import ru.tsu.domain.account.model.MoneyAmountModel
 import ru.tsu.domain.operations.usecases.TopUpAccountUseCase
 import ru.tsu.domain.operations.usecases.WithdrawMoneyFromAccountUseCase
@@ -25,6 +27,9 @@ class AmountViewModel @Inject constructor(
     private val _topUpAccounts = MutableLiveData<Unit>()
     val topUpAccounts: LiveData<Unit> = _topUpAccounts
 
+    private val _errorFlow = MutableSharedFlow<String>()
+    val errorFlow: Flow<String> = _errorFlow
+
     fun withdraw(accountId: String, amount: String) {
         withdrawMoneyFromAccountUseCase(
             MoneyAmountModel(
@@ -37,7 +42,7 @@ class AmountViewModel @Inject constructor(
                     _withdrawAccounts.postValue(Unit)
                 },
                 onFailure = {
-                    Log.e("error2", it.stackTraceToString())
+                    _errorFlow.emit("Не удалось снять")
                 }
             )
 

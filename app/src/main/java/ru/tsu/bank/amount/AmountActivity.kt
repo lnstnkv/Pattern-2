@@ -42,16 +42,15 @@ class AmountActivity : AppCompatActivity() {
 
     private fun initView() = with(binding) {
         viewModel.topUpAccounts.observe(this@AmountActivity) { result ->
-            Snackbar.make(binding.root, "Это снекбар",Snackbar.LENGTH_LONG).show()
             Toast.makeText(
                 binding.root.context.applicationContext,
-                "Пополнение счета прошло успешно",
+                "Запрос выполняется",
                 Toast.LENGTH_SHORT
             ).show()
             onBackPressed()
         }
         viewModel.withdrawAccounts.observe(this@AmountActivity) { result ->
-            Toast.makeText(this@AmountActivity, "Снятие со счета прошло успешно", Toast.LENGTH_LONG)
+            Toast.makeText(this@AmountActivity, "Запрос выполняется", Toast.LENGTH_LONG)
                 .show()
             onBackPressed()
         }

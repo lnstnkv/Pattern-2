@@ -9,7 +9,10 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import ru.tsu.bank.databinding.ActivityOpenAccountBinding
 
 @AndroidEntryPoint
@@ -62,6 +65,9 @@ class OpenAccountActivity : AppCompatActivity() {
             spinner.prompt = result
 
         }
+        viewModel.errorFlow.onEach { message ->
+            Toast.makeText(this@OpenAccountActivity, message, Toast.LENGTH_SHORT).show()
+        }.launchIn(lifecycleScope)
     }
 
     private fun observe() {
