@@ -1,7 +1,7 @@
 package ru.tsu.domain.credits
 
 data class RatingModel(
-    val id: String,
+    val id: Int,
     val userId: String,
     val returnProbability: Float
 )

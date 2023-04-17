@@ -71,4 +71,10 @@ abstract class UseCaseModule {
 
     @Binds
     abstract fun provideGetCreditAccountUseCase(useCase:GetCreditAccountUseCaseImpl):GetCreditAccountUseCase
+
+    @Binds
+    abstract fun provideGetPaymentUseCase(useCase:GetListPaymentUseCaseImpl):GetListPaymentUseCase
+
+    @Binds
+    abstract fun provideGetOverduePaymentUseCase(useCase:GetListOverduePaymentUseCaseImpl):GetListOverduePaymentUseCase
 }

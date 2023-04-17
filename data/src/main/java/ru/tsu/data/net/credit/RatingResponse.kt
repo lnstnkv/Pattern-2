@@ -6,7 +6,7 @@ import ru.tsu.domain.credits.RatingModel
 
 @Serializable
 data class RatingResponse(
-    val id: String,
+    val id: Int,
     val userId: String,
     val returnProbability: Float
 )

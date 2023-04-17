@@ -13,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import ru.tsu.bank.credit.CreditActivity
+import ru.tsu.bank.credit_details.CreditDetailsActivity
 import ru.tsu.bank.databinding.ActivityAccountBinding
 import ru.tsu.bank.details.DetailsAccountActivity
 import ru.tsu.bank.openaccount.OpenAccountActivity
@@ -29,17 +30,19 @@ class AccountActivity : AppCompatActivity() {
         }
     }
     private val accountAdapter = AccountAdapter(accountAdapterListener)
-
-    private val creditAdapterListener = object : CreditAdapter.CreditAdapterListener {
-        override fun onItemClick(item: AccountUiModel) {
-            DetailsAccountActivity.startActivity(this@AccountActivity, item.id)
+    private lateinit var ownerId: String
+    private val creditAdapterListener  by lazy {
+        object : CreditAdapter.CreditAdapterListener {
+            override fun onItemClick(item: AccountUiModel) {
+                CreditDetailsActivity.startActivity(this@AccountActivity, item.id,ownerId)
+            }
         }
     }
-    private val creditAdapter = CreditAdapter(creditAdapterListener)
+    private val creditAdapter by lazy {CreditAdapter(creditAdapterListener)}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        val ownerId = getOwnerId()
+        ownerId = getOwnerId()
         //TODO:: сюда надо передавать id пользователя по которому тапаю
         initView()
         viewModel.getListAccounts(ownerId)
