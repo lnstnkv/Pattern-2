@@ -33,6 +33,30 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions "main"
+
+    productFlavors {
+        create("inner") {
+            dimension "main"
+            buildConfigField "String", "API_IP", "\"http://192.168.0.103\""
+            buildConfigField "String", "PORT_USER_SERVICE", "\"8081\""
+            buildConfigField "String", "PORT_CREDIT_SERVICE", "\"8082\""
+            buildConfigField "String", "PORT_AUTH_SERVICE", "\"8083\""
+            buildConfigField "String", "PORT_CORE_SERVICE", "\"8000\""
+            buildConfigField "String", "PORT_OPERATIONS_SERVICE", "\"8001\""
+        }
+        create("external") {
+            dimension "main"
+            buildConfigField "String", "API_IP", "\"http://185.130.83.18\""
+            buildConfigField "String", "PORT_USER_SERVICE", "\"28081\""
+            buildConfigField "String", "PORT_CREDIT_SERVICE", "\"28082\""
+            buildConfigField "String", "PORT_AUTH_SERVICE", "\"28083\""
+            buildConfigField "String", "PORT_CORE_SERVICE", "\"28000\""
+            buildConfigField "String", "PORT_OPERATIONS_SERVICE", "\"28001\""
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

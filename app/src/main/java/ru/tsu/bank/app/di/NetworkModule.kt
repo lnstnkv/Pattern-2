@@ -29,8 +29,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private const val baseUrl = "http://192.168.0.103"
-    // "http://185.130.83.18"
+
     @Singleton
     @Provides
     fun provideOkhttpCache() = Network.okHttpCache
@@ -52,24 +51,21 @@ object NetworkModule {
         authenticator = authenticator
     )
 
-    //http://10.0.2.2:8080/api/"
-    // http://185.130.83.18:32701/api/
     @Singleton
     @Provides
     @UserRetrofitService
     fun provideUserRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "$baseUrl:8081/api/",
+        url = "${BuildConfig.API_IP}:${BuildConfig.PORT_USER_SERVICE}/api/",
         json = json,
     )
-
 
     @Singleton
     @Provides
     @AuthRetrofitService
     fun provideAuthRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "$baseUrl:8083/api/",
+        url = "${BuildConfig.API_IP}:${BuildConfig.PORT_AUTH_SERVICE}/api/",
         json = json,
     ).also { retrofit ->
         provideAuthApi(retrofit).also { authApi ->
@@ -79,13 +75,12 @@ object NetworkModule {
         }
     }
 
-
     @Singleton
     @Provides
     @CoreRetrofitService
     fun provideCoreRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "$baseUrl:8000/",
+        url = "${BuildConfig.API_IP}:${BuildConfig.PORT_CORE_SERVICE}/",
         json = json,
     )
 
@@ -94,7 +89,7 @@ object NetworkModule {
     @CreditRetrofitService
     fun provideCreditRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "$baseUrl:8082/api/",
+        url = "${BuildConfig.API_IP}:${BuildConfig.PORT_CREDIT_SERVICE}/api/",
         json = json,
     )
 
@@ -129,5 +124,4 @@ object NetworkModule {
     @Provides
     fun provideAuthenticator(preferences: PreferencesDataSource): Authenticator =
         AppAuthenticator(preferences)
-
 }
