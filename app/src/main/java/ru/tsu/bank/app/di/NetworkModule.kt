@@ -29,6 +29,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+    private const val baseUrl = "http://192.168.0.103"
+    // "http://185.130.83.18"
     @Singleton
     @Provides
     fun provideOkhttpCache() = Network.okHttpCache
@@ -57,7 +59,7 @@ object NetworkModule {
     @UserRetrofitService
     fun provideUserRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "http://185.130.83.18:28080/api/",
+        url = "$baseUrl:8081/api/",
         json = json,
     )
 
@@ -67,7 +69,7 @@ object NetworkModule {
     @AuthRetrofitService
     fun provideAuthRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "//185.130.83.18:280800/api/",
+        url = "$baseUrl:8083/api/",
         json = json,
     ).also { retrofit ->
         provideAuthApi(retrofit).also { authApi ->
@@ -83,7 +85,7 @@ object NetworkModule {
     @CoreRetrofitService
     fun provideCoreRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "http://185.130.83.18:28000/",
+        url = "$baseUrl:8000/",
         json = json,
     )
 
@@ -92,7 +94,7 @@ object NetworkModule {
     @CreditRetrofitService
     fun provideCreditRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
-        url = "http://185.130.83.18:28081/api/",
+        url = "$baseUrl:8082/api/",
         json = json,
     )
 

@@ -34,7 +34,7 @@ class CreditActivity : AppCompatActivity() {
         viewModel.creditDetails.observe(this@CreditActivity) { result ->
             if (result) {
                 Toast.makeText(this@CreditActivity, "Вы взяли кредит!", Toast.LENGTH_LONG).show()
-                AccountActivity.startActivity(this@CreditActivity,ownerId)
+                AccountActivity.start(this@CreditActivity,ownerId)
 
             }
         }

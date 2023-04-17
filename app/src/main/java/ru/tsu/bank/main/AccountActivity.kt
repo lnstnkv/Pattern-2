@@ -55,14 +55,14 @@ class AccountActivity : AppCompatActivity() {
     }
 
     private fun getOwnerId(): String {
-        return intent.getStringExtra(AccountActivity.KEY_OWNER_ID) ?: error("KEY_OWNER_ID is null")
+        return intent.getStringExtra(KEY_OWNER_ID) ?: error("KEY_OWNER_ID is null")
     }
 
     companion object {
         private const val KEY_OWNER_ID = "owner_id"
-        fun startActivity(context: Context, ownerId: String) {
+        fun start(context: Context, ownerId: String) {
             val intent = Intent(context, AccountActivity::class.java).apply {
-                putExtra(AccountActivity.KEY_OWNER_ID, ownerId)
+                putExtra(KEY_OWNER_ID, ownerId)
             }
             context.startActivity(intent)
         }

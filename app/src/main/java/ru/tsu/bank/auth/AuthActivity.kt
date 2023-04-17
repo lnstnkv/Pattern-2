@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import ru.tsu.bank.databinding.ActivityAuthBinding
 import ru.tsu.bank.main.AccountActivity
-import ru.tsu.bank.openaccount.OpenAccountActivity
 import ru.tsu.domain.authorization.model.AuthModel
 
 @AndroidEntryPoint
@@ -22,29 +21,25 @@ class AuthActivity : AppCompatActivity() {
         binding.buttonNext.setOnClickListener {
             viewModel.login(
                 AuthModel(
-                    "bank-application-client",
-                    "password",
+                    /*"bank-application-client",
+                    "password",*/
                     binding.editTextEmailAddressAuto.text.toString(),
                     binding.editTextPasswordAuto.text.toString(),
 
-                )
+                    )
             )
         }
         initObserve()
     }
 
     private fun initObserve() = with(binding) {
-        viewModel.authEvents.observe(this@AuthActivity) { result ->
-            if (result) {
-                val intent = Intent(this@AuthActivity, AccountActivity::class.java)
-                startActivity(intent)
-
-            }
+        viewModel.authEvents.observe(this@AuthActivity) { token ->
+            AccountActivity.start(this@AuthActivity, token.id.toString())
         }
-
     }
-    companion object{
-            fun startActivity(context: Context) {
+
+    companion object {
+        fun startActivity(context: Context) {
             val intent = Intent(context, AuthActivity::class.java)
             context.startActivity(intent)
         }

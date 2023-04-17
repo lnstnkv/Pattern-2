@@ -15,7 +15,7 @@ class AuthInterceptor(private val preferences: PreferencesDataSource) : Intercep
             .newBuilder()
             .apply {
                 addHeader("Accept", "*/*")
-                addHeader("Content-Type", "application/x-www-form-urlencoded")
+                addHeader("Content-Type", "application/json")
                // addHeader("Accept-Encoding","gzip, deflate, br")
                 //if (!accessToken.isNullOrBlank()) addHeader(HEADER_AUTH, "Bearer $accessToken")
             }

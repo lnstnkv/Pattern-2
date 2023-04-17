@@ -34,11 +34,6 @@ class PreferencesDataSourceImpl(
                 expiresIn = 120,
                 refreshTokenExpiresIn= 300,
                 tokenType= tokenType.orEmpty(),
-                policy= 0,
-                sessionState = sessionState.orEmpty(),
-                scope = scope.orEmpty(),
-
-
             )
         } else {
             null

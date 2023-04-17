@@ -41,7 +41,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun initObserve() = with(binding) {
         viewModel.registrationEvents.observe(this@RegisterActivity) { result ->
             Toast.makeText(this@RegisterActivity, "Не, ну работаю", Toast.LENGTH_LONG).show()
-            AccountActivity.startActivity(this@RegisterActivity, result.id.toString())
+            AccountActivity.start(this@RegisterActivity, result.id.toString())
         }
     }
 }

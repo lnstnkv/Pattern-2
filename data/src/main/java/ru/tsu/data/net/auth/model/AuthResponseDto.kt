@@ -18,21 +18,12 @@ data class AuthResponseDto(
     val refreshTokenExpiresIn: Int,
     @SerialName("token_type")
     val tokenType: String,
-    @SerialName("not-before-policy")
-    val policy: Int,
-    @SerialName("session_state")
-    val sessionState: String,
-    @SerialName("scope")
-    val scope: String,
-
     ) {
     fun toDomain() = AuthData(
-        accessToken = accessToken, refreshToken = refreshToken,
+        accessToken = accessToken,
+        refreshToken = refreshToken,
         expiresIn = expiresIn,
         refreshTokenExpiresIn = refreshTokenExpiresIn,
         tokenType = tokenType,
-        policy = policy,
-        sessionState = sessionState,
-        scope = scope
     )
 }

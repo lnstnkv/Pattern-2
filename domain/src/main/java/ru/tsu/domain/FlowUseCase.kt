@@ -1,5 +1,6 @@
 package ru.tsu.domain
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -14,6 +15,7 @@ interface FlowUseCase<in P, R> {
     fun <T> Flow<Result<T>>.handleOn(dispatcher: CoroutineDispatcher = Dispatchers.IO): Flow<Result<T>> {
         return this
             .catch { e ->
+                Log.e("UseCaseException", e.stackTraceToString())
                 emit(Result.failure(Exception(e)))
             }
             .flowOn(dispatcher)

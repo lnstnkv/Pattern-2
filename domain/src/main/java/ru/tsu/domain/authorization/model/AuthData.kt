@@ -6,7 +6,4 @@ data class AuthData(
     val expiresIn:Int,
     val refreshTokenExpiresIn:Int,
     val tokenType:String,
-    val policy:Int,
-    val sessionState:String,
-    val scope:String,
 )
