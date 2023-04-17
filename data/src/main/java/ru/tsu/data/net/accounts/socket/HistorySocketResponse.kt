@@ -36,6 +36,7 @@ sealed class HistorySocketResponse {
         @SerialName("callerId")
         val callerId: String,
         @SerialName("payload")
+        @Serializable(PayloadHistorySerializer::class)
         val payload: PayloadHistoryData,
         @SerialName("status")
         val status: OperationStatusDto,

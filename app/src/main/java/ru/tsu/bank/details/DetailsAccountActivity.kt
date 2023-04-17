@@ -23,6 +23,11 @@ class DetailsAccountActivity : AppCompatActivity() {
     private val viewModel by viewModels<DetailsViewModel>()
     private val binding by lazy { ActivityDetailsAccountBinding.inflate(layoutInflater) }
     private val historyAdapter = HistoryAdapter()
+    private val linearLayoutManager = LinearLayoutManager(this@DetailsAccountActivity).apply {
+        reverseLayout = true
+        stackFromEnd = true
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -39,7 +44,7 @@ class DetailsAccountActivity : AppCompatActivity() {
             AmountActivity.startActivity(this, accountId, PurposeOpening.TOPUP)
         }
         binding.buttonTransfer.setOnClickListener {
-            TransferActivity.start(this,accountId)
+            TransferActivity.start(this, accountId)
         }
         initView()
     }
@@ -57,12 +62,14 @@ class DetailsAccountActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun initView() = with(binding) {
         historyRecycler.apply {
-            layoutManager = LinearLayoutManager(this@DetailsAccountActivity)
+            layoutManager = linearLayoutManager
             adapter = historyAdapter
             addItemDecoration(AccountItemDecorator())
         }
         viewModel.accountsHistoryEvents.observe(this@DetailsAccountActivity) { histories ->
-            historyAdapter.submitList(histories)
+            historyAdapter.submitList(histories) {
+                linearLayoutManager.scrollToPositionWithOffset(histories.size - 1, 20)
+            }
         }
         viewModel.accountsEvents.observe(this@DetailsAccountActivity) { events ->
             if (events == DetailsEvents.AccountWasBlocked) {
@@ -83,6 +90,9 @@ class DetailsAccountActivity : AppCompatActivity() {
         }
         viewModel.errorFlow.onEach { message ->
             Toast.makeText(this@DetailsAccountActivity, message, Toast.LENGTH_SHORT).show()
+        }.launchIn(lifecycleScope)
+        viewModel.rejectedEvents.onEach {
+            Toast.makeText(this@DetailsAccountActivity, "Операция отклонена", Toast.LENGTH_SHORT).show()
         }.launchIn(lifecycleScope)
     }
 

@@ -38,12 +38,26 @@ class HistoryAdapter : ListAdapter<AccountHistoryUiModel, HistoryAdapter.ViewHol
 
         @SuppressLint("SetTextI18n")
         fun bind(historyItem: AccountHistoryUiModel) = with(binding) {
-            textViewType.text = historyItem.type
-            textViewCaller.text = historyItem.ownerId
-            textViewDate.text=historyItem.date
-            textViewPayload.text=historyItem.amountOfMoney.toString()
-           //TODO:: сделать payload
-
+            textViewType.text = "Тип перевода: ${historyItem.getTypeName()}"
+            historyItem.getOwnerPrefix()?.also {
+                textViewCaller.text = "Кому: $it"
+                textViewCaller.visibility = View.VISIBLE
+            } ?: kotlin.run { textViewCaller.visibility = View.GONE }
+            textViewDate.text = "Дата перевода: ${historyItem.date}"
+            textViewPayload.text = "Сумма: ${historyItem.amountOfMoney}"
         }
+    }
+
+    private fun AccountHistoryUiModel.getTypeName() = when (this.type) {
+        "withdraw" -> "Снятие"
+        "transfer" -> "Перевод"
+        else -> "Пополнение"
+    }
+
+    private fun AccountHistoryUiModel.getOwnerPrefix() = when (this.type) {
+        "withdraw",
+        "topUp" -> null
+
+        else -> this.accountId
     }
 }

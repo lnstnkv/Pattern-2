@@ -13,9 +13,13 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonContentPolymorphicSerializer
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.jsonObject
+import org.json.JSONObject
+import ru.tsu.data.net.accounts.PayloadHistoryData
 import ru.tsu.domain.account.model.AccountHistoryParams
 
 class HistoryWebSocketClient(
@@ -35,14 +39,19 @@ class HistoryWebSocketClient(
     val messageFlow: Flow<HistorySocketResponse> = _messageFlow
 
     private val socketListener = Emitter.Listener { args ->
-        val data = args[0].toString()
+        val data = args[0] as JSONObject
         try {
-            val message = json.decodeFromString<HistorySocketResponse>(data)
+            val message = json.decodeFromString(
+                HistorySocketSerializer,
+                data
+                    .toString()
+                    .replace("null", "\"null\"")
+            )
             coroutineScope.launch {
                 _messageFlow.emit(message)
             }
         } catch (e: Exception) {
-            Log.d("SOCKET_EXCEPTION", e.stackTraceToString())
+            Log.e("SOCKET_EXCEPTION", e.stackTraceToString())
         }
     }
 
@@ -50,7 +59,6 @@ class HistoryWebSocketClient(
         TypeMessageHistorySocket.values().forEach {
             currentSocket.on(it.typeName, socketListener)
         }
-        currentSocket.open()
     }
 
     init {
@@ -73,11 +81,29 @@ class HistoryWebSocketClient(
     fun send(topic: TypeMessageHistorySocket, param: AccountHistoryParams) {
         val dataModel = AccountHistoryParamsDto.fromDomain(param)
         val message = json.encodeToString(dataModel)
-        socket.emit(topic.typeName, message)
+            .replace("\"null\"", "null")
+            .replace("\n", "")
+            .trim()
+        socket.emit(topic.typeName, JSONObject(message))
     }
 }
 
+object HistorySocketSerializer : JsonContentPolymorphicSerializer<HistorySocketResponse>(HistorySocketResponse::class) {
+    override fun selectDeserializer(element: JsonElement) = when {
+        "operations" in element.jsonObject -> HistorySocketResponse.OperationsDto.serializer()
+        "type" in element.jsonObject -> HistorySocketResponse.AccountHistoryResponseDto.serializer()
+        else -> HistorySocketResponse.ChangeOperationStatusDto.serializer()
+    }
+}
+
+object PayloadHistorySerializer : JsonContentPolymorphicSerializer<PayloadHistoryData>(PayloadHistoryData::class) {
+    override fun selectDeserializer(element: JsonElement) = when {
+        "senderAccountId" in element.jsonObject -> PayloadHistoryData.Transfer.serializer()
+        else -> PayloadHistoryData.WithDrawOrTopUp.serializer()
+    }
+}
 
 data class SocketState(
     val isOpen: Boolean = false,
 )
+
