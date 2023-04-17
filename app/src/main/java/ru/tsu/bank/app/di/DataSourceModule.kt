@@ -5,15 +5,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Request
 import ru.tsu.data.db.history.HistoryDao
 import ru.tsu.data.db.history.HistoryDataSourceImpl
-import ru.tsu.data.net.Network
 import ru.tsu.data.net.UserDataSourceImpl
 import ru.tsu.data.net.accounts.AccountApi
 import ru.tsu.data.net.accounts.AccountDataSourceImpl
 import ru.tsu.data.net.accounts.socket.AccountHistoryDataSourceImpl
-import ru.tsu.data.net.accounts.socket.HistoryWebSocket
+import ru.tsu.data.net.accounts.socket.HistoryWebSocketClient
 import ru.tsu.data.net.auth.AuthApi
 import ru.tsu.data.net.auth.AuthDataSourceImpl
 import ru.tsu.data.net.auth.UserApi
@@ -41,7 +39,7 @@ object DataSourceModule {
     @Singleton
     @Provides
     fun provideAuthDataSource(authApi: AuthApi, userApi: UserApi, accountApi: AccountApi): AuthDataSource =
-        AuthDataSourceImpl(authApi,userApi, accountApi)
+        AuthDataSourceImpl(authApi, userApi, accountApi)
 
     @Singleton
     @Provides
@@ -54,6 +52,7 @@ object DataSourceModule {
     @Singleton
     @Provides
     fun provideCreditDataSource(api: CreditApi): CreditDataSource = CreditDataSourceImpl(api)
+
     @Singleton
     @Provides
     fun provideOperationsDataSource(api: OperationsApi): OperationsDataSource = OperationsDataSourceImpl(api)
@@ -74,10 +73,7 @@ object DataSourceModule {
 
     @Singleton
     @Provides
-    fun provideAccountHistoryDataSource(
-        webSocket: HistoryWebSocket,
-        request: Request,
-    ): AccountHistoryDataSource {
-        return AccountHistoryDataSourceImpl(socket = webSocket, request = request, json = Network.appJson)
+    fun provideAccountHistoryDataSource(webSocket: HistoryWebSocketClient): AccountHistoryDataSource {
+        return AccountHistoryDataSourceImpl(socket = webSocket)
     }
 }

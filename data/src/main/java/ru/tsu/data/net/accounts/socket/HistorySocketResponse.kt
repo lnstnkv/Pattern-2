@@ -6,6 +6,7 @@ import ru.tsu.data.net.accounts.PayloadHistoryData
 import ru.tsu.domain.account.model.HistoryEvent
 import ru.tsu.domain.account.model.OperationStatus
 
+@Serializable
 sealed class HistorySocketResponse {
 
     abstract fun toDomain(): HistoryEvent
