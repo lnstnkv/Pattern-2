@@ -8,6 +8,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.Authenticator
 import okhttp3.Cache
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.Retrofit
 import ru.tsu.bank.BuildConfig
 import ru.tsu.bank.app.di.qualifiers.*
@@ -15,6 +16,7 @@ import ru.tsu.data.net.AppAuthenticator
 import ru.tsu.data.net.AuthInterceptor
 import ru.tsu.data.net.Network
 import ru.tsu.data.net.accounts.AccountApi
+import ru.tsu.data.net.accounts.socket.HistoryWebSocket
 import ru.tsu.data.net.auth.AuthApi
 import ru.tsu.data.net.auth.UserApi
 import ru.tsu.data.net.credit.CreditApi
@@ -57,6 +59,7 @@ object NetworkModule {
         url = "${BuildConfig.API_IP}:${BuildConfig.PORT_USER_SERVICE}/api/",
         json = json,
     )
+
     @Singleton
     @Provides
     @OperationsRetrofitService
@@ -134,4 +137,15 @@ object NetworkModule {
     @Provides
     fun provideAuthenticator(preferences: PreferencesDataSource): Authenticator =
         AppAuthenticator(preferences)
+
+    @Singleton
+    @Provides
+    fun provideHistoryWebSocketListener(): HistoryWebSocket = HistoryWebSocket(Network.appJson)
+
+    @Singleton
+    @Provides
+    fun provideRequest(): Request = Request
+        .Builder()
+        .url("${BuildConfig.API_IP}:${BuildConfig.PORT_HISTORY_SOCKET}/")
+        .build()
 }

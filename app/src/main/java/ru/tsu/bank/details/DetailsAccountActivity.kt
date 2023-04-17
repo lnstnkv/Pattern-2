@@ -27,8 +27,8 @@ class DetailsAccountActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         val accountId = getAccountId()
-        viewModel.getAccountHistory(accountId)
         viewModel.getAccount(accountId)
+        viewModel.fetchHistoryData(accountId)
         binding.buttonNext.setOnClickListener {
             viewModel.deleteAccount(accountId)
         }
@@ -47,7 +47,6 @@ class DetailsAccountActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val accountId = getAccountId()
-        viewModel.getAccountHistory(accountId)
         viewModel.getAccount(accountId)
     }
 

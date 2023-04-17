@@ -1,6 +1,7 @@
 package ru.tsu.data.net.accounts
 
 import retrofit2.http.*
+import ru.tsu.data.net.accounts.socket.HistorySocketResponse
 
 interface AccountApi {
     @GET("users/{id}/accounts")
@@ -17,7 +18,7 @@ interface AccountApi {
     suspend fun getAccountHistory(
         @Path("id") accountId: String, @Query("skip") skip: Int,
         @Query("limit") limit: Int
-    ): List<AccountHistoryResponseDto>
+    ): List<HistorySocketResponse.AccountHistoryResponseDto>
 
     @GET("accounts/{id}")
     suspend fun getAccount(@Path("id") accountId: String): AccountResponseDto

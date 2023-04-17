@@ -1,13 +1,10 @@
 package ru.tsu.data.net.accounts
 
-import ru.tsu.data.net.operations.AmountMoney
 import ru.tsu.domain.account.AccountsDataSource
-import ru.tsu.domain.account.model.AccountHistoryModel
 import ru.tsu.domain.account.model.AccountModel
 import ru.tsu.domain.account.model.AccountsModel
 import ru.tsu.domain.account.model.CreateAccountModel
-import ru.tsu.domain.account.model.MoneyAmountModel
-import ru.tsu.domain.account.model.TransferMoneyModel
+import ru.tsu.domain.account.model.HistoryEvent
 
 
 class AccountDataSourceImpl(private val accountApi: AccountApi) : AccountsDataSource {
@@ -23,7 +20,7 @@ class AccountDataSourceImpl(private val accountApi: AccountApi) : AccountsDataSo
         accountId: String,
         skip: Int,
         limit: Int
-    ): List<AccountHistoryModel> {
+    ): List<HistoryEvent.HistoryModel> {
         return accountApi.getAccountHistory(accountId, skip, limit)
             .map { history -> history.toDomain() }
     }

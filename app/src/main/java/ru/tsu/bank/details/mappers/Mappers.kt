@@ -1,9 +1,8 @@
 package ru.tsu.bank.details.mappers
 
 import ru.tsu.bank.details.AccountHistoryUiModel
-import ru.tsu.bank.details.PayloadUiModel
 import ru.tsu.domain.account.model.AccountHistoryModelInvariant
-import ru.tsu.domain.account.model.PayloadHistory
+import ru.tsu.domain.account.model.HistoryEvent
 
 fun AccountHistoryModelInvariant.toUiModel() =
     AccountHistoryUiModel(
@@ -14,7 +13,11 @@ fun AccountHistoryModelInvariant.toUiModel() =
         ownerId = this.ownerId,
     )
 
-fun PayloadHistory.toUiModel() = PayloadUiModel(
-    id = accountId,
-    amountOfMoney = amountOfMoney.toString(),
-)
+fun HistoryEvent.HistoryModel.toUiModel() =
+    AccountHistoryUiModel(
+        type = this.type,
+        date = this.date,
+        accountId = this.payload.payeeAccountId,
+        amountOfMoney = this.payload.amountOfMoney,
+        ownerId = this.callerId,
+    )

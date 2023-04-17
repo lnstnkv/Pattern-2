@@ -6,15 +6,16 @@ import ru.tsu.domain.account.model.PayloadHistory
 
 @Serializable
 data class PayloadHistoryData(
-    @SerialName("accountId")
-    val accountId: String,
-//TODO: check int in ammount
+    @SerialName("senderAccountId")
+    val senderAccountId: String,
+    @SerialName("payeeAccountId")
+    val payeeAccountId: String,
     @SerialName("amountOfMoney")
-    val amountOfMoney: Int,
+    val amountOfMoney: Float,
 ) {
     fun toDomain() = PayloadHistory(
-        accountId = accountId,
+        senderAccountId = senderAccountId,
+        payeeAccountId = payeeAccountId,
         amountOfMoney = amountOfMoney,
-
-        )
+    )
 }

@@ -5,11 +5,15 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Request
 import ru.tsu.data.db.history.HistoryDao
 import ru.tsu.data.db.history.HistoryDataSourceImpl
+import ru.tsu.data.net.Network
 import ru.tsu.data.net.UserDataSourceImpl
 import ru.tsu.data.net.accounts.AccountApi
 import ru.tsu.data.net.accounts.AccountDataSourceImpl
+import ru.tsu.data.net.accounts.socket.AccountHistoryDataSourceImpl
+import ru.tsu.data.net.accounts.socket.HistoryWebSocket
 import ru.tsu.data.net.auth.AuthApi
 import ru.tsu.data.net.auth.AuthDataSourceImpl
 import ru.tsu.data.net.auth.UserApi
@@ -20,6 +24,7 @@ import ru.tsu.data.net.currencies.CurrencyDataSourceImpl
 import ru.tsu.data.net.operations.OperationsApi
 import ru.tsu.data.net.operations.OperationsDataSourceImpl
 import ru.tsu.data.preferences.PreferencesDataSourceImpl
+import ru.tsu.domain.account.AccountHistoryDataSource
 import ru.tsu.domain.account.AccountsDataSource
 import ru.tsu.domain.account.HistoryDataSource
 import ru.tsu.domain.authorization.AuthDataSource
@@ -66,4 +71,13 @@ object DataSourceModule {
     @Provides
     fun provideUserDataSource(userApi: UserApi): UserDataSource =
         UserDataSourceImpl(userApi)
+
+    @Singleton
+    @Provides
+    fun provideAccountHistoryDataSource(
+        webSocket: HistoryWebSocket,
+        request: Request,
+    ): AccountHistoryDataSource {
+        return AccountHistoryDataSourceImpl(socket = webSocket, request = request, json = Network.appJson)
+    }
 }
