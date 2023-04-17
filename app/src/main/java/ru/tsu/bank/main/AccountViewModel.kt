@@ -13,15 +13,20 @@ import kotlinx.coroutines.flow.onEach
 import ru.tsu.bank.main.mappers.toUiModel
 import ru.tsu.domain.account.model.OwnerId
 import ru.tsu.domain.account.usecases.GetListAccountUseCase
+import ru.tsu.domain.credits.GetCreditAccountUseCase
 import javax.inject.Inject
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
-    private val useCase: GetListAccountUseCase
+    private val useCase: GetListAccountUseCase,
+    private val getCreditAccountUseCase: GetCreditAccountUseCase,
 ) :
     ViewModel() {
     private val _accountsEvents = MutableLiveData<List<AccountUiModel>>()
     val accountsEvents: LiveData<List<AccountUiModel>> = _accountsEvents
+
+    private val _accountCreditEvents = MutableLiveData<List<AccountUiModel>>()
+    val accountCreditEvents: LiveData<List<AccountUiModel>> = _accountCreditEvents
 
     private val _errorFlow = MutableSharedFlow<String>()
     val errorFlow: Flow<String> = _errorFlow
@@ -38,4 +43,18 @@ class AccountViewModel @Inject constructor(
             )
         }.launchIn(viewModelScope)
     }
+
+    fun getListCreditAccount(id:String) {
+        getCreditAccountUseCase(id).onEach{ result ->
+            result.fold(
+                onSuccess = { accounts ->
+                    _accountCreditEvents.postValue(accounts.map { it.toUiModel() })
+                },
+                onFailure = {
+                    _errorFlow.emit("Не удалось отобразить список ваших счетов, попробуйте позже")
+                }
+            )
+        }.launchIn(viewModelScope)
+    }
+
 }

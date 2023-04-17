@@ -4,10 +4,11 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import ru.tsu.domain.credits.CreditAccountModel
 
 interface CreditApi {
     @POST("credits")
-    suspend fun createCredit(@Body creditParamsDto: CreditParamsDto):CreditResponseDto
+    suspend fun createCredit(@Body creditParamsDto: CreditParamsDto): CreditAccountResponseDto
 
     @GET("credits")
     suspend fun getCredits():List<CreditResponseDto>

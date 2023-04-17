@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.AccountActivity">
+    tools:context=".credit_details.CreditDetailsActivity">
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarControls"
         style="@style/ToolBar"
@@ -16,11 +17,11 @@
         android:paddingEnd="15dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/main">
+        app:title="Кредиты">
     </com.google.android.material.appbar.MaterialToolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/accountRecycler"
+        android:id="@+id/paymentRecycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -36,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/accountRecycler"
+        app:layout_constraintTop_toBottomOf="@+id/paymentRecycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/buttonAccount"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,29 +48,13 @@
         style="@style/Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
         android:layout_marginBottom="16dp"
         android:backgroundTint="@color/blue"
         android:paddingVertical="18dp"
-        android:text="@string/open_account"
-        app:layout_constraintTop_toBottomOf="@+id/creditRecycler"
+        android:text="Расчет кр.балла"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/buttonCredit"
-        style="@style/Button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/blue"
-        android:paddingVertical="18dp"
-        android:text="@string/open_credit"
-        app:layout_constraintTop_toBottomOf="@+id/creditRecycler"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-         />
-
+        app:layout_constraintTop_toBottomOf="@+id/creditRecycler" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

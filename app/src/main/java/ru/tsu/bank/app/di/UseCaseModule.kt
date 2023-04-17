@@ -68,4 +68,7 @@ abstract class UseCaseModule {
 
     @Binds
     abstract fun provideGetRatingUseCase(useCase:GetRatingUseCaseImpl):GetRatingUseCase
+
+    @Binds
+    abstract fun provideGetCreditAccountUseCase(useCase:GetCreditAccountUseCaseImpl):GetCreditAccountUseCase
 }

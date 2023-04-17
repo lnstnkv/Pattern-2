@@ -25,7 +25,7 @@ class CreditViewModel @Inject constructor(
     private val _errorFlow = MutableSharedFlow<String>()
     val errorFlow: Flow<String> = _errorFlow
 
-    fun createCredit(duration: Int, amount: Int, tariff: String,ownerId:Int) {
+    fun createCredit(duration: Int, amount: Int, tariff: String,ownerId:String, accountId:String) {
         val currentDate = DateTimeFormatter.toServerDate(Calendar.getInstance().time)
         createCreditUseCases(
             CreditParamsModel(
@@ -33,6 +33,7 @@ class CreditViewModel @Inject constructor(
                 amount,
                 tariff,
                 ownerId,
+                accountId
             )
         ).onEach { result ->
             result.fold(

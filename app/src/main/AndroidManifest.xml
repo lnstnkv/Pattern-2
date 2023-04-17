@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".credit_details.CreditDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".transfer.TransferActivity"
             android:exported="false" />
         <activity
@@ -44,7 +47,7 @@
             android:exported="true" />
         <activity
             android:name=".register.RegisterActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

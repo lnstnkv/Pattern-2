@@ -29,6 +29,13 @@ class AccountActivity : AppCompatActivity() {
         }
     }
     private val accountAdapter = AccountAdapter(accountAdapterListener)
+
+    private val creditAdapterListener = object : CreditAdapter.CreditAdapterListener {
+        override fun onItemClick(item: AccountUiModel) {
+            DetailsAccountActivity.startActivity(this@AccountActivity, item.id)
+        }
+    }
+    private val creditAdapter = CreditAdapter(creditAdapterListener)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -36,6 +43,7 @@ class AccountActivity : AppCompatActivity() {
         //TODO:: сюда надо передавать id пользователя по которому тапаю
         initView()
         viewModel.getListAccounts(ownerId)
+        viewModel.getListCreditAccount(ownerId)
         binding.buttonAccount.setOnClickListener {
             OpenAccountActivity.startActivity(this, ownerId)
         }
@@ -56,9 +64,20 @@ class AccountActivity : AppCompatActivity() {
             adapter = accountAdapter
             addItemDecoration(AccountItemDecorator())
         }
+        creditRecycler.apply {
+            layoutManager = LinearLayoutManager(this@AccountActivity)
+            adapter = creditAdapter
+            addItemDecoration(AccountItemDecorator())
+        }
+
         viewModel.accountsEvents.observe(this@AccountActivity) { accounts ->
             Toast.makeText(this@AccountActivity, "Работает!", Toast.LENGTH_LONG).show()
             accountAdapter.submitList(accounts)
+        }
+
+        viewModel.accountCreditEvents.observe(this@AccountActivity) { accounts ->
+            Toast.makeText(this@AccountActivity, "Работает!", Toast.LENGTH_LONG).show()
+            creditAdapter.submitList(accounts)
         }
         viewModel.errorFlow.onEach { message ->
             Toast.makeText(this@AccountActivity, message, Toast.LENGTH_SHORT).show()

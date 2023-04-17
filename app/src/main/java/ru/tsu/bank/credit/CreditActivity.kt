@@ -26,18 +26,18 @@ class CreditActivity : AppCompatActivity() {
                 binding.editTextFirstName.text.toString().toInt(),
                 binding.editTextSecondName.text.toString().toInt(),
                 binding.editTextLastName.text.toString(),
-                ownerId.toInt(),
-
-                )
+                ownerId,
+                ownerId
+            )
         }
         initView(ownerId)
     }
 
-    private fun initView(ownerId:String) = with(binding) {
+    private fun initView(ownerId: String) = with(binding) {
         viewModel.creditDetails.observe(this@CreditActivity) { result ->
             if (result) {
                 Toast.makeText(this@CreditActivity, "Вы взяли кредит!", Toast.LENGTH_LONG).show()
-                AccountActivity.start(this@CreditActivity,ownerId)
+                AccountActivity.start(this@CreditActivity, ownerId)
 
             }
         }

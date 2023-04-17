@@ -11,7 +11,7 @@ class CreditDataSourceImpl(private val creditApi: CreditApi) : CreditDataSource 
         return creditApi.getCreditRating(userId).toDomain()
     }
 
-    override suspend fun createCredits(creditParamsModel: CreditParamsModel): CreditModel {
+    override suspend fun createCredits(creditParamsModel: CreditParamsModel): CreditAccountModel {
         return creditApi.createCredit(creditParamsModel.toData()).toDomain()
     }
 
