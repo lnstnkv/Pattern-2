@@ -17,6 +17,8 @@ import ru.tsu.data.net.credit.CreditApi
 import ru.tsu.data.net.credit.CreditDataSourceImpl
 import ru.tsu.data.net.currencies.CurrencyApi
 import ru.tsu.data.net.currencies.CurrencyDataSourceImpl
+import ru.tsu.data.net.operations.OperationsApi
+import ru.tsu.data.net.operations.OperationsDataSourceImpl
 import ru.tsu.data.preferences.PreferencesDataSourceImpl
 import ru.tsu.domain.account.AccountsDataSource
 import ru.tsu.domain.account.HistoryDataSource
@@ -24,6 +26,7 @@ import ru.tsu.domain.authorization.AuthDataSource
 import ru.tsu.domain.authorization.UserDataSource
 import ru.tsu.domain.credits.CreditDataSource
 import ru.tsu.domain.currency.CurrencyDataSource
+import ru.tsu.domain.operations.OperationsDataSource
 import ru.tsu.domain.preferences.PreferencesDataSource
 import javax.inject.Singleton
 
@@ -46,6 +49,9 @@ object DataSourceModule {
     @Singleton
     @Provides
     fun provideCreditDataSource(api: CreditApi): CreditDataSource = CreditDataSourceImpl(api)
+    @Singleton
+    @Provides
+    fun provideOperationsDataSource(api: OperationsApi): OperationsDataSource = OperationsDataSourceImpl(api)
 
     @Singleton
     @Provides

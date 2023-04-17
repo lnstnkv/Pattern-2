@@ -14,7 +14,7 @@ interface GetListAccountUseCase : FlowUseCase<OwnerId, AccountsModel>
 class GetListAccountUseCaseImpl @Inject constructor(private val dataSource: AccountsDataSource) :
     GetListAccountUseCase {
     override fun execute(param: OwnerId): Flow<Result<AccountsModel>> = flow {
-        val result = dataSource.getListAccounts(param.value, 0, 100)
+        val result = dataSource.getListAccounts(param.value, null, null)
         emit(Result.success(result))
     }
 }

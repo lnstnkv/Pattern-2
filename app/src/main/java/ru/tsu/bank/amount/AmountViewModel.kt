@@ -9,8 +9,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import ru.tsu.domain.account.model.MoneyAmountModel
-import ru.tsu.domain.account.usecases.TopUpAccountUseCase
-import ru.tsu.domain.account.usecases.WithdrawMoneyFromAccountUseCase
+import ru.tsu.domain.operations.usecases.TopUpAccountUseCase
+import ru.tsu.domain.operations.usecases.WithdrawMoneyFromAccountUseCase
 import javax.inject.Inject
 
 @HiltViewModel

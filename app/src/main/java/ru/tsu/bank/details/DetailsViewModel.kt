@@ -12,6 +12,8 @@ import ru.tsu.bank.main.AccountUiModel
 import ru.tsu.bank.main.mappers.toUiModel
 import ru.tsu.domain.account.model.AccountId
 import ru.tsu.domain.account.usecases.*
+import ru.tsu.domain.operations.usecases.TopUpAccountUseCase
+import ru.tsu.domain.operations.usecases.WithdrawMoneyFromAccountUseCase
 import javax.inject.Inject
 
 @HiltViewModel

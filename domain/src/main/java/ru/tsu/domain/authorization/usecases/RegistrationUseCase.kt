@@ -5,17 +5,16 @@ import kotlinx.coroutines.flow.flow
 import ru.tsu.domain.FlowUseCase
 import ru.tsu.domain.account.AccountsDataSource
 import ru.tsu.domain.account.model.CreateAccountModel
-import ru.tsu.domain.authorization.AuthDataSource
 import ru.tsu.domain.authorization.UserDataSource
 import ru.tsu.domain.authorization.model.RegistrationModel
-import ru.tsu.domain.authorization.model.RegistrationToken
+import ru.tsu.domain.authorization.model.UserModel
 import javax.inject.Inject
 
-interface RegistrationUseCase:FlowUseCase<RegistrationModel, RegistrationToken>
+interface RegistrationUseCase:FlowUseCase<RegistrationModel, UserModel>
 
 class RegistrationUseCaseImpl @Inject constructor(private val authDataSource: UserDataSource, private val accountsDataSource: AccountsDataSource):
     RegistrationUseCase {
-    override fun execute(param: RegistrationModel): Flow<Result<RegistrationToken>> =flow {
+    override fun execute(param: RegistrationModel): Flow<Result<UserModel>> =flow {
         val result = authDataSource.register(param)
         accountsDataSource.createAccount(CreateAccountModel("Рубль",result.id.toString()))
         emit(Result.success(result))

@@ -4,13 +4,15 @@ import ru.tsu.data.net.auth.UserApi
 import ru.tsu.data.net.auth.model.toData
 import ru.tsu.domain.authorization.UserDataSource
 import ru.tsu.domain.authorization.model.RegistrationModel
-import ru.tsu.domain.authorization.model.RegistrationToken
+import ru.tsu.domain.authorization.model.UserModel
 
 class UserDataSourceImpl(private val userApi: UserApi) :
     UserDataSource {
-    override suspend fun register(param: RegistrationModel): RegistrationToken {
-        val result = userApi.register(param.toData()).toDomain()
-        return result
+    override suspend fun register(param: RegistrationModel): UserModel {
+        return userApi.register(param.toData()).toDomain()
+    }
 
+    override suspend fun getUsers(): List<UserModel> {
+        return userApi.getUsers().map { it.toDomain() }
     }
 }

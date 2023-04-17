@@ -1,5 +1,6 @@
 package ru.tsu.data.net.accounts
 
+import ru.tsu.data.net.operations.AmountMoney
 import ru.tsu.domain.account.AccountsDataSource
 import ru.tsu.domain.account.model.AccountHistoryModel
 import ru.tsu.domain.account.model.AccountModel
@@ -10,9 +11,7 @@ import ru.tsu.domain.account.model.TransferMoneyModel
 
 
 class AccountDataSourceImpl(private val accountApi: AccountApi) : AccountsDataSource {
-    override suspend fun getListAccounts(
-        ownerId: String, skip: Int, limit: Int
-    ): AccountsModel {
+    override suspend fun getListAccounts(ownerId: String, skip: Int?, limit: Int?): AccountsModel {
         return accountApi.getAccounts(ownerId, skip, limit).toDomain()
     }
 
@@ -33,18 +32,6 @@ class AccountDataSourceImpl(private val accountApi: AccountApi) : AccountsDataSo
         return (accountApi.getAccount(accountId)).toDomain()
     }
 
-    override suspend fun withdrawMoneyFromAccount(param: MoneyAmountModel) {
-        accountApi.withdrawMoneyFromAccount(param.accountId, AmountMoney(param.amountOfMoney))
-    }
-
-    override suspend fun topUpAccount(param: MoneyAmountModel) {
-        accountApi.topUpAccount(param.accountId,AmountMoney(param.amountOfMoney))
-    }
-
-    override suspend fun transferMoney(param: TransferMoneyModel) {
-        accountApi.transferMoney(param.accountId,param.receiverId, AmountMoney(param.amountOfMoney))
-    }
-
     override suspend fun blockAccount(accountId: String) {
         accountApi.blockAccount(accountId)
     }
@@ -54,7 +41,7 @@ class AccountDataSourceImpl(private val accountApi: AccountApi) : AccountsDataSo
     }
 
     override suspend fun createAccount(currency: CreateAccountModel): AccountModel {
-       return accountApi.createAccount(currency.toData()).toDomain()
+        return accountApi.createAccount(currency.toData()).toDomain()
     }
 
 }

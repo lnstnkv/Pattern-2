@@ -1,7 +1,7 @@
 package ru.tsu.data.net.auth.model
 
 import kotlinx.serialization.Serializable
-import ru.tsu.domain.authorization.model.RegistrationToken
+import ru.tsu.domain.authorization.model.UserModel
 import ru.tsu.domain.authorization.model.Role
 import ru.tsu.domain.authorization.model.StatusRegister
 
@@ -15,7 +15,7 @@ data class RegisterResponseDto(
     val role: Role,
     val status: StatusRegister,
 ) {
-    fun toDomain() = RegistrationToken(
+    fun toDomain() = UserModel(
         this.id,
         this.firstName,
         this.lastName,

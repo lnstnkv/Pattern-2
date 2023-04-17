@@ -11,13 +11,17 @@ class AuthInterceptor(private val preferences: PreferencesDataSource) : Intercep
         val accessToken = preferences.readAuthData()?.accessToken
 
         val baseRequest = chain.request()
+        val port = baseRequest.url.port
         val request: Request = baseRequest
             .newBuilder()
             .apply {
+
                 addHeader("Accept", "*/*")
                 addHeader("Content-Type", "application/json")
-               // addHeader("Accept-Encoding","gzip, deflate, br")
-                //if (!accessToken.isNullOrBlank()) addHeader(HEADER_AUTH, "Bearer $accessToken")
+                // addHeader("Accept-Encoding","gzip, deflate, br")
+                if (port != 8000 && port != 8001) {
+                    if (!accessToken.isNullOrBlank()) addHeader(HEADER_AUTH, "Bearer $accessToken")
+                }
             }
             .build()
 

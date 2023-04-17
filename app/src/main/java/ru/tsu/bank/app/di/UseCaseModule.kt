@@ -6,24 +6,23 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ru.tsu.domain.account.*
 import ru.tsu.domain.account.usecases.*
-import ru.tsu.domain.authorization.usecases.AuthUseCase
-import ru.tsu.domain.authorization.usecases.AuthUseCaseImpl
-import ru.tsu.domain.authorization.usecases.LogoutUseCase
-import ru.tsu.domain.authorization.usecases.LogoutUseCaseImpl
-import ru.tsu.domain.authorization.usecases.RegistrationUseCase
-import ru.tsu.domain.authorization.usecases.RegistrationUseCaseImpl
+import ru.tsu.domain.authorization.usecases.*
 import ru.tsu.domain.credits.CreateCreditUseCases
 import ru.tsu.domain.credits.CreateCreditUseCasesImpl
 import ru.tsu.domain.credits.GetCreditsUseCases
 import ru.tsu.domain.credits.GetCreditsUseCasesImpl
 import ru.tsu.domain.currency.GetCurrenciesUseCase
 import ru.tsu.domain.currency.GetCurrenciesUseCaseImpl
+import ru.tsu.domain.operations.usecases.*
 
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class UseCaseModule {
     @Binds
     abstract fun provideRegistrationUseCase(useCase: RegistrationUseCaseImpl): RegistrationUseCase
+
+    @Binds
+    abstract fun provideGetUsersUseCase(useCase: GetUsersUseCaseImpl): GetUsersUseCase
 
     @Binds
     abstract fun provideAuthUseCase(useCase: AuthUseCaseImpl): AuthUseCase

@@ -1,4 +1,4 @@
-package ru.tsu.data.net.accounts
+package ru.tsu.data.net.operations
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

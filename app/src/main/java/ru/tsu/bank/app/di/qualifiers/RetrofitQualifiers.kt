@@ -5,7 +5,9 @@ import javax.inject.Qualifier
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class CoreRetrofitService
-
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class OperationsRetrofitService
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class UserRetrofitService

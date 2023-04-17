@@ -1,10 +1,9 @@
 package ru.tsu.bank.register.mappers
 
 import ru.tsu.bank.register.RegisterUiModel
-import ru.tsu.domain.authorization.model.RegistrationModel
-import ru.tsu.domain.authorization.model.RegistrationToken
+import ru.tsu.domain.authorization.model.UserModel
 
-fun RegistrationToken.toUiModel() = RegisterUiModel(
+fun UserModel.toUiModel() = RegisterUiModel(
     id = this.id,
     firstName = this.firstName,
     lastName = this.lastName,

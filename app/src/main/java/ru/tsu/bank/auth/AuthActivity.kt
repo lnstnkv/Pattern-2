@@ -3,9 +3,13 @@ package ru.tsu.bank.auth
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import ru.tsu.bank.databinding.ActivityAuthBinding
 import ru.tsu.bank.main.AccountActivity
 import ru.tsu.domain.authorization.model.AuthModel
@@ -36,6 +40,9 @@ class AuthActivity : AppCompatActivity() {
         viewModel.authEvents.observe(this@AuthActivity) { token ->
             AccountActivity.start(this@AuthActivity, token.id.toString())
         }
+        viewModel.errorFlow.onEach { message ->
+            Toast.makeText(this@AuthActivity, message, Toast.LENGTH_SHORT).show()
+        }.launchIn(lifecycleScope)
     }
 
     companion object {

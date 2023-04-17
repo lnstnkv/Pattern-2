@@ -10,10 +10,7 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import ru.tsu.bank.BuildConfig
-import ru.tsu.bank.app.di.qualifiers.AuthRetrofitService
-import ru.tsu.bank.app.di.qualifiers.CoreRetrofitService
-import ru.tsu.bank.app.di.qualifiers.CreditRetrofitService
-import ru.tsu.bank.app.di.qualifiers.UserRetrofitService
+import ru.tsu.bank.app.di.qualifiers.*
 import ru.tsu.data.net.AppAuthenticator
 import ru.tsu.data.net.AuthInterceptor
 import ru.tsu.data.net.Network
@@ -23,6 +20,7 @@ import ru.tsu.data.net.auth.UserApi
 import ru.tsu.data.net.credit.CreditApi
 import ru.tsu.data.net.currencies.CurrencyApi
 import ru.tsu.data.net.di.AuthApiProvider
+import ru.tsu.data.net.operations.OperationsApi
 import ru.tsu.domain.preferences.PreferencesDataSource
 import javax.inject.Singleton
 
@@ -57,6 +55,14 @@ object NetworkModule {
     fun provideUserRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
         client = client,
         url = "${BuildConfig.API_IP}:${BuildConfig.PORT_USER_SERVICE}/api/",
+        json = json,
+    )
+    @Singleton
+    @Provides
+    @OperationsRetrofitService
+    fun provideOperationsRetrofit(client: OkHttpClient, json: Json) = Network.getRetrofit(
+        client = client,
+        url = "${BuildConfig.API_IP}:${BuildConfig.PORT_OPERATIONS_SERVICE}/",
         json = json,
     )
 
@@ -96,6 +102,10 @@ object NetworkModule {
     @Singleton
     @Provides
     fun provideUserApi(@UserRetrofitService retrofit: Retrofit): UserApi = Network.getApi(retrofit)
+
+    @Singleton
+    @Provides
+    fun provideOperationsApi(@OperationsRetrofitService retrofit: Retrofit): OperationsApi = Network.getApi(retrofit)
 
     @Singleton
     @Provides
