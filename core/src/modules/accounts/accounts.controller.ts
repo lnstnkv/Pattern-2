@@ -74,7 +74,7 @@ export class AccountsController {
 
     @MessagePattern(KafkaMoneyOperationsMessagePatterns.WITHDRAW)
     async withdraw(@Payload() writeModel: KafkaWithdrawOperationModel) {
-        this._logger.log(`Got kafka withdraw msg ${writeModel}`);
+        this._logger.log(`Got kafka withdraw msg ${JSON.stringify(writeModel)}`);
         try {
             await this._accountsService.withdraw(writeModel.amountOfMoney, writeModel.id, writeModel.callerId);
         } catch (error) {
@@ -84,7 +84,7 @@ export class AccountsController {
 
     @MessagePattern(KafkaMoneyOperationsMessagePatterns.TOP_UP)
     async topUp(@Payload() writeModel: KafkaTopUpOperationModel) {
-        this._logger.log(`Got kafka topUp msg ${writeModel}`);
+        this._logger.log(`Got kafka topUp msg ${JSON.stringify(writeModel)}`);
         try {
             await this._accountsService.topUp(writeModel.amountOfMoney, writeModel.id, writeModel.callerId);
         } catch (error) {
@@ -94,7 +94,7 @@ export class AccountsController {
 
     @MessagePattern(KafkaMoneyOperationsMessagePatterns.TRANSFER)
     async transfer(@Payload() writeModel: KafkaTransferOperationModel) {
-        this._logger.log(`Got kafka transfer msg ${writeModel}`);
+        this._logger.log(`Got kafka transfer msg ${JSON.stringify(writeModel)}`);
         try {
             await this._accountsService.transfer(writeModel.amountOfMoney, writeModel.id, writeModel.receiverId, writeModel.callerId);
         } catch (error) {

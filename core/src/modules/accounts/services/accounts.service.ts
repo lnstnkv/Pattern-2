@@ -25,7 +25,7 @@ import {
 
 
 export class AccountsService implements AccountsServiceInterface {
-    private _accountsGateway: AccountsGateway
+    private _accountsGateway: AccountsGateway;
 
     constructor(@Inject(OperationsRepositoryInterface) private readonly _operationsRepository: OperationsRepositoryInterface,
                 @Inject(AccountsRepositoryInterface) private readonly _accountsRepository: AccountsRepositoryInterface,
@@ -118,7 +118,7 @@ export class AccountsService implements AccountsServiceInterface {
             if (!account)
                 throw new AccountNotFoundError();
 
-            const receiverAccount = await this._accountsRepository.get(id);
+            const receiverAccount = await this._accountsRepository.get(receiverId);
             if (!receiverAccount)
                 throw new AccountNotFoundError();
 
