@@ -11,7 +11,7 @@ sealed class HistorySocketResponse {
     abstract fun toDomain(): HistoryEvent
 
     @Serializable
-    data class HistoryDto(
+    data class OperationsDto(
         @SerialName("operations")
         val operations: List<AccountHistoryResponseDto>,
         @SerialName("totalCount")

@@ -48,7 +48,7 @@ class AccountHistoryDataSourceImpl(
 
     override fun send(param: AccountHistoryParams) {
         val dataModel = AccountHistoryParamsDto.fromDomain(param)
-        val message = json.encodeToString(dataModel)
+        val message = json.encodeToString(dataModel).replace("\"null\"", "null")
         webSocket.send(message)
     }
 }

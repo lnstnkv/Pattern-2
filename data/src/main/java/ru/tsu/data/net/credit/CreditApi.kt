@@ -14,4 +14,13 @@ interface CreditApi {
 
     @GET("ratings/{userId}")
     suspend fun getCreditRating( @Path("userId") ownerId: String):RatingResponse
+
+    @GET("credits/accounts/{userId}")
+    suspend fun getCreditByUser( @Path("userId") ownerId: String):List<CreditAccountResponseDto>
+
+    @GET("payments/{accountId}")
+    suspend fun getPaymentByAccount( @Path("accountId") accountId: String):List<PaymentsResponseDto>
+
+    @GET("payments/overdue/{accountId}")
+    suspend fun getOverdueByAccount( @Path("accountId") accountId: String):List<PaymentsResponseDto>
 }
