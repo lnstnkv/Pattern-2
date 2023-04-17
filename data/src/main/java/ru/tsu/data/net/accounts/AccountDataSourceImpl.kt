@@ -1,7 +1,12 @@
 package ru.tsu.data.net.accounts
 
 import ru.tsu.domain.account.AccountsDataSource
-import ru.tsu.domain.account.model.*
+import ru.tsu.domain.account.model.AccountHistoryModel
+import ru.tsu.domain.account.model.AccountModel
+import ru.tsu.domain.account.model.AccountsModel
+import ru.tsu.domain.account.model.CreateAccountModel
+import ru.tsu.domain.account.model.MoneyAmountModel
+import ru.tsu.domain.account.model.TransferMoneyModel
 
 
 class AccountDataSourceImpl(private val accountApi: AccountApi) : AccountsDataSource {

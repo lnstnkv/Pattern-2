@@ -41,6 +41,12 @@ class AccountActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        val ownerId = getOwnerId()
+        viewModel.getListAccounts(ownerId)
+    }
+
     private fun initView() = with(binding) {
         accountRecycler.apply {
             layoutManager = LinearLayoutManager(this@AccountActivity)
