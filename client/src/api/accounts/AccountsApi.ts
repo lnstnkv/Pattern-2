@@ -48,13 +48,15 @@ export const accountsApi = createApi({
           url: `accounts/${id}`,
           method: "DELETE",
         }),
+        invalidatesTags: ['Accounts'],
       }),
-     
+
       getAccountHistory: build.query<GetAccountHistoryPayload[], { id: string }>({
         query: ({ id }) => ({
-          url: `accounts/${id}`,
+          url: `accounts/${id}/history`,
           method: "GET",
         }),
+        transformResponse: (response: any, meta, arg) => response.operations
       }),
     };
   },

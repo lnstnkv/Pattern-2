@@ -22,7 +22,7 @@ export const operationsApi = createApi({
                 query: ({ id, ...rest }) => ({
                     url: `operations/${id}/topUp`,
                     method: "POST",
-                    body: { rest },
+                    body: { ...rest },
                 }),
             }),
             withDrawAccount: build.mutation<
@@ -32,7 +32,7 @@ export const operationsApi = createApi({
                 query: ({ id, ...rest }) => ({
                     url: `operations/${id}/withdraw`,
                     method: "POST",
-                    body: { rest },
+                    body: { ...rest },
                 }),
             }),
             transfer: build.mutation<
@@ -42,7 +42,7 @@ export const operationsApi = createApi({
                 query: ({ id, receiverId, ...rest }) => ({
                     url: `operations/${id}/transfer/${receiverId}`,
                     method: "POST",
-                    body: { rest },
+                    body: { ...rest },
                 }),
             }),
         };
@@ -52,4 +52,5 @@ export const operationsApi = createApi({
 export const {
     useTopUpAccountMutation,
     useWithDrawAccountMutation,
+    useTransferMutation
 } = operationsApi;

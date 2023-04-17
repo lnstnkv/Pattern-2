@@ -3,7 +3,7 @@ import {
   MinusCircleOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import { Card, Input, Modal, message, Space, Button } from "antd";
+import { Card, Input, Modal, message, Space, Button, Form, Select } from "antd";
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,9 @@ import {
   useGetAccountsQuery,
   usePostAccountMutation,
 } from "api/accounts/AccountsApi";
-import { useTopUpAccountMutation } from "api/accounts/AccountsOperationsApi";
+import { useTopUpAccountMutation, useTransferMutation, useWithDrawAccountMutation } from "api/accounts/AccountsOperationsApi";
+
+const { Option } = Select;
 
 const causeOfModalOpening = {
   topUp: "Top Up",
@@ -26,6 +28,9 @@ const AccountsView: React.FC = () => {
   );
   const [inputValue, setInputValue] = useState(0);
   const [modalInfo, setModalInfo] = useState(initialModalInfoState);
+  const [senderId, setSenderId] = useState<string>('');
+  const [receiverId, setReceiverId] = useState<string>('');
+  const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
 
   const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
@@ -33,9 +38,8 @@ const AccountsView: React.FC = () => {
   const [createAccount] = usePostAccountMutation();
   const [deleteAccount] = useDeleteAccountMutation();
   const [topUp] = useTopUpAccountMutation();
-  const [withdraw] = useTopUpAccountMutation();
-
-  console.log(accountList)
+  const [withdraw] = useWithDrawAccountMutation();
+  const [transferMoney] = useTransferMutation();
 
   const showModal = (cause: string, cardId: string) => {
     setModalInfo({ open: true, cause, cardId });
@@ -43,7 +47,10 @@ const AccountsView: React.FC = () => {
 
   const topUpAccount = () => {
     topUp({ id: modalInfo.cardId, amountOfMoney: inputValue })
-      .then(() => {
+      .then((resp) => {
+        if ('error' in resp) {
+          throw Error;
+        }
         messageApi.open({
           type: "success",
           content: "Account replenished",
@@ -62,7 +69,10 @@ const AccountsView: React.FC = () => {
 
   const withdrawAccount = () => {
     withdraw({ id: modalInfo.cardId, amountOfMoney: inputValue })
-      .then(() => {
+      .then((resp) => {
+        if ('error' in resp) {
+          throw Error;
+        }
         messageApi.open({
           type: "success",
           content: "Money withdrawn",
@@ -98,7 +108,10 @@ const AccountsView: React.FC = () => {
 
   const handleDeleteAccount = (id: string) => {
     deleteAccount({ id })
-      .then(() => {
+      .then((resp) => {
+        if ('error' in resp) {
+          throw Error();
+        }
         messageApi.open({
           type: "success",
           content: "Account deleted",
@@ -112,18 +125,46 @@ const AccountsView: React.FC = () => {
       })
   };
 
+  const handleTransfer = () => {
+    setIsTransferModalOpen(false);
+    transferMoney({ id: senderId, receiverId: receiverId, amountOfMoney: inputValue })
+      .then((resp: any) => {
+        if ('error' in resp) {
+          messageApi.open({
+            type: "error",
+            content: resp.error.data.message[0] || "Failed to transfer money"
+          });
+        }
+        else {
+          messageApi.open({
+            type: "success",
+            content: "Success",
+          })
+        }
+      })
+      .catch((e) => {
+        messageApi.open({
+          type: "error",
+          content: "Failed to transfer money"
+        });
+      })
+  };
+
   return (
     <>
       {contextHolder}
       <Button onClick={() => {
         createAccount({ currency: 'rub', ownerId: 1 })
       }}>Create account</Button>
+      <Button onClick={() => {
+        setIsTransferModalOpen(true)
+      }}>Transfer money</Button>
       {accountList?.map((el: any) => (
         <Card
           title={el.id}
           bordered={false}
           style={{ width: 500 }}
-          onClick={() => navigate(`/${el.id}`)}
+          onClick={() => navigate(`${el.id}`)}
         >
           <Space size='small'>
             <span>{el.balance}</span>
@@ -132,7 +173,7 @@ const AccountsView: React.FC = () => {
               onClick={(e) => { e.stopPropagation(); showModal(causeOfModalOpening.topUp, el.id) }}
             />
             <MinusCircleOutlined
-              onClick={(e) => { e.stopPropagation(); showModal(causeOfModalOpening.topUp, el.id) }}
+              onClick={(e) => { e.stopPropagation(); showModal(causeOfModalOpening.withDraw, el.id) }}
             />
             <DeleteOutlined
               onClick={(e) => { e.stopPropagation(); handleDeleteAccount(el.id) }}
@@ -142,7 +183,7 @@ const AccountsView: React.FC = () => {
       ))}
 
       <Modal
-        title={`${causeOfModalOpening} account`}
+        title={`${modalInfo.cause} account`}
         open={modalInfo.open}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -154,6 +195,37 @@ const AccountsView: React.FC = () => {
           onChange={(e) => setInputValue(+e.target.value)}
         />
       </Modal>
+      <Modal
+        title={`Transfer money`}
+        open={isTransferModalOpen}
+        onOk={handleTransfer}
+        onCancel={() =>
+          setIsTransferModalOpen(true)
+        }
+      >
+        <Form
+        >
+          <Form.Item
+            name={['address', 'province']}
+            noStyle
+            rules={[{ required: true, message: 'Province is required' }]}
+          >
+            <Select placeholder="Select province" onChange={(item) => setSenderId(item)}>
+              {accountList?.filter(el => el.id !== senderId).map((item) => <Option value={item.id}>{item.id}</Option>)}
+            </Select>
+            <Select placeholder="Select province" onChange={(item) => setReceiverId(item)}>
+              {accountList?.filter(el => el.id !== senderId).map((item) => <Option value={item.id}>{item.id}</Option>)}
+            </Select>
+          </Form.Item>
+
+          <Input
+            placeholder='Amount of money'
+            type='number'
+            value={inputValue}
+            onChange={(e) => setInputValue(+e.target.value)}
+          />
+        </Form>
+      </Modal >
     </>
   );
 };
