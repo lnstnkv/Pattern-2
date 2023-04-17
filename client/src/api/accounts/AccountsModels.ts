@@ -1,3 +1,8 @@
+export interface GetAllAcoountsPayload {
+  accounts: GetAccountPayload[];
+  total: number
+}
+
 export interface GetAccountPayload {
   id: string;
   ownerId: string;
@@ -9,6 +14,7 @@ export interface GetAccountPayload {
 
 export interface PostAccountsPayload {
   currency: string;
+  ownerId: number;
 }
 
 export interface DeleteAccountPayload {
@@ -32,4 +38,10 @@ export interface GetAccountHistoryPayload {
   callerId: string;
   // todo: replace objet
   payload: object;
+}
+
+export interface TransferPayload {
+  id: string;
+  receiverId: string;
+  amountOfMoney: number;
 }

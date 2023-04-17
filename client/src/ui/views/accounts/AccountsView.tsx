@@ -11,8 +11,8 @@ import {
   useDeleteAccountMutation,
   useGetAccountsQuery,
   usePostAccountMutation,
-  useTopUpAccountMutation,
 } from "api/accounts/AccountsApi";
+import { useTopUpAccountMutation } from "api/accounts/AccountsOperationsApi";
 
 const causeOfModalOpening = {
   topUp: "Top Up",
@@ -35,14 +35,7 @@ const AccountsView: React.FC = () => {
   const [topUp] = useTopUpAccountMutation();
   const [withdraw] = useTopUpAccountMutation();
 
-  // const accountList = JSON.parse(localStorage.getItem("accs")!);
-  // const createAccount = (data: any) =>
-  //   localStorage.setItem(
-  //     "accs",
-  //     JSON.stringify([...JSON.parse(localStorage.getItem("accs")!), data])
-  //   );
-  // const topUp = (data: any) =>
-  //   localStorage.setItem("acc", JSON.parse(localStorage.getItem()));
+  console.log(accountList)
 
   const showModal = (cause: string, cardId: string) => {
     setModalInfo({ open: true, cause, cardId });
@@ -102,28 +95,28 @@ const AccountsView: React.FC = () => {
   const handleCancel = () => {
     setModalInfo(initialModalInfoState);
   };
- 
+
   const handleDeleteAccount = (id: string) => {
-    deleteAccount({ id})
-    .then(() => {
-      messageApi.open({
-        type: "success",
-        content: "Account deleted",
-      });
-    })
-    .catch(() => {
-      messageApi.open({
-        type: "error",
-        content: "Failed to delete account",
-      });
-    })
+    deleteAccount({ id })
+      .then(() => {
+        messageApi.open({
+          type: "success",
+          content: "Account deleted",
+        });
+      })
+      .catch(() => {
+        messageApi.open({
+          type: "error",
+          content: "Failed to delete account",
+        });
+      })
   };
 
   return (
     <>
       {contextHolder}
       <Button onClick={() => {
-        // createAccount
+        createAccount({ currency: 'rub', ownerId: 1 })
       }}>Create account</Button>
       {accountList?.map((el: any) => (
         <Card
@@ -136,14 +129,14 @@ const AccountsView: React.FC = () => {
             <span>{el.balance}</span>
             <span>{el.currency}</span>
             <PlusCircleOutlined
-              onClick={() => showModal(causeOfModalOpening.topUp, el.id)}
+              onClick={(e) => { e.stopPropagation(); showModal(causeOfModalOpening.topUp, el.id) }}
             />
             <MinusCircleOutlined
-              onClick={() => showModal(causeOfModalOpening.topUp, el.id)}
+              onClick={(e) => { e.stopPropagation(); showModal(causeOfModalOpening.topUp, el.id) }}
             />
-            <DeleteOutlined 
-              onClick={() => handleDeleteAccount(el.id)}
-              />
+            <DeleteOutlined
+              onClick={(e) => { e.stopPropagation(); handleDeleteAccount(el.id) }}
+            />
           </Space>
         </Card>
       ))}
