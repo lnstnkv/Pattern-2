@@ -55,7 +55,7 @@ android {
             buildConfigField "String", "PORT_AUTH_SERVICE", "\"28083\""
             buildConfigField "String", "PORT_CORE_SERVICE", "\"28000\""
             buildConfigField "String", "PORT_OPERATIONS_SERVICE", "\"28001\""
-            buildConfigField "String", "PORT_HISTORY_SOCKET", "\"8008\""
+            buildConfigField "String", "PORT_HISTORY_SOCKET", "\"28008\""
         }
     }
 
