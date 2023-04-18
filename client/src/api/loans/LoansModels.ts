@@ -3,7 +3,7 @@ export interface GetLoanPayload {
   creditStart: string;
   creditDuration: number;
   creditAmount: number;
-  tariff: GetTariffPayload;
+  tariff: string;
 }
 
 export interface PostLoanPayload {

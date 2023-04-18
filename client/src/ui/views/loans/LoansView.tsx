@@ -15,9 +15,13 @@ import {
   useGetTariffsQuery,
   useGetLoansQuery,
   usePostLoanMutation,
+  useGetRatingQuery,
+  useGetPaymentsQuery,
+  useGetOverduePaymentsQuery,
 } from "api/loans/LoansApi";
+import { useGetAccountsQuery } from "api/accounts/AccountsApi";
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 const { Option } = Select;
 
 const layout = {
@@ -29,13 +33,19 @@ const LoansView: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
+  const { data: rating } = useGetRatingQuery({ id: 1 });
   const { data: tariffsList } = useGetTariffsQuery();
   const { data: loansList } = useGetLoansQuery();
+  const { data: accountList } = useGetAccountsQuery();
+
   const [postLoan] = usePostLoanMutation();
 
   const handleCreateLoan = () => {
-    postLoan(form.getFieldsValue())
-      .then(() => {
+    postLoan({ ...form.getFieldsValue(), userId: 1 })
+      .then((resp) => {
+        if ('error' in resp) {
+          throw Error;
+        }
         messageApi.open({
           type: "success",
           content: "Credit created",
@@ -65,13 +75,15 @@ const LoansView: React.FC = () => {
   return (
     <>
       {contextHolder}
+      <Title>Rating - {rating?.returnProbability}</Title>
+      <br />
       <Button onClick={() => setIsModalOpen(true)}>Create new</Button>
       {loansList?.map((el) => (
         <Card title={el.id} bordered={false} style={{ width: 500 }}>
           <Space size='small'>
             <Text>Amount: {el.creditAmount}</Text>
             <Text>Duration: {el.creditDuration}</Text>
-            <Text>Tariff: {el.tariff.name}</Text>
+            <Text>Tariff: {el.tariff}</Text>
           </Space>
         </Card>
       ))}
@@ -108,12 +120,27 @@ const LoansView: React.FC = () => {
             rules={[{ required: true }]}
           >
             <Select
-              placeholder='Select a option and change input text above'
+              placeholder='Select an option'
               // onChange={onTariffChange}
               allowClear
             >
               {tariffsList?.map((el) => (
                 <Option value={el.name}>{el.name}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name='accountId'
+            label='Account'
+            rules={[{ required: true }]}
+          >
+            <Select
+              placeholder='Select an option'
+              // onChange={onTariffChange}
+              allowClear
+            >
+              {accountList?.map((el) => (
+                <Option value={el.id}>{el.id}</Option>
               ))}
             </Select>
           </Form.Item>

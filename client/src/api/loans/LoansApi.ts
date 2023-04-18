@@ -6,12 +6,22 @@ import {
   GetTariffPayload,
 } from "./LoansModels";
 
-const LOANS_API_HOST = "http://localhost:8181";
+const LOANS_API_HOST = "http://localhost:8082";
 
 export const loansApi = createApi({
   reducerPath: "loansApi",
-  baseQuery: fetchBaseQuery({ baseUrl: `${LOANS_API_HOST}/api/` }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${LOANS_API_HOST}/api/`,
+    prepareHeaders: (headers) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`)
+      }
+      return headers
+    }
+  }),
   tagTypes: ["Credits"],
+
   endpoints: (build) => {
     return {
       getLoans: build.query<GetLoanPayload[], void>({
@@ -20,11 +30,29 @@ export const loansApi = createApi({
           method: "GET",
         }),
         providesTags: [{ type: 'Credits' }],
-        
+
       }),
       getTariffs: build.query<GetTariffPayload[], void>({
         query: () => ({
           url: "tariffs",
+          method: "GET",
+        }),
+      }),
+      getRating: build.query<any, { id: number }>({
+        query: ({ id }) => ({
+          url: `ratings/${id}`,
+          method: "GET",
+        }),
+      }),
+      getPayments: build.query<any, { id: string }>({
+        query: ({ id }) => ({
+          url: `payments/${id}`,
+          method: "GET",
+        }),
+      }),
+      getOverduePayments: build.query<any, { id: string }>({
+        query: ({ id }) => ({
+          url: `payments/overdue/${id}`,
           method: "GET",
         }),
       }),
@@ -40,5 +68,5 @@ export const loansApi = createApi({
   },
 });
 
-export const { useGetLoansQuery, usePostLoanMutation, useGetTariffsQuery } =
+export const { useGetLoansQuery, usePostLoanMutation, useGetTariffsQuery, useGetRatingQuery, useGetOverduePaymentsQuery, useGetPaymentsQuery } =
   loansApi;

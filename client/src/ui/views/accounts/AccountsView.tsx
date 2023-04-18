@@ -13,6 +13,7 @@ import {
   usePostAccountMutation,
 } from "api/accounts/AccountsApi";
 import { useTopUpAccountMutation, useTransferMutation, useWithDrawAccountMutation } from "api/accounts/AccountsOperationsApi";
+import { socket } from "config/socket";
 
 const { Option } = Select;
 
@@ -98,8 +99,10 @@ const AccountsView: React.FC = () => {
         withdrawAccount();
         break;
       default:
-        return;
+        break;
     }
+
+    socket.emit('history', { id: modalInfo.cardId }) 
   };
 
   const handleCancel = () => {
