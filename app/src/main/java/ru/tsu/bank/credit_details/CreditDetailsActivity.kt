@@ -2,17 +2,16 @@ package ru.tsu.bank.credit_details
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import ru.tsu.bank.databinding.ActivityCreditDetailsBinding
-import ru.tsu.bank.main.AccountActivity
 import ru.tsu.bank.main.AccountItemDecorator
 
 @AndroidEntryPoint
@@ -55,12 +54,10 @@ class CreditDetailsActivity : AppCompatActivity() {
         }
 
         viewModel.paymentEvents.observe(this@CreditDetailsActivity) { accounts ->
-            Toast.makeText(this@CreditDetailsActivity, "Работает!", Toast.LENGTH_LONG).show()
             paymentAdapter.submitList(accounts)
         }
 
         viewModel.overduePaymentCreditEvents.observe(this@CreditDetailsActivity) { accounts ->
-            Toast.makeText(this@CreditDetailsActivity, "Работает!", Toast.LENGTH_LONG).show()
             paymentOverdueAdapter.submitList(accounts)
         }
         viewModel.errorFlow.onEach { message ->
@@ -69,10 +66,10 @@ class CreditDetailsActivity : AppCompatActivity() {
     }
 
     private fun getAccountId(): String {
-        return intent.getStringExtra(CreditDetailsActivity.KEY_ACCOUNT_ID) ?: error("KEY_ACCOUNT_ID is null")
+        return intent.getStringExtra(KEY_ACCOUNT_ID) ?: error("KEY_ACCOUNT_ID is null")
     }
     private fun getOwnerId(): String {
-        return intent.getStringExtra(CreditDetailsActivity.KEY_OWNER_ID) ?: error("KEY_OWNER_ID is null")
+        return intent.getStringExtra(KEY_OWNER_ID) ?: error("KEY_OWNER_ID is null")
     }
     companion object {
         private const val KEY_ACCOUNT_ID = "account_id"

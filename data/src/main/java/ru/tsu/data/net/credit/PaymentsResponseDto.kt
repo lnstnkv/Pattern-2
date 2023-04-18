@@ -1,13 +1,12 @@
 package ru.tsu.data.net.credit
 
 import kotlinx.serialization.Serializable
-import ru.tsu.domain.credits.CreditAccountModel
 import ru.tsu.domain.credits.PaymentModel
 
 @Serializable
 data class PaymentsResponseDto(
-    val id: String,
-    val timestamp: String,
+    val id: Int,
+    val timestamp: Long,
     val accountId: String,
     val payed: Float,
 )

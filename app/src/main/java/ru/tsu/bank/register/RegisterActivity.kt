@@ -30,7 +30,6 @@ class RegisterActivity : AppCompatActivity() {
                     status = StatusRegister.ACTIVE,
                 )
             )
-
         }
         initObserve()
         binding.buttonBackAuto.setOnClickListener {

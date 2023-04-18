@@ -11,6 +11,6 @@ class GetListOverduePaymentUseCaseImpl @Inject constructor(private val dataSourc
     GetListOverduePaymentUseCase {
     override fun execute(param: String): Flow<Result<List<PaymentModel>>> = flow {
         val result = dataSource.getOverduePaymentByAccount(param)
-        Result.success(result)
+        emit(Result.success(result))
     }
 }

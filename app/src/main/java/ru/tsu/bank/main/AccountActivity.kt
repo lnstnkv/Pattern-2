@@ -3,7 +3,6 @@ package ru.tsu.bank.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -34,7 +33,7 @@ class AccountActivity : AppCompatActivity() {
     private val creditAdapterListener  by lazy {
         object : CreditAdapter.CreditAdapterListener {
             override fun onItemClick(item: AccountUiModel) {
-                CreditDetailsActivity.startActivity(this@AccountActivity, item.id,ownerId)
+                CreditDetailsActivity.startActivity(this@AccountActivity, item.accountId, getOwnerId())
             }
         }
     }

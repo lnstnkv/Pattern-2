@@ -9,16 +9,19 @@ fun AccountModel.toUiModel() = AccountUiModel(
     id = this.id,
     number=this.id,
     value = this.balance,
+    accountId = this.ownerId
    // currency = this.currency.name
 )
 
 fun CreditAccountModel.toUiModel() = AccountUiModel(
     id = this.id.toString(),
-    number=this.creditDuration.toString(),
+    number = this.creditDuration.toString(),
     value = this.creditAmount,
+    accountId = this.accountId.orEmpty(),
 )
 fun PaymentModel.toUiModel() = AccountUiModel(
-    id = this.id,
-    number=this.accountId,
+    id = this.id.toString(),
+    number = this.accountId,
     value = this.payed,
+    accountId = this.accountId,
 )

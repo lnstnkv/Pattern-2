@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import ru.tsu.bank.main.AccountUiModel
 import ru.tsu.bank.main.mappers.toUiModel
-import ru.tsu.domain.account.model.OwnerId
 import ru.tsu.domain.credits.GetListOverduePaymentUseCase
 import ru.tsu.domain.credits.GetListPaymentUseCase
 import ru.tsu.domain.credits.GetRatingUseCase
@@ -63,7 +62,7 @@ class CreditDetailsViewModel @Inject constructor(
     }
 
     fun getListOverduePayment(id: String) {
-        getListPaymentUseCase(id).onEach { result ->
+        getListOverduePaymentUseCase(id).onEach { result ->
             result.fold(
                 onSuccess = { accounts ->
                     _overduePaymentCreditEvents.postValue(accounts.map { it.toUiModel() })

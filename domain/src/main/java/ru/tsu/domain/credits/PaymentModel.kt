@@ -1,8 +1,8 @@
 package ru.tsu.domain.credits
 
 data class PaymentModel(
-    val id: String,
-    val timestamp: String,
+    val id: Int,
+    val timestamp: Long,
     val accountId: String,
     val payed: Float,
 )

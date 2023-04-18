@@ -11,6 +11,6 @@ class GetListPaymentUseCaseImpl@Inject constructor(private val dataSource: Credi
     GetListPaymentUseCase {
     override fun execute(param: String): Flow<Result<List<PaymentModel>>> =flow {
         val result = dataSource.getPaymentByAccount(param)
-        Result.success(result)
+        emit(Result.success(result))
     }
 }

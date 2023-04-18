@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import ru.tsu.domain.credits.CreateCreditUseCases
 import ru.tsu.domain.credits.CreditParamsModel
-import java.util.*
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +25,7 @@ class CreditViewModel @Inject constructor(
     private val _errorFlow = MutableSharedFlow<String>()
     val errorFlow: Flow<String> = _errorFlow
 
-    fun createCredit(duration: Int, amount: Int, tariff: String,ownerId:String, accountId:String) {
+    fun createCredit(duration: Int, amount: Int, tariff: String, ownerId: String, accountId: String) {
         val currentDate = DateTimeFormatter.toServerDate(Calendar.getInstance().time)
         createCreditUseCases(
             CreditParamsModel(
